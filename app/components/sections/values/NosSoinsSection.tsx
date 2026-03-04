@@ -81,20 +81,12 @@ export default function NosSoinsSection() {
               {services.map((service, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded-xl p-8 transition-all duration-300 hover:-translate-y-1"
-                  style={{
-                    boxShadow: '0 10px 25px rgba(77, 175, 239, 0.2)'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.boxShadow = '0 15px 35px rgba(77, 175, 239, 0.3)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.boxShadow = '0 10px 25px rgba(77, 175, 239, 0.2)';
-                  }}
+                  className="bg-white rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(77,175,239,0.25)]"
+                  style={{ boxShadow: '0 4px 20px rgba(77,175,239,0.12)' }}
                 >
                   <div className="flex items-start gap-6">
                     {/* Icon */}
-                    <div className={`${service.iconBg} rounded-full p-4 flex-shrink-0`}>
+                    <div className={`${service.iconBg} rounded-2xl p-4 shrink-0`}>
                       {service.icon}
                     </div>
                     
@@ -132,6 +124,7 @@ export default function NosSoinsSection() {
     </>
   );
 }
+
 
 
 

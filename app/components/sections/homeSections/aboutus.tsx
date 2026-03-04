@@ -4,6 +4,7 @@ import SectionBadgqe from "@/app/components/common/SectionBadge";
 import WhatsAppButton from "@/app/components/common/WhatsAppButton";
 import SectionWrapper from "@/app/components/common/SectionWrapper";
 import SectionMargin from "@/app/components/common/SectionMargin";
+import SpanText from "@/app/components/common/SpanText";
 
 const AboutUsSection: React.FC = () => {
   // Parallax image movement
@@ -32,82 +33,66 @@ const AboutUsSection: React.FC = () => {
   ];
 
   return (
+    <SectionWrapper className="py-20 md:py-28 bg-white">
+      <SectionMargin>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start max-w-7xl mx-auto">
 
-      <SectionWrapper>
-          <SectionMargin>
-          <div className="grid grid-cols-1 lg:my-[80px] my-[50px] lg:grid-cols-2 lg:gap-16 gap-8 items-center">
-        <div
-        className=" w-full lg:sticky lg:top-28 self-start space-y-5 pt-10 md:pt-20"
-      
-      >
-        <div className="mb-6 sm:block flex justify-center">
-          <SectionBadgqe text="À propos" />
-        </div>
-        <div className="flex items-center justify-center sm:justify-start space-x-3">
-          <h1
-            className="text-3xl sm:text-4xl md:text-5xl font-bold text-tertiary text-center lg:text-left"
-            
-          >
-            Qui <span className="text-primary font-extrabold">sommes-nous&nbsp;?</span>
-          </h1>
-        </div>
-
-        <p
-          className="text-gray-600 text-base sm:text-lg max-w-md mx-auto lg:mx-0 text-center lg:text-left"
-        
-        >
-          Laundry.ma – Votre partenaire de confiance pour un linge impeccable,
-          propre et livré avec soin.
-        </p>
-
-        <div className="mt-6 md:mt-8 flex flex-wrap gap-3 justify-center lg:justify-start">
-          <CTAButton />
-          <WhatsAppButton />
-        </div>
-      </div>
-
-      {/* RIGHT SCROLLABLE SECTION */}
-      <div
-        className=" w-full mt-12 lg:mt-0 space-y-12 md:space-y-16 lg:h-[150vh] overflow-y-auto no-scrollbar px-2"
-      >
-        <div
-          className="rounded-2xl overflow-hidden shadow-lg"
-          
-        >
-          <img
-            src="/images/laundry.avif"
-            alt="Équipe Laundry.ma en action"
-            className="w-full h-[220px] sm:h-[280px] md:h-[350px] lg:h-[400px] object-cover"
-            loading="lazy"
-          />
-        </div>
-
-        <div className="space-y-10 md:space-y-14">
-          {values.map((v, index) => (
-            <div
-              key={index}
-              className="flex flex-col sm:flex-row sm:items-start sm:space-x-6 text-center sm:text-left"
-             
-            >
-              <div className="p-3  bg-primary sm:mr-3 rounded-full flex justify-center sm:flex-shrink-0 mx-auto sm:mx-0 mb-4 sm:mb-0">
-                {v.icon}
-              </div>
-              <div className="flex-1 pl-2">
-                <h3 className="text-lg  sm:text-xl font-semibold text-tertiary mb-3">
-                  {v.title}
-                </h3>
-                <p className="text-gray-600 text-sm sm:text-base sm:px-2 sm:px-0 leading-relaxed">
-                  {v.text}
-                </p>
-              </div>
+          {/* LEFT — sticky pitch */}
+          <div className="w-full lg:sticky lg:top-28 self-start space-y-6">
+            <div className="flex">
+              <SectionBadgqe text="À propos" />
             </div>
-          ))}
+            <h2 className="text-4xl sm:text-5xl font-extrabold text-tertiary leading-tight">
+              Qui{" "}
+              <SpanText text="sommes-nous" className="" />
+              &nbsp;?
+            </h2>
+            <p className="text-gray-500 text-lg leading-relaxed max-w-md">
+              Laundry.ma — votre partenaire de confiance pour un linge impeccable,
+              collecté et livré avec soin, directement chez vous.
+            </p>
+
+        
+
+            <div className="flex flex-wrap gap-3 pt-2">
+              <CTAButton />
+              <WhatsAppButton />
+            </div>
+          </div>
+
+          {/* RIGHT — scrollable content */}
+          <div className="w-full space-y-8">
+            {/* Hero image */}
+            <div className="rounded-3xl overflow-hidden shadow-xl" style={{ boxShadow: '0 20px 50px rgba(77,175,239,0.15)' }}>
+              <img
+                src="/images/laundry.avif"
+                alt="Équipe Laundry.ma en action"
+                className="w-full h-[260px] sm:h-[320px] md:h-[380px] object-cover"
+                loading="lazy"
+              />
+            </div>
+
+            {/* Values */}
+            <div className="space-y-5">
+              {values.map((v, index) => (
+                <div
+                  key={index}
+                  className="flex items-start gap-4 bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-primary/20 transition-all duration-200"
+                >
+                  <div className="shrink-0 w-11 h-11 rounded-xl bg-primary flex items-center justify-center shadow-sm" style={{ boxShadow: '0 4px 12px rgba(77,175,239,0.3)' }}>
+                    {v.icon}
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-tertiary mb-1">{v.title}</h3>
+                    <p className="text-sm text-gray-500 leading-relaxed">{v.text}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
-        </div>
-        </SectionMargin>
-      </SectionWrapper>
- 
+      </SectionMargin>
+    </SectionWrapper>
   );
 }
 

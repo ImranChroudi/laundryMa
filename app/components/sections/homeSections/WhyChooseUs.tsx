@@ -6,6 +6,7 @@ import { Shield, Clock, Truck, Award, Heart, Zap } from 'lucide-react';
 import SectionWrapper from '@/app/components/common/SectionWrapper';
 import SectionMargin from '@/app/components/common/SectionMargin';
 import SectionBadge from '@/app/components/common/SectionBadge';
+import SpanText from '@/app/components/common/SpanText';
 
 interface Feature {
   icon: React.ReactNode;
@@ -69,7 +70,7 @@ const WhyChooseUs = () => {
                 </>
               ) : (
                 <>
-                  Des Solutions Professionnelles <span className="text-primary">Adaptées</span>
+                  Des Solutions Professionnelles <SpanText text="Adaptées" className="" />
                 </>
               )}
             </h2>

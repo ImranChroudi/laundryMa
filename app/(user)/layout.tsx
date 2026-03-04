@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "../global.css";
@@ -7,6 +8,7 @@ import Providers from "@/app/components/layouts/Providers";
 import ConditionalFloatingCTA from "@/app/components/common/ConditionalFloatingCTA";
 import CookieBanner from "@/app/components/common/CookieBanner";
 import PromotionPopup from "@/app/components/common/PromotionPopup";
+import TrustBar from "@/app/components/common/TrustBar";
 import { AdminProvider } from "@/app/context/AdminProvider";
 import { Toaster } from "react-hot-toast";
 
@@ -37,6 +39,7 @@ export default function RootLayout({
         <Providers>
           <AdminProvider>
             <ConditionalHeader showNavLinksDark={false} />
+            <TrustBar />
             {children}
             <Toaster position="top-center" reverseOrder={false} />
             <Footer />

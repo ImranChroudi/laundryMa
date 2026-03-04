@@ -110,41 +110,34 @@ const PricingSection = () => {
           </div>
 
           {/* Desktop Grid View */}
-          <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-5 gap-6 md:gap-8">
+          <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-5 gap-5">
             {pricingPlans.map((plan, index) => (
               <div
                 key={index}
-                className="bg-white rounded-xl p-6 md:p-8 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-2 relative overflow-hidden"
-                style={{
-                  boxShadow: '0 10px 15px -3px rgba(77, 175, 239, 0.15), 0 4px 6px -2px rgba(77, 175, 239, 0.1)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = '0 20px 25px -5px rgba(77, 175, 239, 0.3), 0 10px 10px -5px rgba(77, 175, 239, 0.2)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(77, 175, 239, 0.15), 0 4px 6px -2px rgba(77, 175, 239, 0.1)';
-                }}
+                className="group bg-white rounded-2xl p-6 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(77,175,239,0.22)] border border-transparent hover:border-primary/20"
+                style={{ boxShadow: '0 4px 20px rgba(77,175,239,0.10)' }}
               >
                 {/* Product Image */}
-                <div className="relative z-10 mb-6 w-full h-48 flex items-center justify-center">
+                <div className="relative mb-5 w-full h-44 flex items-center justify-center overflow-hidden">
                   <Image
                     src={plan.image}
                     alt={plan.serviceName}
                     width={200}
                     height={200}
-                    className="object-contain w-full h-full"
+                    className="object-contain w-full h-full transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
 
                 {/* Service Name */}
-                <h3 className="text-sm md:text-base font-bold text-gray-700 uppercase tracking-wide mb-4 relative z-10">
+                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">
                   {plan.serviceName}
                 </h3>
 
                 {/* Price */}
-                <p className="text-xl md:text-2xl font-bold text-tertiary relative z-10">
-                  {plan.price}
-                </p>
+                <div className="mt-auto inline-flex items-baseline gap-1 bg-primary/8 rounded-xl px-4 py-1.5">
+                  <span className="text-2xl font-extrabold text-primary leading-none">{plan.price.replace(' DH', '')}</span>
+                  <span className="text-sm font-semibold text-primary/70">DH</span>
+                </div>
               </div>
             ))}
           </div>
@@ -169,13 +162,11 @@ const PricingSection = () => {
                     className="min-w-full px-4"
                   >
                     <div
-                      className="bg-white rounded-xl p-6 flex flex-col items-center text-center h-full"
-                      style={{
-                        boxShadow: '0 10px 25px rgba(77, 175, 239, 0.2)'
-                      }}
+                      className="bg-white rounded-2xl p-6 flex flex-col items-center text-center h-full border border-primary/10"
+                      style={{ boxShadow: '0 4px 20px rgba(77,175,239,0.12)' }}
                     >
                       {/* Product Image */}
-                      <div className="relative z-10 mb-6 w-full h-48 flex items-center justify-center">
+                      <div className="relative mb-5 w-full h-48 flex items-center justify-center">
                         <Image
                           src={plan.image}
                           alt={plan.serviceName}
@@ -186,14 +177,15 @@ const PricingSection = () => {
                       </div>
 
                       {/* Service Name */}
-                      <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-4 relative z-10">
+                      <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">
                         {plan.serviceName}
                       </h3>
 
                       {/* Price */}
-                      <p className="text-xl font-bold text-tertiary relative z-10">
-                        {plan.price}
-                      </p>
+                      <div className="mt-auto inline-flex items-baseline gap-1 bg-primary/8 rounded-xl px-4 py-1.5">
+                        <span className="text-2xl font-extrabold text-primary leading-none">{plan.price.replace(' DH', '')}</span>
+                        <span className="text-sm font-semibold text-primary/70">DH</span>
+                      </div>
                     </div>
                   </div>
                 ))}

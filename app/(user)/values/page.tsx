@@ -9,7 +9,7 @@ export default function ValuesPage() {
       <HeroSection
         title="NOS VALEURS"
         subtitle="HOME / NOS VALEURS"
-        backgroundImage="/images/qui-laundry.png"
+        backgroundImage="/images/nos-valeurs.png"
         className="min-h-[50vh]"
         titleColor="text-primary"
       />

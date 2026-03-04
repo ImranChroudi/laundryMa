@@ -217,3 +217,82 @@ input {
   .animate-ping-slow {
       animation: ping-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
+
+  /* Shimmer animation for CTA buttons */
+  @keyframes shimmer {
+    0% { transform: translateX(-100%) skewX(-15deg); }
+    100% { transform: translateX(250%) skewX(-15deg); }
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2.5s ease-in-out infinite;
+  }
+
+  /* Floating/bob animation for hero badges */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-float-delayed {
+    animation: float 3s ease-in-out infinite 1.5s;
+  }
+
+  /* Gradient text utility */
+  .gradient-text {
+    background: linear-gradient(135deg, var(--color-primary) 0%, #2B6CB0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Trust bar scroll animation */
+  @keyframes trust-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .animate-trust-scroll {
+    animation: trust-scroll 20s linear infinite;
+  }
+
+  /* Fade-in-up for sections */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+
+  /* Glow pulse for urgent badges */
+  @keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 8px 2px rgba(229, 74, 51, 0.4); }
+    50%       { box-shadow: 0 0 20px 6px rgba(229, 74, 51, 0.7); }
+  }
+
+  .animate-glow-pulse {
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Section transition utility */
+  .section-fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .section-fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }

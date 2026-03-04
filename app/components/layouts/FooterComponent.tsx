@@ -38,9 +38,9 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-white shadow-sm border-t border-gray-200">
+    <footer className="bg-tertiary text-white">
       {/* Main Footer Content */}
-      <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
+      <div className="mx-auto max-w-7xl px-6 py-14 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info / Logo Section */}
           <div className="lg:col-span-1">
@@ -48,14 +48,14 @@ const Footer = () => {
               <span className="sr-only">Laundry.ma</span>
               <Image src="/images/logo.jpg" alt="Logo" width={120} height={40} className="h-8 w-auto" />
             </Link>
-            <p className="mt-4 text-sm text-gray-600 leading-relaxed">
+            <p className="mt-4 text-sm text-white/60 leading-relaxed">
               Laundry.ma transforme la corvée du linge en une expérience simple et agréable. Service professionnel à domicile.
             </p>
           </div>
 
           {/* Quick Links Section */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-4">
+            <h3 className="text-sm font-semibold text-white mb-4">
               Liens Rapides
             </h3>
             <ul className="space-y-2">
@@ -63,7 +63,7 @@ const Footer = () => {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-tertiary hover:text-primary transition"
+                    className="text-sm text-white/60 hover:text-primary transition"
                   >
                     {link.label}
                   </Link>
@@ -73,7 +73,7 @@ const Footer = () => {
                 <li key={navLink.href}>
                   <Link
                     href={navLink.href}
-                    className="text-sm text-gray-600 hover:text-secondary/80 transition"
+                    className="text-sm text-white/60 hover:text-primary transition"
                   >
                     {navLink.label}
                   </Link>
@@ -84,8 +84,8 @@ const Footer = () => {
 
           {/* Services Section */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-4">
-              S
+            <h3 className="text-sm font-semibold text-white mb-4">
+              Services
             </h3>
             <ul className="space-y-2">
               {navLinks
@@ -95,7 +95,7 @@ const Footer = () => {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm text-gray-600 hover:text-secondary/80 transition"
+                    className="text-sm text-white/60 hover:text-primary transition"
                     >
                       {link.label}
                     </Link>
@@ -107,19 +107,19 @@ const Footer = () => {
           {/* Contact & Social Section */}
           <div className="space-y-6">
             <div>
-              <h3 className="text-sm font-semibold text-gray-900 mb-4">
+              <h3 className="text-sm font-semibold text-white mb-4">
                 Contactez-nous
               </h3>
-              <div className="space-y-3 text-sm text-gray-600">
+              <div className="space-y-3 text-sm text-white/60">
                 <div className="flex items-center gap-2">
                   <Phone className="h-4 w-4 text-secondary" />
-                  <a href={`tel:${contactInfo.phone}`} className="hover:text-secondary/80 transition">
+                  <a href={`tel:${contactInfo.phone}`} className="hover:text-primary transition">
                     {contactInfo.phone}
                   </a>
                 </div>
                 <div className="flex items-center gap-2">
                   <Mail className="h-4 w-4 text-secondary" />
-                  <a href={`mailto:${contactInfo.email}`} className="hover:text-secondary/80 transition">
+                  <a href={`mailto:${contactInfo.email}`} className="hover:text-primary transition">
                     {contactInfo.email}
                   </a>
                 </div>
@@ -136,33 +136,33 @@ const Footer = () => {
 
             {/* Social Media */}
             <div>
-              <h3 className="text-sm font-semibold text-gray-900 mb-4">
+              <h3 className="text-sm font-semibold text-white mb-4">
                 Suivez-nous
               </h3>
-              <div className="flex space-x-4">
+              <div className="flex space-x-3">
                 <a
                   href="https://facebook.com"
                   target="_blank"
                   rel="noreferrer"
-                  className="hover:text-blue-400 transition"
+                  className="w-9 h-9 rounded-xl bg-white/10 hover:bg-blue-600 flex items-center justify-center transition-colors duration-200"
                 >
-                  <Facebook className="h-5 w-5" />
+                  <Facebook className="h-4 w-4 text-white" />
                 </a>
                 <a
                   href="https://instagram.com"
                   target="_blank"
                   rel="noreferrer"
-                  className="hover:text-pink-400 transition"
+                  className="w-9 h-9 rounded-xl bg-white/10 hover:bg-pink-500 flex items-center justify-center transition-colors duration-200"
                 >
-                  <Instagram className="h-5 w-5" />
+                  <Instagram className="h-4 w-4 text-white" />
                 </a>
                 <a
                   href="https://twitter.com"
                   target="_blank"
                   rel="noreferrer"
-                  className="hover:text-blue-300 transition"
+                  className="w-9 h-9 rounded-xl bg-white/10 hover:bg-sky-500 flex items-center justify-center transition-colors duration-200"
                 >
-                  <Twitter className="h-5 w-5" />
+                  <Twitter className="h-4 w-4 text-white" />
                 </a>
               </div>
             </div>
@@ -171,17 +171,17 @@ const Footer = () => {
       </div>
 
       {/* Copyright Bottom Bar */}
-      <div className="border-t border-gray-200 bg-gray-50">
+      <div className="border-t border-white/10">
         <div className="mx-auto max-w-7xl px-6 py-4 lg:px-8">
-          <p className="text-center text-sm text-gray-600">
+          <p className="text-center text-sm text-white/40">
             &copy; {new Date().getFullYear()} Laundry.ma. Tous droits réservés.
             <span className="ml-2">
-              <Link href="/privacy" className="text-gray-600 hover:text-secondary/80 transition">
+              <Link href="/privacy" className="hover:text-primary transition">
                 Politique de confidentialité
               </Link>
             </span>
             <span className="ml-2">
-              <Link href="/mentions-legales" className="text-gray-600 hover:text-secondary/80 transition">
+              <Link href="/mentions-legales" className="hover:text-primary transition">
                 Mentions légales
               </Link>
             </span>

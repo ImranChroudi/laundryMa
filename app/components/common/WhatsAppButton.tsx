@@ -49,7 +49,8 @@ const WhatsAppButton = ({
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className={`flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#25D366]/90 text-white px-6 py-4 rounded-md font-semibold transition shadow-md ${className}`}
+      className={`flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#22c55e] active:scale-95 text-white px-7 py-4 rounded-xl font-bold text-base transition-all duration-200 ${className}`}
+      style={{ boxShadow: '0 4px 16px -2px rgba(37, 211, 102, 0.40)' }}
     >
       <Image 
         src="/images/wathsapIcon.avif" 

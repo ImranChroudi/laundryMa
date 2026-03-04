@@ -38,6 +38,7 @@ export async function POST(request: NextRequest) {
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
+    console.log("sqlPickup", sqlPickup);
     const result: any = await query(sqlPickup, [
       nameClient,
       phone,

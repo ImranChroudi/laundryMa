@@ -21,10 +21,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 }) => {
   return (
     <section
-      className={`relative min-h-[40vh] flex items-center justify-center ${className}`}
+      className={`relative min-h-[50vh] flex items-center justify-center ${className}`}
     >
-
-      <div className="absolute inset-0 w-full h-full bg-black/50 z-10"></div>
+      {/* Layered gradient overlay */}
+      <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(135deg, rgba(30,58,95,0.75) 0%, rgba(30,58,95,0.45) 50%, rgba(77,175,239,0.25) 100%)' }} />
+      <div className="absolute inset-0 z-10 bg-black/20" />
       {/* Desktop Background */}
       <div
         className="hidden md:block absolute inset-0 w-full h-full"
@@ -51,12 +52,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       )} */}
       
       {/* Content */}
-      <div className="relative z-10 text-center px-4 md:px-8 max-w-4xl mx-auto">
-        <h1 className={`text-4xl md:text-5xl lg:text-6xl font-bold ${titleColor} mb-4 uppercase`}>
+      <div className="relative z-20 text-center px-4 md:px-8 max-w-4xl mx-auto">
+        <h1 className={`text-4xl md:text-5xl lg:text-6xl font-extrabold ${titleColor} mb-4 leading-tight tracking-tight drop-shadow-lg`}>
           {title}
         </h1>
         {subtitle && (
-          <p className="text-base md:text-lg text-white/90 uppercase tracking-wide">
+          <p className="text-base md:text-lg text-white/80 tracking-wide max-w-xl mx-auto">
             {subtitle}
           </p>
         )}

@@ -2,7 +2,7 @@
 
 import type React from "react";
 import { useState, useEffect } from "react";
-import { ArrowLeft, Check, MapPin, Clock } from "lucide-react";
+import { ArrowLeft, Check, MapPin, Clock, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import SectionWrapper from "@/app/components/common/SectionWrapper";
@@ -10,7 +10,6 @@ import SectionMargin from "@/app/components/common/SectionMargin";
 import LocationForm from "@/app/components/common/Location";
 import toast from "react-hot-toast";
 import { z } from "zod";
-import { useCreatePickupMutation } from "@/app/hooks/use-order";
 import Image from "next/image";
 
 type CheckoutStep = 1 | 2 | 3;
@@ -69,11 +68,8 @@ const CheckoutPage = () => {
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [saveUserInfo, setSaveUserInfo] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-
-
-  const { mutate: mutatePickup, isPending: isPickupPending } =
-    useCreatePickupMutation();
   const [pickupForm, setPickupForm] = useState({
     nameClient: "",
     phone: "",
@@ -102,6 +98,9 @@ const CheckoutPage = () => {
     longitude: -5.818333625793458,
   });
 
+  const [locationSetRamassage, setLocationSetRamassage] = useState(false);
+  const [locationSetLivraison, setLocationSetLivraison] = useState(false);
+
   useEffect(() => {
     setPickupForm((prev) => ({
       ...prev,
@@ -129,46 +128,52 @@ const CheckoutPage = () => {
   };
 
   const validateStep = (step: CheckoutStep): boolean => {
-    console.log(step);
+    const newErrors: { [key: string]: string } = {};
     switch (step) {
       case 1:
         if (!pickupForm.nameClient.trim()) {
-          setErrors({ nameClient: "Le nom est requis" });
-          return false;
-        }else if (!/^[0-9]{10,13}$/.test(pickupForm.phone.replace(/\s/g, ""))) {
-          setErrors({ nameClient: "", phone: "Le numéro de téléphone doit contenir 10 chiffres" });
+          newErrors.nameClient = "Le nom est requis";
+        }
+        if (!/^[0-9]{10,13}$/.test(pickupForm.phone.replace(/\s/g, ""))) {
+          newErrors.phone = "Le numéro de téléphone doit contenir entre 10 et 13 chiffres";
+        }
+        if (Object.keys(newErrors).length > 0) {
+          setErrors(newErrors);
           return false;
         }
+        setErrors({});
         return true;
       case 2:
-
-      if(!pickupForm.addressRamassage.trim()) {
-        setErrors({ addressRamassage: "L'adresse de ramassage est requise" });
-        return false;
-      }
-      else if(!pickupForm.dateRamassage) {
-        setErrors({ dateRamassage: "La date de ramassage est requise" });
-        return false;
-      }
-      else if(!pickupForm.heureRamassage) {
-        setErrors({ heureRamassage: "L'heure de ramassage est requise" });
-        return false;
-      }
-      
-      return true;
+        if (!pickupForm.addressRamassage.trim() && !locationSetRamassage) {
+          newErrors.addressRamassage = "Entrez une adresse ou choisissez votre position sur la carte";
+        }
+        if (!pickupForm.dateRamassage) {
+          newErrors.dateRamassage = "La date de ramassage est requise";
+        }
+        if (!pickupForm.heureRamassage) {
+          newErrors.heureRamassage = "L'heure de ramassage est requise";
+        }
+        if (Object.keys(newErrors).length > 0) {
+          setErrors(newErrors);
+          return false;
+        }
+        setErrors({});
+        return true;
       case 3:
-        if(!pickupForm.addressLivraison.trim()) {
-          setErrors({ addressLivraison: "L'adresse de livraison est requise" });
+        if (!pickupForm.addressLivraison.trim() && !locationSetLivraison) {
+          newErrors.addressLivraison = "Entrez une adresse ou choisissez votre position sur la carte";
+        }
+        if (!pickupForm.dateLivraisonPrevue) {
+          newErrors.dateLivraisonPrevue = "La date de livraison est requise";
+        }
+        if (!pickupForm.heureLivraison) {
+          newErrors.heureLivraison = "L'heure de livraison est requise";
+        }
+        if (Object.keys(newErrors).length > 0) {
+          setErrors(newErrors);
           return false;
         }
-        else if(!pickupForm.dateLivraisonPrevue) {
-          setErrors({ dateLivraisonPrevue: "La date de livraison est requise" });
-          return false;
-        }
-        else if(!pickupForm.heureLivraison) {
-          setErrors({ heureLivraison: "L'heure de livraison est requise" });
-          return false;
-        }
+        setErrors({});
         return true;
       default:
         return false;
@@ -176,14 +181,12 @@ const CheckoutPage = () => {
   };
 
   const handleNextStep = () => {
-    
     if (validateStep(currentStep)) {
       if (currentStep < 3) {
-        console.log("currentStep", currentStep);
-        setCurrentStep((prev) => prev + 1 as CheckoutStep);
+        setCurrentStep((prev) => (prev + 1) as CheckoutStep);
       }
     } else {
-      toast.error("Veuillez remplir tous les champs requis");
+      toast.error("Veuillez corriger les erreurs ci-dessous");
     }
   };
 
@@ -247,91 +250,75 @@ Merci !`;
   const handlePickupSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!validateStep(3)) {
+      toast.error("Veuillez corriger les erreurs ci-dessous");
+      return;
+    }
 
-    console.log("pickupForm", pickupForm);
-
-
+    setIsSubmitting(true);
 
     try {
-      // Validate form
-      const validationResult = pickupSchema.safeParse(pickupForm);
-      if (!validationResult.success) {
-        const newErrors: { [key: string]: string } = {};
-        validationResult.error.issues.forEach((err) => {
-          const path =
-            Array.isArray(err.path) && err.path.length > 0
-              ? String(err.path[0])
-              : "unknown";
-          newErrors[path] = err.message;
-        });
-        setErrors(newErrors);
-        return;
+      const response = await fetch("/api/orders/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nameClient: pickupForm.nameClient,
+          phone: pickupForm.phone,
+          dateRamassage: pickupForm.dateRamassage,
+          heureRamassage: pickupForm.heureRamassage,
+          dateLivraisonPrevue: pickupForm.dateLivraisonPrevue,
+          heureLivraison: pickupForm.heureLivraison,
+          addressRamassage: pickupForm.addressRamassage,
+          addressLivraison: pickupForm.addressLivraison,
+          locationRamassage: pickupForm.locationRamassage,
+          locationLivraison: pickupForm.locationLivraison,
+          cartItems: cart,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Erreur lors de l'envoi");
       }
 
-       mutatePickup({
-          ...pickupForm,
-        locationRamassage: {
-          ...pickupForm.locationRamassage,
-          address: pickupForm.addressRamassage,
-        },
-        locationLivraison: {
-          ...pickupForm.locationLivraison,
-          address: pickupForm.addressLivraison,
-        },
-      },
-      {
-        onSuccess: (data: any) => {
-          console.log(data);
-          
-          // Save user info to localStorage if checkbox is checked
-          if (saveUserInfo) {
-            localStorage.setItem("checkoutUserInfo", JSON.stringify({
-              nameClient: pickupForm.nameClient,
-              phone: pickupForm.phone,
-            }));
-          } else {
-            // Remove saved info if checkbox is unchecked
-            localStorage.removeItem("checkoutUserInfo");
-          }
-          
-          toast.success("Ramassage ajouté avec succès");
-          router.push("/checkout/success");
-        },
-        onError: (error) => {
-          console.log(error);
-          toast.error("Erreur lors de la création de la commande");
-        },
-      });
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        const newErrors: { [key: string]: string } = {};
-        error.issues.forEach((err) => {
-          const path =
-            Array.isArray(err.path) && err.path.length > 0
-              ? String(err.path[0])
-              : "unknown";
-          newErrors[path] = err.message;
-        });
-        setErrors(newErrors);
+      if (saveUserInfo) {
+        localStorage.setItem("checkoutUserInfo", JSON.stringify({
+          nameClient: pickupForm.nameClient,
+          phone: pickupForm.phone,
+        }));
+      } else {
+        localStorage.removeItem("checkoutUserInfo");
       }
-      console.log(error);
+
+      toast.success("Commande envoyée avec succès !");
+      router.push("/checkout/success");
+    } catch (error) {
+      toast.error("Erreur lors de l'envoi de la commande. Veuillez réessayer.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
+
+  const stepLabels = ["Vos infos", "Ramassage", "Livraison"];
 
   const StepIndicator = () => (
     <div className="flex items-center justify-between mb-8">
       {[1, 2, 3].map((step) => (
         <div key={step} className="flex items-center flex-1">
-          <div
-            className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition ${
-              step < currentStep
-                ? "bg-primary text-white"
-                : step === currentStep
-                ? "bg-primary text-white ring-2 ring-primary ring-offset-2"
-                : "bg-gray-200 text-gray-600"
-            }`}
-          >
-            {step < currentStep ? <Check size={20} /> : step}
+          <div className="flex flex-col items-center">
+            <div
+              className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition ${
+                step < currentStep
+                  ? "bg-primary text-white"
+                  : step === currentStep
+                  ? "bg-primary text-white ring-2 ring-primary ring-offset-2"
+                  : "bg-gray-200 text-gray-600"
+              }`}
+            >
+              {step < currentStep ? <Check size={20} /> : step}
+            </div>
+            <span className={`text-xs mt-1 ${step <= currentStep ? 'text-primary font-semibold' : 'text-gray-400'}`}>
+              {stepLabels[step - 1]}
+            </span>
           </div>
           {step < 3 && (
             <div
@@ -344,6 +331,23 @@ Merci !`;
       ))}
     </div>
   );
+
+  const ErrorMessage = ({ field }: { field: string }) => {
+    if (!errors[field]) return null;
+    return (
+      <div className="flex items-center gap-1.5 mt-1.5">
+        <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0" />
+        <p className="text-red-500 text-sm">{errors[field]}</p>
+      </div>
+    );
+  };
+
+  const inputClass = (field: string) =>
+    `w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition ${
+      errors[field]
+        ? "border-red-400 focus:ring-red-300 bg-red-50"
+        : "border-gray-300 focus:ring-primary"
+    }`;
 
   return (
     <SectionWrapper className="my-[50px] min-h-screen">
@@ -366,9 +370,10 @@ Merci !`;
               {/* Step 1: Personal Information */}
               {currentStep === 1 && (
                 <div>
-                  <h2 className="text-2xl font-bold text-tertiary mb-6">
+                  <h2 className="text-2xl font-bold text-tertiary mb-2">
                     Informations personnelles
                   </h2>
+                  <p className="text-gray-500 text-sm mb-6">Renseignez vos coordonnées pour que nous puissions vous contacter.</p>
 
                   <div className="space-y-4">
                     <div>
@@ -379,15 +384,11 @@ Merci !`;
                         type="text"
                         name="nameClient"
                         value={pickupForm.nameClient}
-                        onChange={handleChange}
-                        placeholder="John Doe"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                        onChange={(e) => { handleChange(e); if (errors.nameClient) setErrors(prev => ({...prev, nameClient: ''})); }}
+                        placeholder="Ex: Ahmed Benali"
+                        className={inputClass('nameClient')}
                       />
-                      {errors.nameClient && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {errors.nameClient}
-                        </p>
-                      )}
+                      <ErrorMessage field="nameClient" />
                     </div>
 
                     <div>
@@ -398,15 +399,12 @@ Merci !`;
                         type="tel"
                         name="phone"
                         value={pickupForm.phone}
-                        onChange={handleChange}
-                        placeholder="+212 6 XX XX XX XX"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                        onChange={(e) => { handleChange(e); if (errors.phone) setErrors(prev => ({...prev, phone: ''})); }}
+                        placeholder="Ex: 0612345678"
+                        className={inputClass('phone')}
                       />
-                      {errors.phone && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {errors.phone}
-                        </p>
-                      )}
+                      <p className="text-gray-400 text-xs mt-1">Format : 10 à 13 chiffres sans espaces ni indicatif</p>
+                      <ErrorMessage field="phone" />
                     </div>
 
                     {/* Checkbox to save user info */}
@@ -437,52 +435,34 @@ Merci !`;
               {/* Step 2: Pickup Details */}
               {currentStep === 2 && (
                 <>
-                  <h2 className="text-2xl font-bold text-tertiary mb-6">
+                  <h2 className="text-2xl font-bold text-tertiary mb-2">
                     Détails de ramassage
                   </h2>
+                  <p className="text-gray-500 text-sm mb-6">Où et quand devons-nous venir récupérer votre linge ?</p>
 
                   <div>
-                    <label className="flex items-center gap-2 text-gray-700 font-semibold mb-2">
-                      <MapPin className="w-5 h-5" />
-                      Adresse de Ramassage
-                    </label>
-                    <p className="text-gray-500 text-sm mb-2">
-                      Saisir l'adresse de ramassage manuellement
-                    </p>
-                    <input
-                      type="text"
-                      value={pickupForm.addressRamassage}
-                      name="addressRamassage"
-                      onChange={(e) =>
-                        handleChange(e)
-                      }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary mb-4"
-                      placeholder="Votre adresse complète"
-                    />
-                    {errors.addressRamassage && (
-                      <p className="text-red-500 text-sm mt-1">
-                        {errors.addressRamassage}
-                      </p>
-                    )}
-
                     <LocationForm
                       location="Ramassage"
                       position={positionRamassage}
                       setPosition={setPositionRamassage}
+                      address={pickupForm.addressRamassage}
+                      onAddressChange={(addr) => {
+                        setPickupForm(prev => ({ ...prev, addressRamassage: addr }));
+                        if (errors.addressRamassage) setErrors(prev => ({...prev, addressRamassage: ''}));
+                      }}
+                      onLocationSet={(set) => {
+                        setLocationSetRamassage(set);
+                        if (set && errors.addressRamassage) setErrors(prev => ({...prev, addressRamassage: ''}));
+                      }}
                     />
-
-                    {errors.locationRamassage && (
-                      <p className="text-red-500 text-sm mt-1">
-                        {errors.locationRamassage}
-                      </p>
-                    )}
+                    <ErrorMessage field="addressRamassage" />
                   </div>
 
                   <div className="sm:flex space-y-4 sm:space-y-0 gap-4 mt-4">
                     <div className="flex-1">
                       <label className="flex items-center gap-2 text-gray-700 font-semibold mb-2">
                         <Clock className="w-5 h-5" />
-                        Date de Ramassage
+                        Date de Ramassage *
                       </label>
                       <input
                         type="date"
@@ -492,35 +472,31 @@ Merci !`;
                           setPickupForm({
                             ...pickupForm,
                             dateRamassage: e.target.value,
-                            // Reset heure if date changes to today
                             heureRamassage: e.target.value === new Date().toISOString().split('T')[0] ? "" : pickupForm.heureRamassage,
-                            // Reset livraison date if it's before ramassage date
                             dateLivraisonPrevue: pickupForm.dateLivraisonPrevue && e.target.value > pickupForm.dateLivraisonPrevue ? "" : pickupForm.dateLivraisonPrevue,
                           });
+                          if (errors.dateRamassage) setErrors(prev => ({...prev, dateRamassage: ''}));
                         }}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                        className={inputClass('dateRamassage')}
                         name="dateRamassage"
                       />
-                      {errors.dateRamassage && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {errors.dateRamassage}
-                        </p>
-                      )}
+                      <ErrorMessage field="dateRamassage" />
                     </div>
 
                     <div className="flex-1">
                       <label className="flex items-center gap-2 text-gray-700 font-semibold mb-2">
-                        Heure de Ramassage
+                        Heure de Ramassage *
                       </label>
                       <select
                         value={pickupForm.heureRamassage || ""}
-                        onChange={(e) =>
+                        onChange={(e) => {
                           setPickupForm({
                             ...pickupForm,
                             heureRamassage: e.target.value,
-                          })
-                        }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                          });
+                          if (errors.heureRamassage) setErrors(prev => ({...prev, heureRamassage: ''}));
+                        }}
+                        className={inputClass('heureRamassage')}
                       >
                         <option value="">-- Sélectionner --</option>
                         {Array.from({ length: 24 }, (_, i) => {
@@ -542,17 +518,11 @@ Merci !`;
                           );
                         })}
                       </select>
-                      {errors.heureRamassage && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {errors.heureRamassage}
-                        </p>
-                      )}
+                      <ErrorMessage field="heureRamassage" />
                     </div>
                   </div>
 
                   <div className="flex mt-6 gap-4">
-                    
-
                     <button
                       type="button"
                       onClick={handleNextStep}
@@ -576,51 +546,35 @@ Merci !`;
               {/* Step 3: Delivery Details */}
               {currentStep === 3 && (
                 <div>
-                  <h2 className="text-2xl font-bold text-tertiary mb-6">
+                  <h2 className="text-2xl font-bold text-tertiary mb-2">
                     Détails de livraison
                   </h2>
+                  <p className="text-gray-500 text-sm mb-6">Où et quand souhaitez-vous recevoir votre linge propre ?</p>
 
                   <div className="space-y-6">
                     <div>
-                      <label className="flex items-center gap-2 text-gray-700 font-semibold mb-2">
-                        <MapPin className="w-5 h-5" />
-                        Adresse de Livraison
-                      </label>
-                      <p className="text-gray-500 text-sm mb-2">
-                        Saisir l'adresse de livraison manuellement
-                      </p>
-                      <input
-                        type="text"
-                        name="addressLivraison"
-                        value={pickupForm.addressLivraison}
-                        onChange={(e) => handleChange(e)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary mb-4"
-                        placeholder="Votre adresse complète"
-                      />
-                      {errors.addressLivraison && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {errors.addressLivraison}
-                        </p>
-                      )}
-
                       <LocationForm
                         location="Livraison"
                         position={positionLivraison}
                         setPosition={setPositionLivraison}
+                        address={pickupForm.addressLivraison}
+                        onAddressChange={(addr) => {
+                          setPickupForm(prev => ({ ...prev, addressLivraison: addr }));
+                          if (errors.addressLivraison) setErrors(prev => ({...prev, addressLivraison: ''}));
+                        }}
+                        onLocationSet={(set) => {
+                          setLocationSetLivraison(set);
+                          if (set && errors.addressLivraison) setErrors(prev => ({...prev, addressLivraison: ''}));
+                        }}
                       />
-
-                      {errors.locationLivraison && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {errors.locationLivraison}
-                        </p>
-                      )}
+                      <ErrorMessage field="addressLivraison" />
                     </div>
 
                     <div className="sm:flex space-y-4 sm:space-y-0 gap-4">
                       <div className="flex-1">
                         <label className="flex items-center gap-2 text-gray-700 font-semibold mb-2">
                           <Clock className="w-5 h-5" />
-                          Date de Livraison
+                          Date de Livraison *
                         </label>
                         <input
                           type="date"
@@ -640,29 +594,27 @@ Merci !`;
                               ...pickupForm,
                               dateLivraisonPrevue: e.target.value,
                             });
+                            if (errors.dateLivraisonPrevue) setErrors(prev => ({...prev, dateLivraisonPrevue: ''}));
                           }}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                          className={inputClass('dateLivraisonPrevue')}
                         />
-                        {errors.dateLivraisonPrevue && (
-                          <p className="text-red-500 text-sm mt-1">
-                            {errors.dateLivraisonPrevue}
-                          </p>
-                        )}
+                        <ErrorMessage field="dateLivraisonPrevue" />
                       </div>
 
                       <div className="flex-1">
                         <label className="flex items-center gap-2 text-gray-700 font-semibold mb-2">
-                          Heure de Livraison
+                          Heure de Livraison *
                         </label>
                         <select
                           value={pickupForm.heureLivraison || ""}
-                          onChange={(e) =>
+                          onChange={(e) => {
                             setPickupForm({
                               ...pickupForm,
                               heureLivraison: e.target.value,
-                            })
-                          }
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                            });
+                            if (errors.heureLivraison) setErrors(prev => ({...prev, heureLivraison: ''}));
+                          }}
+                          className={inputClass('heureLivraison')}
                         >
                           <option value="">-- Sélectionner --</option>
                           {Array.from({ length: 24 }, (_, i) => {
@@ -673,10 +625,7 @@ Merci !`;
                             const isSameDayAsRamassage = selectedDate === pickupForm.dateRamassage;
                             const ramassageHour = pickupForm.heureRamassage ? parseInt(pickupForm.heureRamassage.split(':')[0]) : -1;
                             
-                            // Filter past hours if today
                             if (isToday && i < currentHour) return null;
-                            
-                            // Filter hours before ramassage hour if same day
                             if (isSameDayAsRamassage && ramassageHour >= 0 && i <= ramassageHour) return null;
                             
                             return (
@@ -689,24 +638,19 @@ Merci !`;
                             );
                           })}
                         </select>
-                        {errors.heureLivraison && (
-                          <p className="text-red-500 text-sm mt-1">
-                            {errors.heureLivraison}
-                          </p>
-                        )}
+                        <ErrorMessage field="heureLivraison" />
                       </div>
                     </div>
                   </div>
 
                   <div className="sm:flex space-y-4 sm:space-y-0 gap-4 mt-8">
-                   
-
                     <button
                       onClick={handlePickupSubmit}
                       type="submit"
-                      className="flex-1 bg-primary sm:w-auto w-full text-white py-4 rounded-lg font-bold hover:opacity-90 transition"
+                      disabled={isSubmitting}
+                      className="flex-1 bg-primary sm:w-auto w-full text-white py-4 rounded-lg font-bold hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      Passer la commande
+                      {isSubmitting ? "Envoi en cours..." : "Passer la commande"}
                     </button>
                     <button
                       type="button"
@@ -718,7 +662,6 @@ Merci !`;
                     </button>
                   </div>
                   
-                  {/* WhatsApp Button for Mobile */}
                   <div className="lg:hidden mt-4">
                     <button
                       type="button"
@@ -759,35 +702,21 @@ Merci !`;
                     </div>
                   ))
                 ) : (
-                  <p className="text-gray-500 text-sm"></p>
+                  <p className="text-gray-500 text-sm">Aucun article dans le panier</p>
                 )}
               </div>
               <div className="space-y-3">
-                {false? (
-                  <div className="p-4 rounded-lg bg-green-50 border border-green-200">
-                    <div className="flex items-center gap-2">
-                      <span className="text-green-600 font-bold text-lg">✓</span>
-                      <span className="text-green-700 font-semibold">
-                        Livraison gratuite
-                      </span>
-                    </div>
-                    <p className="text-sm text-green-600 mt-1">
-                      Le prix du ramassage est supérieur à 100 DH
-                    </p>
+                <div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
+                  <div className="flex items-center gap-2">
+                    <span className="text-blue-600 font-bold text-lg">i</span>
+                    <span className="text-blue-700 font-semibold">
+                      Info livraison
+                    </span>
                   </div>
-                ) : (
-                  <div className="p-4 rounded-lg bg-green-50 border border-green-200">
-                    <div className="flex items-center gap-2">
-                      <span className="text-green-600 font-bold text-lg">!</span>
-                      <span className="text-green-700 font-semibold">
-                        Livraison payante
-                      </span>
-                    </div>
-                    <p className="text-sm text-green-600 mt-1">
-                      Si le prix du ramassage est supérieur à 100 DH, la livraison sera gratuite
-                    </p>
-                  </div>
-                )}
+                  <p className="text-sm text-blue-600 mt-1">
+                    Si le prix du ramassage est supérieur à 100 DH, la livraison sera gratuite
+                  </p>
+                </div>
               </div>
             </div>
           </div>

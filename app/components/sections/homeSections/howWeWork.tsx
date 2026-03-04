@@ -9,6 +9,9 @@ import {
 import CTAButton from "@/app/components/common/CTAButton";
 import SectionBadge from "@/app/components/common/SectionBadge";
 import WhatsAppButton from "@/app/components/common/WhatsAppButton";
+import SpanText from "@/app/components/common/SpanText";
+import SectionWrapper from "@/app/components/common/SectionWrapper";
+import SectionMargin from "@/app/components/common/SectionMargin";
 import { usePathname } from "next/navigation";
 
 const HowWeWork: React.FC = () => {
@@ -61,9 +64,11 @@ const HowWeWork: React.FC = () => {
   ], [isArabic]);
 
   return (
-    <section
+    <SectionWrapper className="py-20 md:py-28">
+      <SectionMargin>
+    <div
       id="howwework"
-      className="flex flex-col lg:flex-row items-start justify-center px-6 sm:px-10 md:px-16 py-20 lg:py-28 max-w-7xl mx-auto relative"
+      className="flex flex-col lg:flex-row items-start justify-center relative"
     >
       {/* LEFT TEXT + CTA */}
       <div className="w-full lg:w-1/2 space-y-6 lg:space-y-8 pt-10 lg:pt-24 sticky lg:top-20 self-start">
@@ -78,7 +83,7 @@ const HowWeWork: React.FC = () => {
               </>
             ) : (
               <>
-                Comment <br/><span className="text-primary font-extrabold">ça marche&nbsp;?</span>
+                Comment <br/><SpanText text="ça marche ?" className="font-extrabold" />
               </>
             )}
           </h1>
@@ -110,7 +115,7 @@ const HowWeWork: React.FC = () => {
             "
             sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 1920px"
             alt="Service Laundry.ma"
-            className="w-full h-[220px] sm:h-[300px] md:h-[380px] lg:h-[420px] object-cover"
+            className="w-full h-55 sm:h-75 md:h-95 lg:h-105 object-cover"
             loading="lazy"
             decoding="async"
             // Précharger si c'est critique (optionnel)
@@ -123,7 +128,7 @@ const HowWeWork: React.FC = () => {
             <div key={index} className="relative flex items-start mb-8 sm:mb-10 last:mb-0">
               {/* Icon with connecting line */}
               <div className="relative flex flex-col items-center mr-4 sm:mr-6">
-                <div className="p-3 bg-primary rounded-full flex-shrink-0 z-10">
+                <div className="p-3 bg-primary rounded-full shrink-0 z-10">
                   {step.icon}
                 </div>
                 {index < steps.length - 1 && (
@@ -144,7 +149,9 @@ const HowWeWork: React.FC = () => {
           ))}
         </div>
       </div>
-    </section>
+    </div>
+      </SectionMargin>
+    </SectionWrapper>
   );
 };
 

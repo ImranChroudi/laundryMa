@@ -3,6 +3,7 @@
 import React from 'react';
 import { Sparkles, Shirt, Zap, ShirtIcon, ShirtIcon as Iron, Home } from 'lucide-react';
 import SectionBadge from '@/app/components/common/SectionBadge';
+import SpanText from '@/app/components/common/SpanText';
 import { usePathname } from 'next/navigation';
 
 interface Service {
@@ -131,7 +132,7 @@ export default function ServicesCards() {
               </>
             ) : (
               <>
-                Nos <span className="text-primary">services</span>
+                Nos <SpanText text="services" className="" />
               </>
             )}
           </h2>

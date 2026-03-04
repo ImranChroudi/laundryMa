@@ -11,6 +11,7 @@ import LocationForm from "@/app/components/common/Location";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import { useCreatePickupMutation } from "@/app/hooks/use-order";
+import Image from "next/image";
 
 type CheckoutStep = 1 | 2 | 3;
 
@@ -23,19 +24,13 @@ const pickupSchema = z.object({
   dateLivraisonPrevue: z.string().min(1, "تاريخ التسليم مطلوب"),
   heureLivraison: z.string().min(1, "ساعة التسليم مطلوبة"),
   locationRamassage: z.object({
-    address: z.string().min(1, "عنوان الاستلام مطلوب"),
     latitude: z.number(),
     longitude: z.number(),
   }),
   locationLivraison: z.object({
-    address: z.string().min(1, "عنوان التسليم مطلوب"),
     latitude: z.number(),
     longitude: z.number(),
   }),
-  cartItems: z.array(z.object({
-    produitId: z.number(),
-    quantity: z.number(),
-  })),
 });
 
 const CheckoutPage = () => {
@@ -53,21 +48,26 @@ const CheckoutPage = () => {
         console.error("Failed to parse cart:", error);
       }
     }
+
+    // Load saved user info from localStorage
+    const savedUserInfo = localStorage.getItem("checkoutUserInfo");
+    if (savedUserInfo) {
+      try {
+        const userInfo = JSON.parse(savedUserInfo);
+        setPickupForm((prev) => ({
+          ...prev,
+          nameClient: userInfo.nameClient || "",
+          phone: userInfo.phone || "",
+        }));
+        setSaveUserInfo(true);
+      } catch (error) {
+        console.error("Failed to parse saved user info:", error);
+      }
+    }
   }, []);
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-
-  const [positionRamassage, setPositionRamassage] = useState({
-    latitude: 33.589886,
-    longitude: -7.603869,
-    address: "",
-  });
-
-  const [positionLivraison, setPositionLivraison] = useState({
-    latitude: 33.589886,
-    longitude: -7.603869,
-    address: "",
-  });
+  const [saveUserInfo, setSaveUserInfo] = useState(false);
 
   const { mutate: mutatePickup, isPending: isPickupPending } =
     useCreatePickupMutation();
@@ -78,17 +78,26 @@ const CheckoutPage = () => {
     heureRamassage: "",
     heureLivraison: "",
     dateRamassage: "",
+    addressRamassage: "",
+    addressLivraison: "",
     locationLivraison: {
       latitude: 0,
       longitude: 0,
-      address: "",
     },
     locationRamassage: {
       latitude: 0,
       longitude: 0,
-      address: "",
     },
-    cartItems: [] as Array<{ produitId: number; quantity: number }>,
+  });
+
+  const [positionRamassage, setPositionRamassage] = useState({
+    latitude: 35.74804478729811,
+    longitude: -5.818333625793458,
+  });
+
+  const [positionLivraison, setPositionLivraison] = useState({
+    latitude: 35.74804478729811,
+    longitude: -5.818333625793458,
   });
 
   useEffect(() => {
@@ -97,21 +106,17 @@ const CheckoutPage = () => {
       locationLivraison: {
         latitude: positionLivraison.latitude,
         longitude: positionLivraison.longitude,
-        address: positionLivraison.address,
       },
       locationRamassage: {
         latitude: positionRamassage.latitude,
         longitude: positionRamassage.longitude,
-        address: positionRamassage.address,
       },
     }));
   }, [
     positionLivraison.latitude,
     positionLivraison.longitude,
-    positionLivraison.address,
     positionRamassage.latitude,
     positionRamassage.longitude,
-    positionRamassage.address,
   ]);
 
   const handleChange = (
@@ -124,20 +129,35 @@ const CheckoutPage = () => {
   const validateStep = (step: CheckoutStep): boolean => {
     switch (step) {
       case 1:
-        if (!pickupForm.nameClient && !pickupForm.phone) {
-          setErrors({ nameClient: "الاسم مطلوب", phone: "رقم الهاتف مطلوب" });
+        if (!pickupForm.nameClient.trim()) {
+          setErrors({ nameClient: "الاسم مطلوب" });
+          return false;
+        } else if (!/^[0-9]{10,13}$/.test(pickupForm.phone.replace(/\s/g, ""))) {
+          setErrors({ nameClient: "", phone: "يجب أن يحتوي رقم الهاتف على 10 أرقام" });
           return false;
         }
         return true;
       case 2:
-        if (!pickupForm.locationRamassage.address && !pickupForm.dateRamassage && !pickupForm.heureRamassage) {
-          setErrors({ locationRamassage: "عنوان الاستلام مطلوب", dateRamassage: "تاريخ الاستلام مطلوب", heureRamassage: "ساعة الاستلام مطلوبة" });
+        if (!pickupForm.addressRamassage.trim()) {
+          setErrors({ addressRamassage: "عنوان الاستلام مطلوب" });
+          return false;
+        } else if (!pickupForm.dateRamassage) {
+          setErrors({ dateRamassage: "تاريخ الاستلام مطلوب" });
+          return false;
+        } else if (!pickupForm.heureRamassage) {
+          setErrors({ heureRamassage: "ساعة الاستلام مطلوبة" });
           return false;
         }
         return true;
       case 3:
-        if (!pickupForm.locationLivraison.address && !pickupForm.dateLivraisonPrevue && !pickupForm.heureLivraison) {
-          setErrors({ locationLivraison: "عنوان التسليم مطلوب", dateLivraisonPrevue: "تاريخ التسليم مطلوب", heureLivraison: "ساعة التسليم مطلوبة" });
+        if (!pickupForm.addressLivraison.trim()) {
+          setErrors({ addressLivraison: "عنوان التسليم مطلوب" });
+          return false;
+        } else if (!pickupForm.dateLivraisonPrevue) {
+          setErrors({ dateLivraisonPrevue: "تاريخ التسليم مطلوب" });
+          return false;
+        } else if (!pickupForm.heureLivraison) {
+          setErrors({ heureLivraison: "ساعة التسليم مطلوبة" });
           return false;
         }
         return true;
@@ -162,38 +182,109 @@ const CheckoutPage = () => {
     }
   };
 
+  // Generate WhatsApp message with Google Maps links
+  const generateWhatsAppMessage = () => {
+    const cartItemsText = cart.map(item => `• ${item.name} x${item.quantity}`).join('\n');
+    const ramassageMapLink = `https://www.google.com/maps?q=${pickupForm.locationRamassage?.latitude},${pickupForm.locationRamassage?.longitude}`;
+    const livraisonMapLink = `https://www.google.com/maps?q=${pickupForm.locationLivraison?.latitude},${pickupForm.locationLivraison?.longitude}`;
+    
+    return `مرحباً، أود تقديم طلب:
+
+👤 *معلومات العميل:*
+• الاسم: ${pickupForm.nameClient}
+• الهاتف: ${pickupForm.phone}
+
+📅 *التواريخ:*
+• الاستلام: ${pickupForm.dateRamassage} في ${pickupForm.heureRamassage}
+• التسليم المخطط: ${pickupForm.dateLivraisonPrevue} في ${pickupForm.heureLivraison}
+
+📍 *عنوان الاستلام:*
+${pickupForm.addressRamassage}
+${ramassageMapLink}
+
+📍 *عنوان التسليم:*
+${pickupForm.addressLivraison}
+${livraisonMapLink}
+
+شكراً!`;
+  };
+
+  const handleWhatsAppSubmit = () => {
+    // Validate form before sending WhatsApp
+    const validationResult = pickupSchema.safeParse(pickupForm);
+    if (!validationResult.success) {
+      const newErrors: { [key: string]: string } = {};
+      validationResult.error.issues.forEach((err) => {
+        const path =
+          Array.isArray(err.path) && err.path.length > 0
+            ? String(err.path[0])
+            : "unknown";
+        newErrors[path] = err.message;
+      });
+      setErrors(newErrors);
+      toast.error("يرجى ملء جميع الحقول المطلوبة");
+      return;
+    }
+
+    const message = generateWhatsAppMessage();
+    const whatsappNumber = "212687910242";
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank");
+  };
+
   const handlePickupSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      mutatePickup(pickupForm, {
-        onSuccess: (data) => {
+      // Validate form
+      const validationResult = pickupSchema.safeParse(pickupForm);
+      if (!validationResult.success) {
+        const newErrors: { [key: string]: string } = {};
+        validationResult.error.issues.forEach((err) => {
+          const path =
+            Array.isArray(err.path) && err.path.length > 0
+              ? String(err.path[0])
+              : "unknown";
+          newErrors[path] = err.message;
+        });
+        setErrors(newErrors);
+        return;
+      }
+
+      mutatePickup({
+        ...pickupForm,
+        locationRamassage: {
+          ...pickupForm.locationRamassage,
+          address: pickupForm.addressRamassage,
+        },
+        locationLivraison: {
+          ...pickupForm.locationLivraison,
+          address: pickupForm.addressLivraison,
+        },
+      },
+      {
+        onSuccess: (data: any) => {
           console.log(data);
-          toast.success("تم إرسال الطلب بنجاح");
+          
+          // Save user info to localStorage if checkbox is checked
+          if (saveUserInfo) {
+            localStorage.setItem("checkoutUserInfo", JSON.stringify({
+              nameClient: pickupForm.nameClient,
+              phone: pickupForm.phone,
+            }));
+          } else {
+            // Remove saved info if checkbox is unchecked
+            localStorage.removeItem("checkoutUserInfo");
+          }
+          
+          toast.success("تم إضافة الطلب بنجاح");
           router.push("/ar/checkout/success");
         },
         onError: (error) => {
           console.log(error);
-          toast.error("حدث خطأ أثناء إرسال الطلب");
+          toast.error("حدث خطأ أثناء إنشاء الطلب");
         },
       });
-      const response = await fetch('/api/orders/create-pickup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          nameClient: pickupForm.nameClient,
-          phone: pickupForm.phone,
-          dateLivraisonPrevue: pickupForm.dateLivraisonPrevue,
-          dateRamassage: pickupForm.dateRamassage,
-          heureRamassage: pickupForm.heureRamassage,
-          heureLivraison: pickupForm.heureLivraison,
-          locationRamassage: pickupForm.locationRamassage,
-          locationLivraison: pickupForm.locationLivraison,
-        }),
-      });
-
-      toast.success("تم إضافة الطلب بنجاح");
-      router.push("/ar");
     } catch (error) {
       if (error instanceof z.ZodError) {
         const newErrors: { [key: string]: string } = {};
@@ -275,6 +366,11 @@ const CheckoutPage = () => {
                         placeholder="محمد أحمد"
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                       />
+                      {errors.nameClient && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.nameClient}
+                        </p>
+                      )}
                     </div>
 
                     <div>
@@ -289,7 +385,27 @@ const CheckoutPage = () => {
                         placeholder="+212 6 XX XX XX XX"
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                       />
+                      {errors.phone && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.phone}
+                        </p>
+                      )}
                     </div>
+
+                    {/* Checkbox to save user info */}
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        id="saveUserInfo"
+                        checked={saveUserInfo}
+                        onChange={(e) => setSaveUserInfo(e.target.checked)}
+                        className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
+                      />
+                      <label htmlFor="saveUserInfo" className="text-sm text-gray-700 cursor-pointer">
+                        حفظ معلوماتي للمرة القادمة
+                      </label>
+                    </div>
+
                     <button
                       type="button"
                       onClick={handleNextStep}
@@ -318,19 +434,17 @@ const CheckoutPage = () => {
                     </p>
                     <input
                       type="text"
-                      value={pickupForm.locationRamassage.address}
-                      onChange={(e) =>
-                        setPickupForm((prev) => ({
-                          ...prev,
-                          locationRamassage: {
-                            ...prev.locationRamassage,
-                            address: e.target.value,
-                          },
-                        })) 
-                      }
+                      value={pickupForm.addressRamassage}
+                      name="addressRamassage"
+                      onChange={(e) => handleChange(e)}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary mb-4"
                       placeholder="عنوانك الكامل"
                     />
+                    {errors.addressRamassage && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.addressRamassage}
+                      </p>
+                    )}
 
                     <LocationForm
                       location="Ramassage"
@@ -455,19 +569,17 @@ const CheckoutPage = () => {
                       </p>
                       <input
                         type="text"
-                        value={pickupForm.locationLivraison.address}
-                        onChange={(e) =>
-                          setPickupForm({
-                            ...pickupForm,
-                            locationLivraison: {
-                              ...pickupForm.locationLivraison,
-                              address: e.target.value,
-                            },
-                          })
-                        }
+                        name="addressLivraison"
+                        value={pickupForm.addressLivraison}
+                        onChange={(e) => handleChange(e)}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary mb-4"
                         placeholder="عنوانك الكامل"
                       />
+                      {errors.addressLivraison && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.addressLivraison}
+                        </p>
+                      )}
 
                       <LocationForm
                         location="Livraison"
@@ -565,20 +677,37 @@ const CheckoutPage = () => {
 
                   <div className="sm:flex space-y-4 sm:space-y-0 gap-4 mt-8">
                     <button
+                      onClick={handlePickupSubmit}
+                      type="submit"
+                      className="flex-1 bg-primary sm:w-auto w-full text-white py-4 rounded-lg font-bold hover:opacity-90 transition"
+                    >
+                      تأكيد الطلب
+                    </button>
+                    <button
                       type="button"
                       onClick={handlePreviousStep}
-                      className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-4 px-8 rounded-lg shadow-lg transform transition hover:scale-105 flex items-center justify-center gap-2"
+                      className="flex-1 bg-gray-200 sm:w-auto w-full hover:bg-gray-300 text-gray-700 font-bold py-4 px-8 rounded-lg shadow-lg transform transition hover:scale-105 flex items-center justify-center gap-2"
                     >
                       <ArrowLeft className="w-5 h-5" />
                       رجوع
                     </button>
-
+                  </div>
+                  
+                  {/* WhatsApp Button for Mobile */}
+                  <div className="lg:hidden mt-4">
                     <button
-                      onClick={handlePickupSubmit}
-                      type="submit"
-                      className="flex-1 bg-primary text-white py-3 rounded-lg font-bold hover:opacity-90 transition"
+                      type="button"
+                      onClick={handleWhatsAppSubmit}
+                      className="w-full bg-[#25D366] hover:bg-[#25D366]/90 text-white py-3 rounded-lg font-bold transition flex items-center justify-center gap-2"
                     >
-                      تأكيد الطلب
+                      <Image
+                        src="/images/wathsapIcon.png"
+                        alt="WhatsApp"
+                        width={20}
+                        height={20}
+                        className="w-5 h-5"
+                      />
+                      إرسال عبر واتساب
                     </button>
                   </div>
                 </div>
@@ -598,6 +727,9 @@ const CheckoutPage = () => {
                     <div key={item.id} className="flex justify-between text-sm">
                       <span className="text-gray-600">
                         {item.name} x{item.quantity}
+                      </span>
+                      <span className="font-semibold">
+                        {(item.price * item.quantity).toFixed(2)} درهم
                       </span>
                     </div>
                   ))

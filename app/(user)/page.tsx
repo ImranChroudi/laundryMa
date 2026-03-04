@@ -5,11 +5,10 @@ import OurComitements from "@/app/components/sections/homeSections/OurComitement
 import TestimonialsSection from "@/app/components/sections/homeSections/TestimonialsSection";
 import HowWeWork from "@/app/components/sections/homeSections/howWeWork";
 import OurServicesShort from "@/app/components/sections/homeSections/OurServicesShort";
-import B2BSection from "@/app/components/sections/homeSections/B2BSection";
+import B2BCTA from "@/app/components/sections/homeSections/B2BCTA";
 import FAQ from "@/app/components/common/FAQItem";
-import PricingSection from "@/app/components/sections/homeSections/PricingSection";
 import PromotionSection from "@/app/components/sections/homeSections/PromotionSection";
-import ExpertArticlesSection from "../components/sections/values/ExpertArticlesSection";
+import CategoryShowcase from "@/app/components/sections/homeSections/CategoryShowcase";
 import { WebSiteSchema, LocalBusinessSchema, OrganizationSchema } from '@/app/lib/schema';
 
 export const metadata: Metadata = {
@@ -53,11 +52,11 @@ const Home = () => {
       <PromotionSection />
       <AboutUsSection /> 
       <OurServicesShort />
+      <CategoryShowcase />
       <HowWeWork />
-      <PricingSection />
       <OurComitements />
       <TestimonialsSection />
-      <ExpertArticlesSection />
+      <B2BCTA />
       <FAQ />
     </>
   );

@@ -1,7 +1,10 @@
 "use client"
 import React, { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, MessageCircleQuestion } from "lucide-react";
 import SectionBadge from "@/app/components/common/SectionBadge";
+import SectionWrapper from "@/app/components/common/SectionWrapper";
+import SectionMargin from "@/app/components/common/SectionMargin";
+import SpanText from "@/app/components/common/SpanText";
 import { usePathname } from "next/navigation";
 
 interface FAQItemData {
@@ -130,75 +133,98 @@ const FAQ: React.FC = () => {
   const isRTL = currentLang === "ar";
 
   return (
-    <section className="py-16 md:py-24 px-6 md:px-12 lg:px-16 bg-white">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
-          {/* Left Side - Title */}
-          <div className="lg:sticky lg:top-20 self-start">
-            <div className="mb-6">
-              <SectionBadge text={currentLang === 'ar' ? 'الأسئلة الشائعة' : 'Questions fréquentes'} />
+    <SectionWrapper className="py-16 md:py-24">
+      <SectionMargin>
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
+            {/* Left Side - Title */}
+            <div className="lg:sticky lg:top-20 self-start">
+              <div className="mb-6">
+                <SectionBadge text={currentLang === 'ar' ? 'الأسئلة' : 'Questions'} highlightText={currentLang === 'ar' ? 'الشائعة' : 'fréquentes'} />
+              </div>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-tertiary leading-tight mb-4">
+                {currentLang === 'ar' ? (
+                  <>
+                    أسئلتكم،<br />إجاباتنا
+                  </>
+                ) : (
+                  <>
+                    Vos questions,<br /><SpanText text="répondues" className="" />
+                  </>
+                )}
+              </h2>
+              <p className="text-gray-500 text-base leading-relaxed max-w-sm">
+                {currentLang === 'ar'
+                  ? 'كل ما تريد معرفته عن خدماتنا في مكان واحد.'
+                  : 'Tout ce que vous devez savoir sur nos services, au même endroit.'}
+              </p>
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-tertiary leading-tight mb-4">
-              {currentLang === 'ar' ? (
-                <>
-                  أسئلتكم،<br />إجاباتنا
-                </>
-              ) : (
-                <>
-                  Vos questions,<br />répondues
-                </>
-              )}
-            </h2>
-            
-          </div>
 
-          {/* Right Side - FAQ Items */}
-            <div className="space-y-4">
-             {safeFaqItems.length > 0 ? (
+            {/* Right Side - FAQ Items */}
+            <div className="space-y-3">
+              {safeFaqItems.length > 0 ? (
                 safeFaqItems.map((item, index) => (
                   <div
                     key={index}
-                  className="border-b border-gray-200 pb-4 last:border-b-0"
+                    className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
+                      openId === index
+                        ? "bg-white border-primary/20 shadow-lg shadow-primary/5"
+                        : "bg-gray-50/50 border-gray-100 hover:bg-white hover:border-gray-200 hover:shadow-md"
+                    }`}
                   >
-                  <button
-                    onClick={() => toggleFAQ(index)}
-                    className="w-full flex items-start justify-between gap-4 transition-colors hover:opacity-80"
-                    style={{ textAlign: isRTL ? "right" : "left" }} 
-                  >
-                    <h3 className={`text-lg md:text-xl font-semibold text-tertiary flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
-                      {item.question}
-                    </h3>
-                          <ChevronDown
-                      className={`flex-shrink-0 w-5 h-5 mt-1 transition-all duration-300 ${
-                        openId === index 
-                          ? "rotate-180 text-primary" 
-                          : "text-gray-400"
-                            }`}
-                          />
-                  </button>
-
-                        <div
-                          className={`overflow-hidden transition-all duration-300 ${
-                            openId === index
-                        ? "max-h-96 opacity-100 mt-4"
-                              : "max-h-0 opacity-0"
-                          }`}
-                        >
-                    <p className="text-gray-600 leading-relaxed text-base">
-                            {item.answer}
-                          </p>
+                    <button
+                      onClick={() => toggleFAQ(index)}
+                      className="w-full flex items-center justify-between gap-4 p-5 transition-colors"
+                      style={{ textAlign: isRTL ? "right" : "left" }}
+                    >
+                      <div className="flex items-center gap-3 flex-1">
+                        <div className={`shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 ${
+                          openId === index ? "bg-primary text-white" : "bg-primary/10 text-primary"
+                        }`}>
+                          <MessageCircleQuestion className="w-4 h-4" />
                         </div>
+                        <h3 className={`text-base md:text-lg font-semibold transition-colors duration-300 flex-1 ${
+                          openId === index ? "text-tertiary" : "text-gray-700"
+                        } ${isRTL ? 'text-right' : 'text-left'}`}>
+                          {item.question}
+                        </h3>
+                      </div>
+                      <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
+                        openId === index ? "bg-primary/10 rotate-180" : "bg-gray-100"
+                      }`}>
+                        <ChevronDown
+                          className={`w-4 h-4 transition-colors duration-300 ${
+                            openId === index ? "text-primary" : "text-gray-400"
+                          }`}
+                        />
+                      </div>
+                    </button>
+
+                    <div
+                      className={`overflow-hidden transition-all duration-300 ${
+                        openId === index
+                          ? "max-h-96 opacity-100"
+                          : "max-h-0 opacity-0"
+                      }`}
+                    >
+                      <div className="px-5 pb-5 pl-16">
+                        <p className="text-gray-600 leading-relaxed text-sm md:text-base">
+                          {item.answer}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 ))
               ) : (
-                 <div className="p-4 text-center text-gray-500">
-                    Loading FAQs...
-                 </div>
+                <div className="p-4 text-center text-gray-500">
+                  Loading FAQs...
+                </div>
               )}
             </div>
           </div>
-    </div>
-    </section>
+        </div>
+      </SectionMargin>
+    </SectionWrapper>
   );
 };
 
