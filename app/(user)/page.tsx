@@ -5,6 +5,7 @@ import OurComitements from "@/app/components/sections/homeSections/OurComitement
 import TestimonialsSection from "@/app/components/sections/homeSections/TestimonialsSection";
 import HowWeWork from "@/app/components/sections/homeSections/howWeWork";
 import OurServicesShort from "@/app/components/sections/homeSections/OurServicesShort";
+import ValuesSection from "@/app/components/sections/homeSections/ValuesSection";
 import B2BCTA from "@/app/components/sections/homeSections/B2BCTA";
 import FAQ from "@/app/components/common/FAQItem";
 import PromotionSection from "@/app/components/sections/homeSections/PromotionSection";
@@ -54,6 +55,7 @@ const Home = () => {
       <OurServicesShort />
       <CategoryShowcase />
       <HowWeWork />
+      <ValuesSection />
       <OurComitements />
       <TestimonialsSection />
       <B2BCTA />

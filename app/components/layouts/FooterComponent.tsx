@@ -16,7 +16,6 @@ const navLinks = [
   { label: "Qui sommes-nous ?", href: "/qui-sommes-nous" },
   { label: "services", href: "/services" },
   { label: "Professionnels", href: "/professionnels" },
-  { label: "Nos Valeurs", href: "/values" },
   { label: "Tarifs", href: "/tarifs" },
 ];
 

@@ -15,7 +15,6 @@ import {
   Users,
   Award,
   MapPin,
-  CheckCircle2,
   ArrowRight,
   Phone,
 } from "lucide-react";
@@ -83,30 +82,6 @@ function StatItem({ stat }: { stat: (typeof stats)[0] }) {
   );
 }
 
-/* ───────── Timeline data ───────── */
-const timeline = [
-  {
-    year: "2019",
-    title: "Les débuts",
-    text: "Laundry.ma naît à Tanger d'une idée simple : personne ne devrait perdre du temps à faire son pressing. Nous lançons notre premier service de collecte et livraison de linge.",
-  },
-  {
-    year: "2021",
-    title: "Croissance rapide",
-    text: "Grâce à la confiance de nos clients, nous agrandissons notre équipe et investissons dans des équipements professionnels de pointe pour garantir une qualité irréprochable.",
-  },
-  {
-    year: "2023",
-    title: "Expansion nationale",
-    text: "Nous étendons nos services à plusieurs villes du Maroc tout en maintenant notre engagement envers la qualité, la fiabilité et les pratiques écologiques.",
-  },
-  {
-    year: "2025",
-    title: "L'innovation continue",
-    text: "Lancement de notre service express en 24h, commande en ligne simplifiée et partenariats B2B avec des hôtels et entreprises à travers le Maroc.",
-  },
-];
-
 /* ───────── Values data ───────── */
 const values = [
   {
@@ -144,34 +119,6 @@ const values = [
     title: "Disponibilité",
     text: "De 9h à 21h, 7 jours sur 7. Nous nous adaptons à votre emploi du temps, pas l'inverse.",
     color: "from-cyan-500 to-teal-500",
-  },
-];
-
-/* ───────── Commitments data ───────── */
-const commitments = [
-  "Collecte et livraison gratuites à domicile",
-  "Service express en moins de 24 heures",
-  "Produits écologiques certifiés",
-  "Tarifs transparents sans frais cachés",
-  "Contrôle qualité rigoureux sur chaque pièce",
-  "Disponible 7 jours sur 7 de 9h à 21h",
-  "Emballage soigné et respectueux de vos vêtements",
-  "Service client réactif par téléphone et WhatsApp",
-];
-
-/* ───────── Team data ───────── */
-const team = [
-  {
-    name: "Équipe Collecte",
-    role: "Ramassage & Livraison",
-    image: "/images/team1.avif",
-    description: "Ponctualité et soin à chaque passage",
-  },
-  {
-    name: "Équipe Nettoyage",
-    role: "Experts en entretien textile",
-    image: "/images/team2.avif",
-    description: "Savoir-faire professionnel certifié",
   },
 ];
 
@@ -261,60 +208,6 @@ export default function QuiSommesNousPage() {
         </SectionMargin>
       </SectionWrapper>
 
-      {/* ─── NOTRE HISTOIRE (TIMELINE) ─── */}
-      <section className="py-20 md:py-28 bg-gradient-to-b from-gray-50 to-white">
-        <SectionWrapper>
-          <SectionMargin>
-            <div className="text-center max-w-2xl mx-auto mb-16">
-              <SectionBadge text="Notre Histoire" />
-              <h2 className="text-4xl sm:text-5xl font-extrabold text-tertiary mt-5 leading-tight">
-                Une aventure qui{" "}
-                <span className="text-primary">grandit</span>
-              </h2>
-              <p className="text-gray-500 text-lg mt-4">
-                Chaque étape de notre parcours reflète notre engagement envers l&apos;excellence et l&apos;innovation.
-              </p>
-            </div>
-
-            {/* Timeline */}
-            <div className="relative">
-              {/* Vertical line */}
-              <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-primary/20 -translate-x-1/2" />
-
-              <div className="space-y-12 md:space-y-16">
-                {timeline.map((item, i) => (
-                  <div
-                    key={i}
-                    className={`relative flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12 ${
-                      i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                    }`}
-                  >
-                    {/* Dot */}
-                    <div className="absolute left-6 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-primary ring-4 ring-primary/20 z-10" />
-
-                    {/* Content card */}
-                    <div className={`ml-14 md:ml-0 md:w-1/2 ${i % 2 === 0 ? "md:pr-16 md:text-right" : "md:pl-16"}`}>
-                      <span className="inline-block text-primary font-extrabold text-xl mb-2">
-                        {item.year}
-                      </span>
-                      <h3 className="text-2xl font-bold text-tertiary mb-2">
-                        {item.title}
-                      </h3>
-                      <p className="text-gray-500 leading-relaxed">
-                        {item.text}
-                      </p>
-                    </div>
-
-                    {/* Spacer for opposite side */}
-                    <div className="hidden md:block md:w-1/2" />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </SectionMargin>
-        </SectionWrapper>
-      </section>
-
       {/* ─── NOS VALEURS ─── */}
       <SectionWrapper className="py-20 md:py-28">
         <SectionMargin>
@@ -349,109 +242,29 @@ export default function QuiSommesNousPage() {
         </SectionMargin>
       </SectionWrapper>
 
-      {/* ─── NOTRE OBJECTIF ─── */}
-      <section className="py-20 md:py-28 bg-tertiary relative overflow-hidden">
-        {/* Decorative circles */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
-
-        <SectionWrapper>
-          <SectionMargin>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10">
-              <div className="space-y-6">
-                <SectionBadge text="Mission" className="bg-white/10" />
-                <h2 className="text-4xl sm:text-5xl font-extrabold text-white leading-tight">
-                  Notre{" "}
-                  <span className="text-primary">objectif</span>
-                </h2>
-                <p className="text-gray-300 text-lg leading-relaxed">
-                  Notre mission principale est de satisfaire chaque client à travers tout le Maroc.
-                  Nous garantissons la qualité, la fiabilité et la confiance à chaque étape — de la
-                  collecte à la livraison — en étendant notre présence à toutes les régions du pays.
-                </p>
-                <div className="space-y-4 pt-4">
-                  {commitments.map((c, i) => (
-                    <div key={i} className="flex items-center gap-3">
-                      <CheckCircle2 className="w-5 h-5 text-primary shrink-0" />
-                      <span className="text-gray-200 text-sm">{c}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex justify-center">
-                <Image
-                  src="/images/mission-team.png"
-                  alt="Équipe travaillant ensemble"
-                  width={600}
-                  height={400}
-                  className="w-full max-w-md drop-shadow-2xl"
-                />
-              </div>
-            </div>
-          </SectionMargin>
-        </SectionWrapper>
-      </section>
-
-      {/* ─── NOTRE ÉQUIPE ─── */}
-      <SectionWrapper className="py-20 md:py-28">
-        <SectionMargin>
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <SectionBadge text="Notre Équipe" />
-            <h2 className="text-4xl sm:text-5xl font-extrabold text-tertiary mt-5 leading-tight">
-              Des passionnés à votre{" "}
-              <span className="text-primary">service</span>
-            </h2>
-            <p className="text-gray-500 text-lg mt-4">
-              Une équipe dévouée qui partage la même vision : rendre votre quotidien plus simple.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-            {team.map((member, i) => (
-              <div
-                key={i}
-                className="group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300"
-              >
-                <Image
-                  src={member.image}
-                  alt={member.name}
-                  width={500}
-                  height={400}
-                  className="w-full h-[320px] object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-tertiary/90 via-tertiary/30 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <h3 className="text-xl font-bold text-white">{member.name}</h3>
-                  <p className="text-primary font-medium text-sm">{member.role}</p>
-                  <p className="text-gray-300 text-sm mt-1">{member.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </SectionMargin>
-      </SectionWrapper>
-
       {/* ─── CTA FINAL ─── */}
-      <section className="py-20 md:py-28 bg-gradient-to-br from-primary/5 via-white to-primary/10">
+      <section className="py-20 md:py-28 relative overflow-hidden">
+        {/* Background gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-white to-primary/8" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl" />
+
         <SectionWrapper>
           <SectionMargin>
-            <div className="text-center max-w-3xl mx-auto space-y-6">
-              <h2 className="text-4xl sm:text-5xl font-extrabold text-tertiary leading-tight">
+            <div className="relative z-10 text-center max-w-3xl mx-auto space-y-8">
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-tertiary leading-tight">
                 Prêt à nous faire{" "}
                 <span className="text-primary">confiance</span> ?
               </h2>
-              <p className="text-gray-500 text-lg leading-relaxed max-w-xl mx-auto">
+              <p className="text-gray-500 text-lg md:text-xl leading-relaxed max-w-xl mx-auto">
                 Commandez votre première collecte et découvrez le service pressing le plus pratique du Maroc.
                 Livraison gratuite, qualité garantie.
               </p>
-              <div className="flex flex-wrap gap-4 justify-center pt-4">
+              <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center pt-4">
                 <CTAButton text="Commander maintenant" />
                 <WhatsAppButton />
                 <Link
-                  href="tel:+212687910242"
-                  className="flex items-center gap-2 px-7 py-4 rounded-xl border-2 border-tertiary text-tertiary font-semibold hover:bg-tertiary hover:text-white transition-all duration-200"
+                  href="tel:+212677777724"
+                  className="group flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl border-2 border-gray-200 bg-white text-tertiary font-semibold hover:border-tertiary hover:bg-tertiary hover:text-white transition-all duration-300 shadow-sm hover:shadow-lg"
                 >
                   <Phone className="w-4 h-4" />
                   Nous appeler
