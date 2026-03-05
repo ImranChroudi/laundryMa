@@ -24,7 +24,10 @@ import {
   Sparkles,
   Star,
   ArrowUpDown,
+  Plus,
+  Check as CheckIcon,
 } from "lucide-react";
+import { useAuth } from "@/app/context/AdminProvider";
 
 export default function Tarifs() {
   const pathname = usePathname();
@@ -607,75 +610,104 @@ function ProductCard({
   isArabic: boolean;
   accentColor: string;
 }) {
-  const slugPath = isArabic
-    ? `/ar/tarifs/${product.id}`
-    : `/tarifs/${product.id}`;
+  const { addToCart, cart } = useAuth();
+  const [justAdded, setJustAdded] = useState(false);
+  const isInCart = cart.some((item) => String(item.id) === String(product.id));
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addToCart({
+      id: product.id,
+      name: isArabic ? (product.nameAr || product.name) : product.name,
+      price: product.price,
+      image: product.image,
+    });
+    setJustAdded(true);
+    setTimeout(() => setJustAdded(false), 1500);
+  };
 
   return (
-    <Link href={slugPath}>
-      <div
-        className="group relative bg-white rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 border border-gray-100 hover:border-transparent cursor-pointer h-full"
-        style={{
-          boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
-        }}
-        onMouseEnter={(e) => {
-          (e.currentTarget as HTMLElement).style.boxShadow = `0 12px 35px ${accentColor}20`;
-        }}
-        onMouseLeave={(e) => {
-          (e.currentTarget as HTMLElement).style.boxShadow =
-            "0 2px 12px rgba(0,0,0,0.04)";
-        }}
-      >
-        {/* Image with price overlay */}
-        <div className="relative w-full aspect-4/5 overflow-hidden bg-gray-50">
-          <Image
-            src={product.image}
-            alt={isArabic ? (product.nameAr || product.name) : product.name}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
-            unoptimized
-          />
-          {/* Gradient overlay for readability */}
-          <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent" />
+    <div
+      className="group relative bg-white rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 border border-gray-100 hover:border-transparent cursor-pointer h-full"
+      style={{
+        boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
+      }}
+      onMouseEnter={(e) => {
+        (e.currentTarget as HTMLElement).style.boxShadow = `0 12px 35px ${accentColor}20`;
+      }}
+      onMouseLeave={(e) => {
+        (e.currentTarget as HTMLElement).style.boxShadow =
+          "0 2px 12px rgba(0,0,0,0.04)";
+      }}
+    >
+      {/* Image with price overlay */}
+      <div className="relative w-full aspect-4/5 overflow-hidden bg-gray-50">
+        <Image
+          src={product.image}
+          alt={isArabic ? (product.nameAr || product.name) : product.name}
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-110"
+          unoptimized
+        />
+        {/* Gradient overlay for readability */}
+        <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent" />
 
-          {/* "À partir de" badge top-left */}
-          {product.priceFrom && (
-            <div className="absolute top-2.5 left-2.5 z-10">
-              <span
-                className="text-[10px] sm:text-xs font-semibold text-white px-2.5 py-1 rounded-full backdrop-blur-sm"
-                style={{ backgroundColor: `${accentColor}CC` }}
-              >
-                {isArabic ? "ابتداءً من" : "À partir de"}
+        {/* "À partir de" badge top-left */}
+        {product.priceFrom && (
+          <div className="absolute top-2.5 left-2.5 z-10">
+            <span
+              className="text-[10px] sm:text-xs font-semibold text-white px-2.5 py-1 rounded-full backdrop-blur-sm"
+              style={{ backgroundColor: `${accentColor}CC` }}
+            >
+              {isArabic ? "ابتداءً من" : "À partir de"}
+            </span>
+          </div>
+        )}
+
+        {/* Cart badge top-right */}
+        {isInCart && !justAdded && (
+          <div className="absolute top-2.5 right-2.5 z-10">
+            <span className="flex items-center gap-1 text-[10px] sm:text-xs font-semibold text-white px-2 py-1 rounded-full bg-green-500/90 backdrop-blur-sm">
+              <CheckIcon className="w-3 h-3" />
+              {isArabic ? "في السلة" : "Ajouté"}
+            </span>
+          </div>
+        )}
+
+        {/* Price overlay bottom */}
+        <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 z-10">
+          {/* Product Name */}
+          <h3 className="text-sm sm:text-base font-semibold text-white mb-1.5 line-clamp-2 leading-tight drop-shadow-md">
+            {isArabic ? (product.nameAr || product.name) : product.name}
+          </h3>
+          {/* Price + Add to cart */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-baseline gap-1">
+              <span className="text-xl sm:text-2xl font-bold text-white drop-shadow-lg">
+                {product.price}
+              </span>
+              <span className="text-xs sm:text-sm font-semibold text-white/80">
+                DH
               </span>
             </div>
-          )}
-
-          {/* Price overlay bottom */}
-          <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 z-10">
-            {/* Product Name */}
-            <h3 className="text-sm sm:text-base font-semibold text-white mb-1.5 line-clamp-2 leading-tight drop-shadow-md">
-              {isArabic ? (product.nameAr || product.name) : product.name}
-            </h3>
-            {/* Price */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-baseline gap-1">
-                <span className="text-xl sm:text-2xl font-bold text-white drop-shadow-lg">
-                  {product.price}
-                </span>
-                <span className="text-xs sm:text-sm font-semibold text-white/80">
-                  DH
-                </span>
-              </div>
-              <div
-                className="w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0 backdrop-blur-sm"
-                style={{ backgroundColor: `${accentColor}99` }}
-              >
-                <ShoppingCart className="w-4 h-4 text-white" />
-              </div>
-            </div>
+            <button
+              onClick={handleAddToCart}
+              className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm active:scale-90"
+              style={{
+                backgroundColor: justAdded ? "#22c55e" : `${accentColor}CC`,
+              }}
+              title={isArabic ? "أضف إلى السلة" : "Ajouter au panier"}
+            >
+              {justAdded ? (
+                <CheckIcon className="w-4 h-4 text-white" />
+              ) : (
+                <Plus className="w-4 h-4 text-white" />
+              )}
+            </button>
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }

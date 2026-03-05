@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import SectionWrapper from "@/app/components/common/SectionWrapper";
 import SectionMargin from "@/app/components/common/SectionMargin";
 import SectionBadge from "@/app/components/common/SectionBadge";
+import ServiceCategorySlider from "@/app/components/common/ServiceCategorySlider";
 import { categories, tarifsData } from "@/app/data/tarifs";
 import { ArrowRight, Sparkles } from "lucide-react";
 import SpanText from "@/app/components/common/SpanText";
@@ -123,46 +123,14 @@ const CategoryShowcase = () => {
                         </div>
                       </div>
 
-                      {/* Image Gallery Row */}
-                      <div className="flex gap-3 mb-6 overflow-hidden">
-                        {category.showcaseImages
-                          .slice(0, 4)
-                          .map((img, imgIdx) => {
-                            // Find matching tarif item by image to show its price
-                            const matchedItem = tarifsData.find(t => t.image === img);
-                            return (
-                            <div
-                              key={imgIdx}
-                              className="relative flex-1 aspect-square rounded-xl overflow-hidden bg-gray-100 transition-all duration-500"
-                              style={{
-                                transitionDelay: `${imgIdx * 75}ms`,
-                                transform: isHovered
-                                  ? "translateY(-4px)"
-                                  : "translateY(0)",
-                              }}
-                            >
-                              <Image
-                                src={img}
-                                alt={`${category.label} ${imgIdx + 1}`}
-                                fill
-                                className="object-cover transition-transform duration-700 group-hover:scale-110"
-                                sizes="(max-width: 768px) 25vw, 15vw"
-                                unoptimized
-                              />
-                              <div
-                                className="absolute inset-0 bg-linear-to-t from-black/30 to-transparent"
-                              />
-                              {/* Price overlay - always visible */}
-                              {matchedItem && (
-                                <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-sm rounded-lg px-2 py-0.5 shadow-sm">
-                                  <span className="text-xs font-bold" style={{ color: category.color }}>
-                                    {matchedItem.priceFrom ? "Dès " : ""}{matchedItem.price}<span className="text-[10px] ml-0.5">DH</span>
-                                  </span>
-                                </div>
-                              )}
-                            </div>
-                            );
-                          })}
+                      {/* Image Gallery Slider - 6 items */}
+                      <div className="mb-6">
+                        <ServiceCategorySlider
+                          items={categoryItems.slice(0, 6)}
+                          accentColor={category.color}
+                          isArabic={!!isArabic}
+                          maxItems={6}
+                        />
                       </div>
 
                       {/* Bottom CTA */}

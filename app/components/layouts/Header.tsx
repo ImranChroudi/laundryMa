@@ -200,7 +200,19 @@ export default function Header({ showNavLinksDark }: { showNavLinksDark: boolean
         </div>
 
         {/* Mobile Menu Button */}
-        <div className="flex lg:hidden">
+        <div className="flex items-center gap-2 lg:hidden">
+          {/* Cart Icon Mobile */}
+          <Link
+            href={currentLang === "ar" ? "/ar/checkout" : "/checkout"}
+            className="relative p-2 rounded-full hover:bg-gray-100 transition"
+          >
+            <ShoppingCart className="w-5 h-5 text-primary" />
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                {cartCount > 99 ? "99+" : cartCount}
+              </span>
+            )}
+          </Link>
           <button
             onClick={() => setIsMobileMenuOpen(true)}
             className="inline-flex items-center justify-center rounded-md p-2.5"
@@ -217,7 +229,19 @@ export default function Header({ showNavLinksDark }: { showNavLinksDark: boolean
         
 
         {/* CTA Button */}
-        <div className="hidden lg:flex items-end ml-4">
+        <div className="hidden lg:flex items-center gap-3 ml-4">
+          {/* Cart Icon */}
+          <Link
+            href={currentLang === "ar" ? "/ar/checkout" : "/checkout"}
+            className="relative p-2 rounded-full hover:bg-gray-100 transition"
+          >
+            <ShoppingCart className="w-5 h-5 text-tertiary" />
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                {cartCount > 99 ? "99+" : cartCount}
+              </span>
+            )}
+          </Link>
           <CTAButton 
             text="Demander une ramassage" 
             href={currentLang === "ar" ? "/ar/checkout" : "/checkout"}

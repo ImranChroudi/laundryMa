@@ -202,7 +202,7 @@ const OurServicesShort = () => {
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex sm:flex-row flex-col items-center gap-3">
               <a
                 href="tel:+212677777724"
                 className="shrink-0 flex items-center gap-2 px-5 py-3.5 text-sm font-bold text-tertiary rounded-xl border border-tertiary/20 bg-white hover:bg-gray-50 transition-all duration-200"

@@ -2,7 +2,7 @@
 
 import type React from "react";
 import { useState, useEffect } from "react";
-import { ArrowLeft, Check, MapPin, Clock } from "lucide-react";
+import { ArrowLeft, Check, MapPin, Clock, AlertCircle, Plus, Minus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import SectionWrapper from "@/app/components/common/SectionWrapper";
@@ -10,8 +10,8 @@ import SectionMargin from "@/app/components/common/SectionMargin";
 import LocationForm from "@/app/components/common/Location";
 import toast from "react-hot-toast";
 import { z } from "zod";
-import { useCreatePickupMutation } from "@/app/hooks/use-order";
 import Image from "next/image";
+import { useAuth } from "@/app/context/AdminProvider";
 
 type CheckoutStep = 1 | 2 | 3;
 
@@ -35,12 +35,13 @@ const pickupSchema = z.object({
 
 const CheckoutPage = () => {
   const router = useRouter();
+  const { clearCart } = useAuth();
   const [currentStep, setCurrentStep] = useState<CheckoutStep>(1);
   const [cart, setCart] = useState<Array<{ id: number; name: string; price: number; quantity: number }>>([]);
 
   useEffect(() => {
     // Load cart from localStorage
-    const savedCart = localStorage.getItem("cart");
+    const savedCart = localStorage.getItem("cartLaundryMa");
     if (savedCart) {
       try {
         setCart(JSON.parse(savedCart));
@@ -68,9 +69,8 @@ const CheckoutPage = () => {
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [saveUserInfo, setSaveUserInfo] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { mutate: mutatePickup, isPending: isPickupPending } =
-    useCreatePickupMutation();
   const [pickupForm, setPickupForm] = useState({
     nameClient: "",
     phone: "",
@@ -235,69 +235,55 @@ ${livraisonMapLink}
   const handlePickupSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!validateStep(3)) {
+      toast.error("يرجى تصحيح الأخطاء أدناه");
+      return;
+    }
+
+    setIsSubmitting(true);
+
     try {
-      // Validate form
-      const validationResult = pickupSchema.safeParse(pickupForm);
-      if (!validationResult.success) {
-        const newErrors: { [key: string]: string } = {};
-        validationResult.error.issues.forEach((err) => {
-          const path =
-            Array.isArray(err.path) && err.path.length > 0
-              ? String(err.path[0])
-              : "unknown";
-          newErrors[path] = err.message;
-        });
-        setErrors(newErrors);
-        return;
+      const response = await fetch("/api/orders/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nameClient: pickupForm.nameClient,
+          phone: pickupForm.phone,
+          dateRamassage: pickupForm.dateRamassage,
+          heureRamassage: pickupForm.heureRamassage,
+          dateLivraisonPrevue: pickupForm.dateLivraisonPrevue,
+          heureLivraison: pickupForm.heureLivraison,
+          addressRamassage: pickupForm.addressRamassage,
+          addressLivraison: pickupForm.addressLivraison,
+          locationRamassage: pickupForm.locationRamassage,
+          locationLivraison: pickupForm.locationLivraison,
+          cartItems: cart,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("خطأ أثناء الإرسال");
       }
 
-      mutatePickup({
-        ...pickupForm,
-        locationRamassage: {
-          ...pickupForm.locationRamassage,
-          address: pickupForm.addressRamassage,
-        },
-        locationLivraison: {
-          ...pickupForm.locationLivraison,
-          address: pickupForm.addressLivraison,
-        },
-      },
-      {
-        onSuccess: (data: any) => {
-          console.log(data);
-          
-          // Save user info to localStorage if checkbox is checked
-          if (saveUserInfo) {
-            localStorage.setItem("checkoutUserInfo", JSON.stringify({
-              nameClient: pickupForm.nameClient,
-              phone: pickupForm.phone,
-            }));
-          } else {
-            // Remove saved info if checkbox is unchecked
-            localStorage.removeItem("checkoutUserInfo");
-          }
-          
-          toast.success("تم إضافة الطلب بنجاح");
-          router.push("/ar/checkout/success");
-        },
-        onError: (error) => {
-          console.log(error);
-          toast.error("حدث خطأ أثناء إنشاء الطلب");
-        },
-      });
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        const newErrors: { [key: string]: string } = {};
-        error.issues.forEach((err) => {
-          const path =
-            Array.isArray(err.path) && err.path.length > 0
-              ? String(err.path[0])
-              : "unknown";
-          newErrors[path] = err.message;
-        });
-        setErrors(newErrors);
+      if (saveUserInfo) {
+        localStorage.setItem("checkoutUserInfo", JSON.stringify({
+          nameClient: pickupForm.nameClient,
+          phone: pickupForm.phone,
+        }));
+      } else {
+        localStorage.removeItem("checkoutUserInfo");
       }
-      console.log(error);
+
+      // Clear cart after successful order
+      clearCart();
+      setCart([]);
+
+      toast.success("تم إرسال الطلب بنجاح!");
+      router.push("/ar/checkout/success");
+    } catch (error) {
+      toast.error("خطأ أثناء إرسال الطلب. يرجى المحاولة مرة أخرى.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -679,9 +665,10 @@ ${livraisonMapLink}
                     <button
                       onClick={handlePickupSubmit}
                       type="submit"
-                      className="flex-1 bg-primary sm:w-auto w-full text-white py-4 rounded-lg font-bold hover:opacity-90 transition"
+                      disabled={isSubmitting}
+                      className="flex-1 bg-primary sm:w-auto w-full text-white py-4 rounded-lg font-bold hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      تأكيد الطلب
+                      {isSubmitting ? "جاري الإرسال..." : "تأكيد الطلب"}
                     </button>
                     <button
                       type="button"
@@ -721,22 +708,79 @@ ${livraisonMapLink}
               <h2 className="text-xl font-bold text-tertiary mb-4">
                 ملخص الطلب
               </h2>
-              <div className="space-y-3 mb-6 pb-6 border-b border-gray-200 max-h-64 overflow-y-auto">
+              <div className="space-y-3 mb-6 pb-6 border-b border-gray-200 max-h-80 overflow-y-auto">
                 {cart.length > 0 ? (
                   cart.map((item) => (
-                    <div key={item.id} className="flex justify-between text-sm">
-                      <span className="text-gray-600">
-                        {item.name} x{item.quantity}
-                      </span>
-                      <span className="font-semibold">
-                        {(item.price * item.quantity).toFixed(2)} درهم
-                      </span>
+                    <div key={item.id} className="flex items-center justify-between gap-2 py-2 border-b border-gray-100 last:border-0">
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-gray-800 truncate">{item.name}</p>
+                        <p className="text-xs text-gray-500">{item.price} درهم</p>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (item.quantity <= 1) {
+                              setCart(prev => {
+                                const newCart = prev.filter(c => c.id !== item.id);
+                                localStorage.setItem("cartLaundryMa", JSON.stringify(newCart));
+                                return newCart;
+                              });
+                            } else {
+                              setCart(prev => {
+                                const newCart = prev.map(c => c.id === item.id ? { ...c, quantity: c.quantity - 1 } : c);
+                                localStorage.setItem("cartLaundryMa", JSON.stringify(newCart));
+                                return newCart;
+                              });
+                            }
+                          }}
+                          className="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition"
+                        >
+                          <Minus className="w-3 h-3" />
+                        </button>
+                        <span className="w-6 text-center text-sm font-semibold">{item.quantity}</span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCart(prev => {
+                              const newCart = prev.map(c => c.id === item.id ? { ...c, quantity: c.quantity + 1 } : c);
+                              localStorage.setItem("cartLaundryMa", JSON.stringify(newCart));
+                              return newCart;
+                            });
+                          }}
+                          className="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition"
+                        >
+                          <Plus className="w-3 h-3" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCart(prev => {
+                              const newCart = prev.filter(c => c.id !== item.id);
+                              localStorage.setItem("cartLaundryMa", JSON.stringify(newCart));
+                              return newCart;
+                            });
+                          }}
+                          className="w-7 h-7 rounded-full hover:bg-red-50 flex items-center justify-center text-gray-400 hover:text-red-500 transition ml-1"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     </div>
                   ))
                 ) : (
-                  <p className="text-gray-500 text-sm"></p>
+                  <div className="text-center py-4">
+                    <p className="text-gray-500 text-sm">لا توجد عناصر في السلة</p>
+                    <p className="text-gray-400 text-xs mt-1">يمكنك طلب الاستلام بدون اختيار عناصر</p>
+                  </div>
                 )}
               </div>
+              {cart.length > 0 && (
+                <div className="flex justify-between items-center mb-4 font-bold text-tertiary">
+                  <span>المجموع التقديري</span>
+                  <span>{cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)} درهم</span>
+                </div>
+              )}
               <div className="space-y-3">
                 <div className="p-4 rounded-lg bg-green-50 border border-green-200">
                   <div className="flex items-center gap-2">

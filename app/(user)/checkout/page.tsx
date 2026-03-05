@@ -2,7 +2,7 @@
 
 import type React from "react";
 import { useState, useEffect } from "react";
-import { ArrowLeft, Check, MapPin, Clock, AlertCircle } from "lucide-react";
+import { ArrowLeft, Check, MapPin, Clock, AlertCircle, Plus, Minus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import SectionWrapper from "@/app/components/common/SectionWrapper";
@@ -11,6 +11,7 @@ import LocationForm from "@/app/components/common/Location";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import Image from "next/image";
+import { useAuth } from "@/app/context/AdminProvider";
 
 type CheckoutStep = 1 | 2 | 3;
 
@@ -34,12 +35,13 @@ const pickupSchema = z.object({
 
 const CheckoutPage = () => {
   const router = useRouter();
+  const { clearCart } = useAuth();
   const [currentStep, setCurrentStep] = useState<CheckoutStep>(1);
   const [cart, setCart] = useState<Array<{ id: number; name: string; price: number; quantity: number }>>([]);
 
   useEffect(() => {
     // Load cart from localStorage
-    const savedCart = localStorage.getItem("cart");
+    const savedCart = localStorage.getItem("cartLaundryMa");
     if (savedCart) {
       try {
         setCart(JSON.parse(savedCart));
@@ -288,6 +290,10 @@ Merci !`;
       } else {
         localStorage.removeItem("checkoutUserInfo");
       }
+
+      // Clear cart after successful order
+      clearCart();
+      setCart([]);
 
       toast.success("Commande envoyée avec succès !");
       router.push("/checkout/success");
@@ -689,22 +695,79 @@ Merci !`;
               <h2 className="text-xl font-bold text-tertiary mb-4">
                 Résumé de la commande
               </h2>
-              <div className="space-y-3 mb-6 pb-6 border-b border-gray-200 max-h-64 overflow-y-auto">
+              <div className="space-y-3 mb-6 pb-6 border-b border-gray-200 max-h-80 overflow-y-auto">
                 {cart.length > 0 ? (
                   cart.map((item) => (
-                    <div key={item.id} className="flex justify-between text-sm">
-                      <span className="text-gray-600">
-                        {item.name} x{item.quantity}
-                      </span>
-                      <span className="font-semibold">
-                        {(item.price * item.quantity).toFixed(2)} MAD
-                      </span>
+                    <div key={item.id} className="flex items-center justify-between gap-2 py-2 border-b border-gray-100 last:border-0">
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-gray-800 truncate">{item.name}</p>
+                        <p className="text-xs text-gray-500">{item.price} DH</p>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (item.quantity <= 1) {
+                              setCart(prev => {
+                                const newCart = prev.filter(c => c.id !== item.id);
+                                localStorage.setItem("cartLaundryMa", JSON.stringify(newCart));
+                                return newCart;
+                              });
+                            } else {
+                              setCart(prev => {
+                                const newCart = prev.map(c => c.id === item.id ? { ...c, quantity: c.quantity - 1 } : c);
+                                localStorage.setItem("cartLaundryMa", JSON.stringify(newCart));
+                                return newCart;
+                              });
+                            }
+                          }}
+                          className="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition"
+                        >
+                          <Minus className="w-3 h-3" />
+                        </button>
+                        <span className="w-6 text-center text-sm font-semibold">{item.quantity}</span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCart(prev => {
+                              const newCart = prev.map(c => c.id === item.id ? { ...c, quantity: c.quantity + 1 } : c);
+                              localStorage.setItem("cartLaundryMa", JSON.stringify(newCart));
+                              return newCart;
+                            });
+                          }}
+                          className="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition"
+                        >
+                          <Plus className="w-3 h-3" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCart(prev => {
+                              const newCart = prev.filter(c => c.id !== item.id);
+                              localStorage.setItem("cartLaundryMa", JSON.stringify(newCart));
+                              return newCart;
+                            });
+                          }}
+                          className="w-7 h-7 rounded-full hover:bg-red-50 flex items-center justify-center text-gray-400 hover:text-red-500 transition ml-1"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     </div>
                   ))
                 ) : (
-                  <p className="text-gray-500 text-sm">Aucun article dans le panier</p>
+                  <div className="text-center py-4">
+                    <p className="text-gray-500 text-sm">Aucun article dans le panier</p>
+                    <p className="text-gray-400 text-xs mt-1">Vous pouvez quand même demander un ramassage</p>
+                  </div>
                 )}
               </div>
+              {cart.length > 0 && (
+                <div className="flex justify-between items-center mb-4 font-bold text-tertiary">
+                  <span>Total estimé</span>
+                  <span>{cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)} DH</span>
+                </div>
+              )}
               <div className="space-y-3">
                 <div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
                   <div className="flex items-center gap-2">

@@ -25,7 +25,7 @@ const Footer = () => {
     { label: "Services", href: "/services" },
     { label: "Blog & Conseils", href: "/blog" },
     { label: "Contact", href: "/contact" },
-    { label: "Termes et conditions", href: "/terms" },
+    { label: "Conditions générales", href: "/conditions-generales" },
     { label: "Mentions légales", href: "/mentions-legales" },
   ];
 

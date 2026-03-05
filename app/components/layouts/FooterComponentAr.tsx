@@ -26,7 +26,7 @@ const FooterAr = () => {
     { label: "الخدمات", href: "/ar/services" },
     { label: "المدونة والنصائح", href: "/ar/blog" },
     { label: "اتصل بنا", href: "/ar/contact" },
-    { label: "الشروط والأحكام", href: "/ar/terms" },
+    { label: "الشروط العامة", href: "/ar/conditions-generales" },
     { label: "السياسات القانونية", href: "/ar/mentions-legales" },
   ];
 
