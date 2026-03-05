@@ -43,7 +43,7 @@ const Hero = () => {
       {/* Content */}
       <div className="relative z-20 flex flex-col justify-center min-h-[70vh] ">
 
-        <div className="max-w-full animate-fade-in-up">
+        <div className="max-w-full animate-fade-in-up sm:text-left text-center">
 
           {/* Badge */}
           <div className="mb-6">
@@ -58,25 +58,25 @@ const Hero = () => {
 
           {/* Headline */}
           <div className="mb-6 space-y-1">
-            <h1 className="text-3xl md:text-[58px]  font-extrabold leading-tight tracking-tight text-tertiary uppercase">
+            <h1 className="text-4xl md:text-[58px]  font-extrabold leading-tight tracking-tight text-tertiary uppercase">
               Nous prenons{" "}
               <span className="relative inline-block">
                 le linge.
                 <span className="absolute -bottom-1 left-0 right-0 h-1 rounded-full bg-primary/50"></span>
               </span>
             </h1>
-            <h1 className="text-3xl md:text-[58px] font-extrabold leading-tight tracking-tight text-primary uppercase">
+            <h1 className="text-4xl md:text-[58px] font-extrabold leading-tight tracking-tight text-primary uppercase">
               Vous prenez le temps.
             </h1>
           </div>
 
-          <p className="text-lg md:text-xl text-tertiary/70 mb-8 font-medium max-w-lg">
+          <p className="text-lg sm:block hidden md:text-xl text-tertiary/70 mb-8 font-medium max-w-lg">
             Le pressing à domicile ou au bureau — collecte, nettoyage et livraison en{" "}
             <span className="text-tertiary font-bold">3 clics</span>.
           </p>
 
           {/* CTA group */}
-          <div className="flex flex-col sm:flex-row gap-3 mb-10">
+          <div className="flex flex-col sm:items-start items-center sm:flex-row gap-3 mb-10">
             <CTAButton />
             <WhatsAppButton />
           </div>
