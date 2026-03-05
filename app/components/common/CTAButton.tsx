@@ -22,7 +22,7 @@ const CTAButton = ({ text, className = "", href }: CTAButtonProps) => {
 
   const buttonContent = (
     <div
-      className={`relative overflow-hidden flex rounded-xl cursor-pointer items-center justify-center gap-2 bg-secondary px-3 sm:px-7 py-4 hover:bg-secondary/90 active:scale-95 transition-all duration-200 group ${className}`}
+      className={`relative overflow-hidden flex rounded-xl cursor-pointer items-center justify-center gap-2 bg-secondary px-3 sm:px-7 py-4 hover:bg-secondary/90 active:scale-95 transition-all duration-200 group sm:max-w-auto max-w-max ${className}`}
       style={{
         boxShadow: '0 4px 20px -2px rgba(229, 74, 51, 0.35), 0 2px 8px -2px rgba(229, 74, 51, 0.2)'
       }}

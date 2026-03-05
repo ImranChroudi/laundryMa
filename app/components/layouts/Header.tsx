@@ -169,8 +169,8 @@ export default function Header({ showNavLinksDark }: { showNavLinksDark: boolean
         aria-label="Global"
       >
         {/* Logo */}
-        <div className="lg:flex  lg:relative absolute lg:left-0 left-1/2 transform lg:translate-x-0 -translate-x-1/2">
-          <Link href={currentLang === "ar" ? "/" : "/"} className="-m-1.5 p-1.5">
+        <div className="lg:flex  lg:relative">
+          <Link href={currentLang === "ar" ? "/" : "/"} className="-m-1.5 p-1.5 block">
             <span className="sr-only">Laundry.ma</span>
             <Image src={"/images/logo.jpg"} alt="Logo" width={160} height={40}  className="h-12 w-auto" />
           </Link>
@@ -209,7 +209,7 @@ export default function Header({ showNavLinksDark }: { showNavLinksDark: boolean
           </Link>
           <button
             onClick={() => setIsMobileMenuOpen(true)}
-            className="inline-flex items-center justify-center rounded-md p-2.5"
+            className="inline-flex sm:relative absolure  items-center justify-center rounded-md p-2.5"
           >
             <Menu
               className={`h-6 w-6 transition-colors duration-300 ${
@@ -251,8 +251,8 @@ export default function Header({ showNavLinksDark }: { showNavLinksDark: boolean
         }`}
       >
         <div className="flex items-center justify-between">
-          <Link href={currentLang === "ar" ? "/ar" : "/"} className="-m-1.5 p-1.5">
-            <Image src={"/images/logo.jpg"} alt="Logo" width={160} height={40}  className="h-[120px] w-auto" />
+          <Link href={currentLang === "ar" ? "/ar" : "/"} className="-m-1.5 p-1.5 block">
+            <Image src={"/images/logo.jpg"} alt="Logo" width={160} height={40}  className="h-[50px] w-auto" />
           </Link>
           <button
             onClick={() => setIsMobileMenuOpen(false)}

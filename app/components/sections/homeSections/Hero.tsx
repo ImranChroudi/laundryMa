@@ -58,14 +58,14 @@ const Hero = () => {
 
           {/* Headline */}
           <div className="mb-6 space-y-1">
-            <h1 className="text-4xl md:text-[58px]  font-extrabold leading-tight tracking-tight text-tertiary uppercase">
+            <h1 className="text-3xl md:text-[58px]  font-extrabold leading-tight tracking-tight text-tertiary uppercase">
               Nous prenons{" "}
               <span className="relative inline-block">
                 le linge.
                 <span className="absolute -bottom-1 left-0 right-0 h-1 rounded-full bg-primary/50"></span>
               </span>
             </h1>
-            <h1 className="text-4xl md:text-[58px] font-extrabold leading-tight tracking-tight text-primary uppercase">
+            <h1 className="text-3xl md:text-[58px] font-extrabold leading-tight tracking-tight text-primary uppercase">
               Vous prenez le temps.
             </h1>
           </div>
