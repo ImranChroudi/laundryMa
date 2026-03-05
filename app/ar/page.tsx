@@ -6,14 +6,13 @@ import HowWeWork from "@/app/components/sections/homeSectionsAr/howWeWork";
 import OurServicesShort from "@/app/components/sections/homeSectionsAr/OurServicesShort";
 import FAQ from "@/app/components/common/FAQItem";
 import CategoryShowcase from "@/app/components/sections/homeSections/CategoryShowcase";
-import PromotionSection from "@/app/components/sections/homeSectionsAr/PromotionSection";
 import ExpertArticlesSection from "../components/sections/values/ExpertArticlesSection";
 
 const Home = () => {
   return (
     <>
         <HeroValeurs />
-        <PromotionSection />
+        
         <AboutUsSection /> 
         <OurServicesShort />
         <CategoryShowcase />

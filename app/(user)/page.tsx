@@ -50,7 +50,7 @@ const Home = () => {
       />
 
       <HeroValeurs />
-      <PromotionSection />
+      
       <AboutUsSection /> 
       <OurServicesShort />
       <CategoryShowcase />

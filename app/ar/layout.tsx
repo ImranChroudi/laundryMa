@@ -7,10 +7,7 @@ import Providers from "@/app/components/layouts/Providers";
 import ConditionalFloatingCTA from "@/app/components/common/ConditionalFloatingCTA";
 import ConditionalCookieBanner from "@/app/components/common/ConditionalCookieBanner";
 import ConditionalFooter from "@/app/components/layouts/ConditionalFooter";
-import PromotionPopup from "@/app/components/common/PromotionPopup";
 import { AdminProvider } from "@/app/context/AdminProvider";
-import { queryClient } from "../admin/layout";
-import { QueryClientProvider } from "@tanstack/react-query";
 
 const poppins = Poppins({
   weight: ["300", "400", "500", "600", "700"],
@@ -38,14 +35,11 @@ export default function ArabicLayout({
       <body>
         <Providers>
           <AdminProvider>
-            <QueryClientProvider client={queryClient}>
               <ConditionalHeaderAr showNavLinksDark={false} />
               {children}
               <ConditionalFooter />
               <ConditionalFloatingCTA />
               <ConditionalCookieBanner />
-              <PromotionPopup />
-            </QueryClientProvider>
           </AdminProvider>
         </Providers>
       </body>
