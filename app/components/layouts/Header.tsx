@@ -170,7 +170,7 @@ export default function Header({ showNavLinksDark }: { showNavLinksDark: boolean
       >
         {/* Logo */}
         <div className="lg:flex  lg:relative absolute lg:left-0 left-1/2 transform lg:translate-x-0 -translate-x-1/2">
-          <Link href={currentLang === "ar" ? "/ar" : "/"} className="-m-1.5 p-1.5">
+          <Link href={currentLang === "ar" ? "/" : "/"} className="-m-1.5 p-1.5">
             <span className="sr-only">Laundry.ma</span>
             <Image src={"/images/logo.jpg"} alt="Logo" width={160} height={40}  className="h-12 w-auto" />
           </Link>
