@@ -8,7 +8,6 @@ import OurServicesShort from "@/app/components/sections/homeSections/OurServices
 import ValuesSection from "@/app/components/sections/homeSections/ValuesSection";
 import B2BCTA from "@/app/components/sections/homeSections/B2BCTA";
 import FAQ from "@/app/components/common/FAQItem";
-import PromotionSection from "@/app/components/sections/homeSections/PromotionSection";
 import CategoryShowcase from "@/app/components/sections/homeSections/CategoryShowcase";
 import { WebSiteSchema, LocalBusinessSchema, OrganizationSchema } from '@/app/lib/schema';
 

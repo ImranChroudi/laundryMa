@@ -165,15 +165,15 @@ export default function QuiSommesNousPage() {
                 </span>
               </h2>
               <p className="text-gray-600 text-lg leading-relaxed">
-                <strong>Laundry.ma</strong> est né d&apos;une conviction simple : prendre
+                <strong>Laundry.ma</strong> est né d'une conviction simple : prendre
                 soin de votre linge ne devrait jamais être une corvée. Depuis notre
                 création à Tanger, nous avons bâti un service de pressing et de
                 blanchisserie moderne, fiable et respectueux de vos textiles.
               </p>
               <p className="text-gray-500 text-base leading-relaxed">
-                Notre équipe de professionnels passionnés s&apos;engage chaque jour à
+                Notre équipe de professionnels passionnés s'engage chaque jour à
                 vous offrir un service impeccable — du ramassage à votre porte
-                jusqu&apos;à la livraison de vos vêtements parfaitement nettoyés,
+                jusqu'à la livraison de vos vêtements parfaitement nettoyés,
                 repassés et emballés.
               </p>
               <div className="flex flex-wrap gap-3 pt-3">

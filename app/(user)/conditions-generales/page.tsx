@@ -32,10 +32,10 @@ export default function ConditionsGeneralesPage() {
               <p className="text-lg font-semibold text-primary">Laundry.ma</p>
               <p className="text-gray-700 text-lg">Ville : Tanger – Maroc</p>
               <p className="text-gray-700 text-lg leading-relaxed mt-4">
-                Les présentes Conditions Générales de Service régissent l&apos;ensemble des prestations fournies par Laundry.ma (Pressing, Blanchisserie, Nettoyage de tapis, Sneakers Spa).
+                Les présentes Conditions Générales de Service régissent l'ensemble des prestations fournies par Laundry.ma (Pressing, Blanchisserie, Nettoyage de tapis, Sneakers Spa).
               </p>
               <p className="text-gray-700 text-lg leading-relaxed font-semibold mt-2">
-                Toute remise d&apos;article implique l&apos;acceptation pleine, entière et sans réserve des présentes conditions.
+                Toute remise d'article implique l'acceptation pleine, entière et sans réserve des présentes conditions.
               </p>
             </div>
 
@@ -104,14 +104,14 @@ export default function ConditionsGeneralesPage() {
                   En cas de faute technique prouvée :
                 </p>
                 <ul className="list-disc list-inside text-gray-700 text-lg space-y-2 ml-4 mb-4">
-                  <li>L&apos;indemnisation est limitée à un maximum de 5 fois le montant du service payé</li>
-                  <li>ou à un pourcentage de la valeur actuelle estimée de l&apos;article.</li>
+                  <li>L'indemnisation est limitée à un maximum de 5 fois le montant du service payé</li>
+                  <li>ou à un pourcentage de la valeur actuelle estimée de l'article.</li>
                 </ul>
                 <p className="text-gray-700 text-lg leading-relaxed mb-3 font-semibold">
                   En cas de perte avérée :
                 </p>
                 <p className="text-gray-700 text-lg leading-relaxed">
-                  L&apos;indemnisation ne pourra en aucun cas dépasser un plafond équivalent à dix (10) fois le montant du service de nettoyage payé pour l&apos;article concerné.
+                  L'indemnisation ne pourra en aucun cas dépasser un plafond équivalent à dix (10) fois le montant du service de nettoyage payé pour l'article concerné.
                 </p>
               </div>
             </div>
@@ -127,7 +127,7 @@ export default function ConditionsGeneralesPage() {
                   1. Inspection
                 </h3>
                 <p className="text-gray-700 text-lg leading-relaxed">
-                  L&apos;état du tapis est constaté lors de la réception (usure, fragilité, décoloration).
+                  L'état du tapis est constaté lors de la réception (usure, fragilité, décoloration).
                 </p>
               </div>
 
@@ -192,7 +192,7 @@ export default function ConditionsGeneralesPage() {
                   Les chaussures sont examinées à la réception (usure, fissures, fragilité des colles).
                 </p>
                 <p className="text-gray-700 text-lg leading-relaxed">
-                  Laundry.ma n&apos;est pas responsable des défauts antérieurs.
+                  Laundry.ma n'est pas responsable des défauts antérieurs.
                 </p>
               </div>
 
@@ -249,7 +249,7 @@ export default function ConditionsGeneralesPage() {
                 Clause Générale
               </h2>
               <p className="text-gray-700 text-lg leading-relaxed mb-4">
-                Laundry.ma s&apos;engage à fournir ses services selon les standards professionnels en vigueur au Maroc.
+                Laundry.ma s'engage à fournir ses services selon les standards professionnels en vigueur au Maroc.
               </p>
               <p className="text-gray-700 text-lg leading-relaxed">
                 Toute réclamation doit être formulée dans un délai maximum de 48 heures après réception des articles.

@@ -307,7 +307,7 @@ const ProfessionalContact = () => {
                         <div>
                           <label className="flex items-center gap-2 text-sm font-semibold text-tertiary mb-2">
                             <Building2 className="w-4 h-4 text-primary" />
-                            Nom de l&apos;entreprise <span className="text-red-400">*</span>
+                            Nom de l'entreprise <span className="text-red-400">*</span>
                           </label>
                           <input
                             type="text"
@@ -404,7 +404,7 @@ const ProfessionalContact = () => {
                         <div>
                           <label className="flex items-center gap-2 text-sm font-semibold text-tertiary mb-3">
                             <Briefcase className="w-4 h-4 text-primary" />
-                            Type d&apos;activit&eacute; <span className="text-red-400">*</span>
+                            Type d'activit&eacute; <span className="text-red-400">*</span>
                           </label>
                           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                             {activityOptions.map((opt) => (
@@ -544,7 +544,7 @@ const ProfessionalContact = () => {
                         {submitStatus === 'error' && (
                           <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl flex items-center gap-2">
                             <XCircle className="w-5 h-5 shrink-0" />
-                            Une erreur s&apos;est produite. Veuillez r&eacute;essayer ou nous contacter directement.
+                            Une erreur s'est produite. Veuillez r&eacute;essayer ou nous contacter directement.
                           </div>
                         )}
                       </div>
