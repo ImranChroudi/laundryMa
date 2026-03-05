@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import SectionMargin from "@/app/components/common/SectionMargin";
 import SectionWrapper from "@/app/components/common/SectionWrapper";
 import { useGetProduits, type Produit } from "@/app/hooks/use-produit";
@@ -29,7 +29,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/app/context/AdminProvider";
 
-export default function Tarifs() {
+function TarifsContent() {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -597,6 +597,14 @@ export default function Tarifs() {
         </SectionMargin>
       </SectionWrapper>
     </div>
+  );
+}
+
+export default function Tarifs() {
+  return (
+    <Suspense fallback={<LoaderCommponent />}>
+      <TarifsContent />
+    </Suspense>
   );
 }
 

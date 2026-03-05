@@ -9,13 +9,24 @@ import {
   Package,
 } from "lucide-react";
 import { set, z } from "zod";
-import LocationForm from "./Location";
-import { pickupSchema } from "@/validate";
-import { useCreatePickupMutation } from "@/hooks/use-order";
+import { pickupSchema } from "@/app/validate";
 import toast from "react-hot-toast";
 import FormulaireRamassage from "./FormulaireRamassage";
 import SectionWrapper from "@/app/SectionWrapper";
 import SectionMargin from "@/app/SectionMargin";
+
+// Types
+interface Product {
+  id: number;
+  nameProduct: string;
+  price: number | null;
+  hasPrice: boolean;
+  image: string;
+}
+
+interface CartItem extends Product {
+  quantity: number;
+}
 
 // Zod Schemas
 
@@ -41,7 +52,7 @@ const products = [
 
 function FormulaireAddOrder() {
   const [currentPage, setCurrentPage] = useState("home");
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState<CartItem[]>([]);
   const [isConnected, setIsConnected] = useState(false);
   const [orderConfirmed , setOrderConfirmed] = useState(false)
   const [positionRamassage, setPositionRamassage] = useState({
@@ -92,10 +103,11 @@ function FormulaireAddOrder() {
     });
 
     console.log(pickupForm);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [positionRamassage, positionLivraison]);
 
   //Add to cart
-    const addToCart = (product, quantity) => {
+    const addToCart = (product: Product, quantity: number) => {
       if (quantity <= 0) return;
 
       const existingItem = cart.find((item) => item.id === product.id);
@@ -113,80 +125,20 @@ function FormulaireAddOrder() {
     };
 
   //Remove from cart
-    const removeFromCart = (productId) => {
+    const removeFromCart = (productId: number) => {
       setCart(cart.filter((item) => item.id !== productId));
     };
 
     // Calculate total
     const calculateTotal = () => {
       return cart.reduce((total, item) => {
-        return total + (item.hasPrice ? item.price * item.quantity : 0);
+        return total + (item.hasPrice && item.price ? item.price * item.quantity : 0);
       }, 0);
     };
 
   // Handle pickup form submission
 
-  const { mutate: mutatePickup, isPending: isPickupPending } =
-    useCreatePickupMutation();
-  const handlePickupSubmit = (e: any) => {
-
-    e.preventDefault();
-
-    console.log(pickupForm);
-    try {
-      pickupSchema.parse(pickupForm);
-      setErrors({});
-
-      mutatePickup(
-        {
-          nameClient: pickupForm.nameClient,
-          phone: pickupForm.phone,
-          dateLivraisonPrevue: pickupForm.dateLivraisonPrevue,
-          dateRamassage: pickupForm.dateRamassage,
-          heureRamassage: pickupForm.heureRamassage,
-          heureLivraison: pickupForm.heureLivraison,
-          locationRamassage: {
-            latitude: Number(pickupForm.locationRamassage.latitude),
-            longitude: Number(pickupForm.locationRamassage.longitude),
-            address: pickupForm.locationRamassage.address,
-          },
-          locationLivraison: {
-            latitude: Number(pickupForm.locationLivraison.latitude),
-            longitude: Number(pickupForm.locationLivraison.longitude),
-            address: pickupForm.locationLivraison.address,
-          },
-        },
-        {
-          onSuccess: (data) => {
-            toast.success("Pickup ajouter avec success");
-          },
-          onError: (error: any) => {
-            toast.error(error.response?.data.message);
-          },
-        }
-      );
-      // setPickupForm({
-      //   nameClient: "",
-      //   phone: "",
-      //   locationRamassage: { latitude: 0, longitude: 0, address: "" },
-      //   locationLivraison: { latitude: 0, longitude: 0, address: "" },
-      //   dateLivraisonPrévue: "",
-      //   heureRamassage: "",
-      //   heureLivraison: "",
-      //   dateRamassage: ""
-      // });
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        const newErrors: { [key: string]: string } = {};
-        error.issues.forEach((err: any) => {
-          newErrors[err.path[0]] = err.message;
-        });
-        setErrors(newErrors);
-      }
-
-      console.log(error);
-    }
-  };
+  
 
   // Handle order submission
     const handleOrderSubmit = (e: React.FormEvent) => {
@@ -199,9 +151,9 @@ function FormulaireAddOrder() {
         setOrderForm({ name: "", phone: "", location: "", whatsapp: "" });
       } catch (error) {
         if (error instanceof z.ZodError) {
-          const newErrors = {};
+          const newErrors: { [key: string]: string } = {};
           error.issues.forEach((err) => {
-            newErrors[err.path[0]] = err.message;
+            newErrors[err.path[0] as string] = err.message;
           });
           setErrors(newErrors);
         }
@@ -375,7 +327,7 @@ function FormulaireAddOrder() {
                         <div className="flex items-center gap-4">
                           <span className="text-3xl">{item.image}</span>
                           <div>
-                            <h3 className="font-semibold">{item.name}</h3>
+                            <h3 className="font-semibold">{item.nameProduct}</h3>
                             <p className="text-sm text-gray-600">
                               Quantité: {item.quantity}
                             </p>
@@ -384,7 +336,7 @@ function FormulaireAddOrder() {
                         <div className="text-right">
                           {item.hasPrice ? (
                             <p className="font-bold text-lg">
-                              {item.price * item.quantity} DH
+                              {(item.price as number) * item.quantity} DH
                             </p>
                           ) : (
                             <p className="text-sm text-orange-600 font-semibold">
@@ -513,7 +465,7 @@ function FormulaireAddOrder() {
   return null;
 }
 
-function ProductCard({ product, addToCart }) {
+function ProductCard({ product, addToCart }: { product: Product; addToCart: (product: Product, quantity: number) => void }) {
   const [quantity, setQuantity] = useState(1);
 
   const handleAdd = () => {

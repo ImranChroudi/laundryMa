@@ -4,6 +4,7 @@ import SectionBadgqe from "@/app/components/common/SectionBadge";
 import WhatsAppButton from "@/app/components/common/WhatsAppButton";
 import SectionWrapper from "@/app/components/common/SectionWrapper";
 import SectionMargin from "@/app/components/common/SectionMargin";
+import Image from "next/image";
 import SpanText from "@/app/components/common/SpanText";
 
 const AboutUsSection: React.FC = () => {
@@ -64,11 +65,13 @@ const AboutUsSection: React.FC = () => {
           <div className="w-full space-y-8">
             {/* Hero image */}
             <div className="rounded-3xl overflow-hidden shadow-xl" style={{ boxShadow: '0 20px 50px rgba(77,175,239,0.15)' }}>
-              <img
+              <Image
                 src="/images/laundry.avif"
                 alt="Équipe Laundry.ma en action"
                 className="w-full h-[260px] sm:h-[320px] md:h-[380px] object-cover"
                 loading="lazy"
+                width={800}
+                height={380}
               />
             </div>
 

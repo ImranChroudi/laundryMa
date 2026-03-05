@@ -1,30 +1,17 @@
 
 const getBaseURL = (): string => {
-
   if (typeof window !== "undefined") {
     return "";
   }
   return process.env.NEXT_PUBLIC_API_URL || "";
 };
 
-const getAuthToken = (): string | null => {
-  if (typeof window === "undefined") {
-    return null; 
-  }
-  return localStorage.getItem("tokenLaundryMa");
-};
-
-// Create headers with auth token
+// Create headers
 const createHeaders = (typeHeader?: string, skipContentType = false): Record<string, string> => {
   const headers: Record<string, string> = {};
 
   if (!skipContentType) {
     headers["Content-Type"] = typeHeader === "multipart" ? "multipart/form-data" : "application/json";
-  }
-
-  const token = getAuthToken();
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
   }
 
   return headers;
@@ -34,17 +21,6 @@ const createHeaders = (typeHeader?: string, skipContentType = false): Record<str
 const handleResponse = async <T>(response: Response): Promise<T> => {
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({ message: "Unknown error" }));
-    
-    // Handle 401 unauthorized
-    if (response.status === 401 && errorData.stop === true) {
-      console.log("Force logout", errorData.message);
-      if (typeof window !== "undefined") {
-        localStorage.removeItem("tokenLaundryMa");
-        localStorage.removeItem("userLaundryMa");
-        window.location.href = "/admin/login";
-      }
-    }
-    
     throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
   }
 

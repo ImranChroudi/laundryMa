@@ -35,7 +35,7 @@ export default function ConditionsGeneralesPage() {
                 Les présentes Conditions Générales de Service régissent l'ensemble des prestations fournies par Laundry.ma (Pressing, Blanchisserie, Nettoyage de tapis, Sneakers Spa).
               </p>
               <p className="text-gray-700 text-lg leading-relaxed font-semibold mt-2">
-                Toute remise d'article implique l'acceptation pleine, entière et sans réserve des présentes conditions.
+                Toute remise d&apos;article implique l&apos;acceptation pleine, entière et sans réserve des présentes conditions.
               </p>
             </div>
 
@@ -104,14 +104,14 @@ export default function ConditionsGeneralesPage() {
                   En cas de faute technique prouvée :
                 </p>
                 <ul className="list-disc list-inside text-gray-700 text-lg space-y-2 ml-4 mb-4">
-                  <li>L'indemnisation est limitée à un maximum de 5 fois le montant du service payé</li>
-                  <li>ou à un pourcentage de la valeur actuelle estimée de l'article.</li>
+                  <li>L&apos;indemnisation est limitée à un maximum de 5 fois le montant du service payé</li>
+                  <li>ou à un pourcentage de la valeur actuelle estimée de l&apos;article.</li>
                 </ul>
                 <p className="text-gray-700 text-lg leading-relaxed mb-3 font-semibold">
                   En cas de perte avérée :
                 </p>
                 <p className="text-gray-700 text-lg leading-relaxed">
-                  L'indemnisation ne pourra en aucun cas dépasser un plafond équivalent à dix (10) fois le montant du service de nettoyage payé pour l'article concerné.
+                  L&apos;indemnisation ne pourra en aucun cas dépasser un plafond équivalent à dix (10) fois le montant du service de nettoyage payé pour l&apos;article concerné.
                 </p>
               </div>
             </div>
@@ -127,7 +127,7 @@ export default function ConditionsGeneralesPage() {
                   1. Inspection
                 </h3>
                 <p className="text-gray-700 text-lg leading-relaxed">
-                  L'état du tapis est constaté lors de la réception (usure, fragilité, décoloration).
+                  L&apos;état du tapis est constaté lors de la réception (usure, fragilité, décoloration).
                 </p>
               </div>
 

@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
-import { query } from '@/lib/db';
 
 export async function POST(request: Request) {
   try {
@@ -24,37 +23,6 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-
-    // Save to database
-    try {
-      const insertSql = `
-        INSERT INTO professional_contacts (companyName, responsibleName, email, phone, address, activityType, services, frequency, message)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `;
-      await query(insertSql, [
-        companyName,
-        responsibleName || null,
-        email,
-        phone || null,
-        address || null,
-        activityType || null,
-        Array.isArray(services) ? services.join(', ') : (services || null),
-        frequency || null,
-        message || null
-      ]);
-    } catch (dbError) {
-      console.error('Error saving to database:', dbError);
-      // Continue with email sending even if database save fails
-    }
-
-    // Validate environment variables for email
-    // if (!"smtpjobboard@gmail.com" || !"xmeu iggo enlf vmf") {
-    //   console.error('SMTP credentials not configured');
-    //   return NextResponse.json(
-    //     { success: false, message: 'Configuration email manquante' },
-    //     { status: 500 }
-    //   );
-    // }
 
     // Configuration du transporteur email
     const transporter = nodemailer.createTransport({

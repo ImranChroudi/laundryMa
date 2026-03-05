@@ -11,18 +11,19 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import { set, z } from "zod";
-import LocationForm from "./Location";
-import { pickupSchema } from "@/validate";
-import { useCreatePickupMutation } from "@/hooks/use-order";
+import dynamic from "next/dynamic";
+const LocationForm = dynamic(() => import("./Location"), { ssr: false });
+import { pickupSchema } from "@/app/validate";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/context/AdminProvider";
-import SectionWrapper from "@/app/SectionWrapper";
-import SectionMargin from "@/app/SectionMargin";
+import { useRouter } from "next/navigation";
 
-const FormPickup = () => {
+interface FormPickupProps {
+  setCurrentPage?: (page: string) => void;
+}
+
+const FormPickup = ({ setCurrentPage }: FormPickupProps) => {
   const [currentStep, setCurrentStep] = useState(1);
-  const { user } = useAuth();
+  const [isPickupPending, setIsPickupPending] = useState(false);
 
 
 
@@ -41,8 +42,8 @@ const FormPickup = () => {
   });
 
   const [pickupForm, setPickupForm] = useState({
-    nameClient: user?.name || "",
-    phone: user?.phone || "",
+    nameClient: "",
+    phone: "",
     dateLivraisonPrevue: "",
     heureRamassage: "",
     heureLivraison: "",
@@ -74,28 +75,32 @@ const FormPickup = () => {
         address: positionRamassage.address,
       },
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setPositionLivraison , setPositionRamassage]);
 
-  const navigate = useNavigate()
+  const router = useRouter();
 
-  const { mutate: mutatePickup, isPending: isPickupPending } =
-    useCreatePickupMutation();
-  const handlePickupSubmit = (e: any) => {
+  const handlePickupSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     console.log(pickupForm);
     try {
       pickupSchema.parse(pickupForm);
       setErrors({});
+      setIsPickupPending(true);
 
-      mutatePickup(
-        {
+      const response = await fetch("/api/orders/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
           nameClient: pickupForm.nameClient,
           phone: pickupForm.phone,
           dateLivraisonPrevue: pickupForm.dateLivraisonPrevue,
           dateRamassage: pickupForm.dateRamassage,
           heureRamassage: pickupForm.heureRamassage,
           heureLivraison: pickupForm.heureLivraison,
+          addressRamassage: pickupForm.locationRamassage.address,
+          addressLivraison: pickupForm.locationLivraison.address,
           locationRamassage: {
             latitude: Number(pickupForm.locationRamassage.latitude),
             longitude: Number(pickupForm.locationRamassage.longitude),
@@ -106,36 +111,29 @@ const FormPickup = () => {
             longitude: Number(pickupForm.locationLivraison.longitude),
             address: pickupForm.locationLivraison.address,
           },
-        },
-        {
-          onSuccess: (data) => {
-            toast.success("Pickup ajouter avec success");
-          },
-          onError: (error: any) => {
-            toast.error(error.response?.data.message);
-          },
-        }
-      );
-      // setPickupForm({
-      //   nameClient: "",
-      //   phone: "",
-      //   locationRamassage: { latitude: 0, longitude: 0, address: "" },
-      //   locationLivraison: { latitude: 0, longitude: 0, address: "" },
-      //   dateLivraisonPrévue: "",
-      //   heureRamassage: "",
-      //   heureLivraison: "",
-      //   dateRamassage: ""
-      // });
+        }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || "Erreur lors de l'envoi");
+      }
+
+      toast.success("Demande de ramassage envoyée avec succès");
     } catch (error) {
       if (error instanceof z.ZodError) {
         const newErrors: { [key: string]: string } = {};
-        error.issues.forEach((err: any) => {
-          newErrors[err.path[0]] = err.message;
+        error.issues.forEach((err) => {
+          newErrors[err.path[0] as string] = err.message;
         });
         setErrors(newErrors);
+      } else if (error instanceof Error) {
+        toast.error(error.message);
       }
 
       console.log(error);
+    } finally {
+      setIsPickupPending(false);
     }
   };
 
@@ -157,7 +155,7 @@ const FormPickup = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleNextStep = (e : any) => {
+  const handleNextStep = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (validateStep1()) {
@@ -176,7 +174,7 @@ const FormPickup = () => {
     <div className="w-full">
       <div>
         <button
-          onClick={() => navigate("/")}
+          onClick={() => setCurrentPage ? setCurrentPage("home") : router.push("/")}
           className="mb-8  text-primary hover:text-primary/70 font-semibold"
         >
           ← Retour

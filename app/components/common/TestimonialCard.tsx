@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 import SectionBadge from '@/app/components/common/SectionBadge';
+import Image from 'next/image';
 
 interface Testimonial {
   id: number;
@@ -105,7 +106,7 @@ const Testimonials  = () => {
                       <p className="text-gray-700 text-sm leading-relaxed mb-6">"{testimonial.text}"</p>
                     </div>
                     <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
-                      <img
+                      <Image
                         src={testimonial.image}
                         alt={testimonial.name}
                         className="w-10 h-10 rounded-full bg-gray-100"

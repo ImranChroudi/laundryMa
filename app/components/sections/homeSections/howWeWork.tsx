@@ -7,6 +7,7 @@ import {
     Truck,
   } from "lucide-react";
 import CTAButton from "@/app/components/common/CTAButton";
+import Image from "next/image";
 import SectionBadge from "@/app/components/common/SectionBadge";
 import WhatsAppButton from "@/app/components/common/WhatsAppButton";
 import SpanText from "@/app/components/common/SpanText";
@@ -106,20 +107,13 @@ const HowWeWork: React.FC = () => {
       <div className="w-full lg:w-1/2 mt-12 lg:mt-0 space-y-12 lg:space-y-16 px-2">
         <div className="rounded-2xl overflow-hidden shadow-lg">
           {/* Image optimisée avec srcset pour mobile */}
-          <img
-            src="/images/img1.avif" // Remplacez par votre image compressée
-            srcSet="
-              images/img1.avif ,
-              images/img1.avif ,
-              images/img1.avif
-            "
-            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 1920px"
+          <Image
+            src="/images/img1.avif"
             alt="Service Laundry.ma"
             className="w-full h-55 sm:h-75 md:h-95 lg:h-105 object-cover"
             loading="lazy"
-            decoding="async"
-            // Précharger si c'est critique (optionnel)
-            // fetchPriority="high"
+            width={1920}
+            height={420}
           />
         </div>
 

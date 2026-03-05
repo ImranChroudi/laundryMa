@@ -1,5 +1,6 @@
 'use client'
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import {
   Menu,
@@ -143,7 +144,7 @@ export default function HeaderAr({ showNavLinksDark }: { showNavLinksDark: boole
         <div className="lg:flex lg:relative absolute lg:right-0 right-1/2 transform lg:translate-x-0 translate-x-1/2">
           <Link href="/ar" className="-m-1.5 p-1.5">
             <span className="sr-only">Laundry.ma</span>
-            <img src={logo} alt="Logo" className="h-8 w-auto" />
+            <Image src={logo} alt="Logo" className="h-8 w-auto" width={32} height={32} />
           </Link>
         </div>
 
@@ -194,7 +195,7 @@ export default function HeaderAr({ showNavLinksDark }: { showNavLinksDark: boole
       >
         <div className="flex items-center justify-between">
           <Link href="/ar" className="-m-1.5 p-1.5">
-            <img src={logo} alt="Logo" className="h-8 w-auto" />
+            <Image src={logo} alt="Logo" className="h-8 w-auto" width={32} height={32} />
           </Link>
           <button
             onClick={() => setIsMobileMenuOpen(false)}

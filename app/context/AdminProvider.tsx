@@ -1,4 +1,4 @@
-// context/UserContext.tsx
+// context/AdminProvider.tsx
 "use client"
 
 import React, {
@@ -12,13 +12,7 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 type adminContextType = {
-  login: (data: any) => void;
-  logout: (type: string) => Promise<void>;
-  isAuthenticated: boolean;
-  user: any;
-  token: string;
-  isLoading: boolean;
-  navigate: any;
+  navigate: ReturnType<typeof useRouter>;
   addToCart: (
     product: { id: number | string; name: string; price: number; image: string },
     quantity?: number
@@ -26,7 +20,7 @@ type adminContextType = {
   updateQuantity: (id: number | string, quantity: number) => void;
   removeFromCart: (id: number | string) => void;
   clearCart: () => void;
-  cartCount : number;
+  cartCount: number;
   createOrder: (
     customerName: string,
     customerPhone: string,
@@ -73,15 +67,10 @@ interface Order {
   deliveryDate: string;
   createdAt: Date;
 }
-// إنشاء الـ Context
+
 const AdminContext = createContext<adminContextType | undefined>(undefined);
 
-// إنشاء Provider
 export const AdminProvider = ({ children }: { children: ReactNode }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState<Page>("products");
   const [cart, setCart] = useState<CartItem[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
@@ -93,22 +82,7 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useRouter();
 
   useEffect(() => {
-    setIsLoading(true);
-    const token = localStorage.getItem("tokenLaundryMa");
-    const user = JSON.parse(localStorage.getItem("userLaundryMa") || "{}");
     const savedCart = localStorage.getItem("cartLaundryMa");
-    
-    if (token && user) {
-      setIsAuthenticated(true);
-      setToken(token);
-      setUser(user);
-    } else {
-      setIsAuthenticated(false);
-      setToken("");
-      setUser(null);
-      
-    }
-    
     if (savedCart) {
       try {
         const parsedCart = JSON.parse(savedCart);
@@ -118,35 +92,7 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
         setCart([]);
       }
     }
-    
-    setIsLoading(false);
   }, []);
-
-  const login = async (data: any) => {
-    localStorage.setItem("tokenLaundryMa", data.token);
-    localStorage.setItem("userLaundryMa", JSON.stringify(data.user));
-    setIsAuthenticated(true);
-    setToken(data.token);
-    setUser(data.user);
-    console.log("data login", data);
-
-    toast.success("vous etes connecte!");
-
-  };
-
-  const logout = async (type: string) => {
-    localStorage.removeItem("tokenLaundryMa");
-    localStorage.removeItem("userLaundryMa");
-    setUser(null);
-    setIsAuthenticated(false);
-    setToken("");
-    toast.success("deconnecter avec success");
-    if (type === "user") {
-      navigate.push("/");
-      return;
-    }
-    navigate.push("/admin");
-  };
 
   // Handle Add to carte
   const addToCart = (
@@ -242,12 +188,6 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const value = {
-    login,
-    logout,
-    isAuthenticated,
-    user,
-    token,
-    isLoading,
     navigate,
     addToCart,
     updateQuantity,

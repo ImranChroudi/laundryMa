@@ -7,11 +7,16 @@ import {
   ArrowRight,
   ArrowLeft,
 } from "lucide-react";
+import dynamic from "next/dynamic";
+const LocationForm = dynamic(() => import("@/app/components/common/Location"), { ssr: false });
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 
 const FormulaireRamassage = () => {
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   
   const [positionRamassage, setPositionRamassage] = useState({
     latitude: 33.589886,
@@ -48,7 +53,7 @@ const FormulaireRamassage = () => {
 
   // Validate Step 1
   const validateStep1 = () => {
-    const newErrors = {};
+    const newErrors: { [key: string]: string } = {};
     
     if (!pickupForm.nameClient.trim()) {
       newErrors.nameClient = "Le nom est requis";
@@ -66,7 +71,7 @@ const FormulaireRamassage = () => {
 
   // Validate Step 2
   const validateStep2 = () => {
-    const newErrors = {};
+    const newErrors: { [key: string]: string } = {};
     
     if (!pickupForm.locationRamassage.address.trim()) {
       newErrors.locationRamassage = "L'adresse de ramassage est requise";
@@ -96,7 +101,7 @@ const FormulaireRamassage = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleNextStep = (e : any) => {
+  const handleNextStep = (e: React.FormEvent) => {
     e.preventDefault();
     
     if (validateStep1()) {
@@ -111,7 +116,7 @@ const FormulaireRamassage = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handlePickupSubmit = (e: any) => {
+  const handlePickupSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!validateStep2()) {
@@ -120,20 +125,45 @@ const FormulaireRamassage = () => {
 
     setIsPickupPending(true);
     
-    // Simulate API call - replace with your actual mutation
-    setTimeout(() => {
-      console.log("Form submitted:", pickupForm);
-      alert("Pickup créé avec succès!");
+    try {
+      const response = await fetch("/api/orders/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nameClient: pickupForm.nameClient,
+          phone: pickupForm.phone,
+          dateLivraisonPrevue: pickupForm.dateLivraisonPrevue,
+          dateRamassage: pickupForm.dateRamassage,
+          heureRamassage: pickupForm.heureRamassage,
+          heureLivraison: pickupForm.heureLivraison,
+          addressRamassage: pickupForm.locationRamassage.address,
+          addressLivraison: pickupForm.locationLivraison.address,
+          locationRamassage: pickupForm.locationRamassage,
+          locationLivraison: pickupForm.locationLivraison,
+        }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || "Erreur lors de l'envoi");
+      }
+
+      toast.success("Demande de ramassage envoyée avec succès");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+      console.error(error);
+    } finally {
       setIsPickupPending(false);
-      // Reset form or redirect
-    }, 1500);
+    }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4">
       <div className="max-w-2xl mx-auto">
         <button
-          onClick={() => router.push("/")}
+          onClick={() => router.back()}
           className="mb-6 text-indigo-600 hover:text-indigo-800 font-semibold"
         >
           ← Retour
@@ -322,7 +352,7 @@ const FormulaireRamassage = () => {
                           ...prev.locationLivraison,
                           address: e.target.value,
                         },
-                      })
+                      }))
                     }
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     placeholder="Votre adresse complète"

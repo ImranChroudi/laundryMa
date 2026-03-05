@@ -43,8 +43,7 @@ export default function Header({ showNavLinksDark }: { showNavLinksDark: boolean
   // Determine current language from pathname
   const currentLang = pathname.startsWith("/ar") ? "ar" : "fr";
   
-  // Simple state management - you can replace with your auth context later
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // Simple state management
   const { cartCount } = useAuth();
   const currentPage = pathname.split("/").pop() || "home";
 
@@ -60,11 +59,6 @@ export default function Header({ showNavLinksDark }: { showNavLinksDark: boolean
       const frPath = pathname.replace("/ar", "") || "/";
       router.push(frPath);
     }
-  };
-
-  const logout = () => {
-    setIsAuthenticated(false);
-    router.push("/");
   };
 
   useEffect(() => {
