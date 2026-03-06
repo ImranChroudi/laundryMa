@@ -39,7 +39,7 @@ const AboutUsSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start max-w-7xl mx-auto">
 
           {/* LEFT — sticky pitch */}
-          <div className="w-full lg:sticky lg:top-28 self-start space-y-6">
+          <div className="w-full lg:sticky text-center lg:top-28 self-start space-y-6">
             <div className="flex">
               <SectionBadgqe text="À propos" />
             </div>
@@ -62,7 +62,7 @@ const AboutUsSection: React.FC = () => {
           {/* RIGHT — scrollable content */}
           <div className="w-full space-y-8">
             {/* Hero image */}
-            <div className="rounded-3xl overflow-hidden shadow-xl" style={{ boxShadow: '0 20px 50px rgba(77,175,239,0.15)' }}>
+            <div className="rounded-sm overflow-hidden shadow-xl" style={{ boxShadow: '0 20px 50px rgba(77,175,239,0.15)' }}>
               <Image
                 src="/images/laundry.avif"
                 alt="Équipe Laundry.ma en action"
@@ -78,13 +78,13 @@ const AboutUsSection: React.FC = () => {
               {values.map((v, index) => (
                 <div
                   key={index}
-                  className="flex items-start gap-4 bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-primary/20 transition-all duration-200"
+                  className="flex sm:flex-row flex-col items-start gap-4 bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-primary/20 transition-all duration-200"
                 >
                   <div className="shrink-0 w-11 h-11 rounded-xl bg-primary flex items-center justify-center shadow-sm" style={{ boxShadow: '0 4px 12px rgba(77,175,239,0.3)' }}>
                     {v.icon}
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-tertiary mb-1">{v.title}</h3>
+                    <h3 className="sm:text-base text-2xl mr-2 font-bold text-tertiary mb-1">{v.title}</h3>
                     <p className="text-sm text-gray-500 leading-relaxed">{v.text}</p>
                   </div>
                 </div>

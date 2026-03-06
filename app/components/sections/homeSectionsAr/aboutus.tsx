@@ -61,7 +61,7 @@ const AboutUsSection: React.FC = () => {
 
           {/* RIGHT SCROLLABLE SECTION */}
           <div className=" w-full mt-12 lg:mt-0 space-y-12 md:space-y-16 lg:h-[150vh] overflow-y-auto no-scrollbar px-2">
-            <div className="rounded-2xl overflow-hidden shadow-lg">
+            <div className="rounded-sm overflow-hidden shadow-lg">
               <Image
                 src="/images/laundry.avif"
                 alt="Équipe Laundry.ma en action"

@@ -62,7 +62,7 @@ const OurComitements = () => {
               {infoItems.map((item, index) => (
                 <div
                   key={index}
-                  className="group relative flex items-center gap-4 p-5 rounded-2xl bg-white/80 backdrop-blur-sm border border-white shadow-sm transition-all duration-300 hover:bg-white hover:border-primary/20 hover:shadow-lg hover:shadow-primary/8 hover:-translate-y-0.5 cursor-default overflow-hidden"
+                  className="group relative w-full flex items-center gap-4 p-5 rounded-2xl bg-white/80 backdrop-blur-sm border border-white shadow-sm transition-all duration-300 hover:bg-white hover:border-primary/20 hover:shadow-lg hover:shadow-primary/8 hover:-translate-y-0.5 cursor-default overflow-hidden"
                 >
                   {/* Subtle gradient accent on hover */}
                   <div className="absolute inset-0 bg-linear-to-br from-primary/3 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

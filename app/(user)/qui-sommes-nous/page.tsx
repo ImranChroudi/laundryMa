@@ -186,7 +186,7 @@ export default function QuiSommesNousPage() {
 
             {/* Image */}
             <div className="relative">
-              <div className="rounded-3xl overflow-hidden shadow-2xl">
+              <div className="rounded-sm overflow-hidden shadow-2xl">
                 <Image
                   src="/images/laundry.avif"
                   alt="Équipe Laundry.ma en action"
