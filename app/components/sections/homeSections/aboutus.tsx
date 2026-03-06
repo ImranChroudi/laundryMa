@@ -6,6 +6,7 @@ import SectionWrapper from "@/app/components/common/SectionWrapper";
 import SectionMargin from "@/app/components/common/SectionMargin";
 import Image from "next/image";
 import SpanText from "@/app/components/common/SpanText";
+import SectionTitle from "@/app/components/common/SectionTitle";
 
 const AboutUsSection: React.FC = () => {
   // Parallax image movement
@@ -43,11 +44,11 @@ const AboutUsSection: React.FC = () => {
             <div className="flex">
               <SectionBadgqe text="À propos" />
             </div>
-            <h2 className="text-4xl sm:text-5xl font-extrabold text-tertiary leading-tight">
+            <SectionTitle>
               Qui{" "}
               <SpanText text="sommes-nous" className="" />
               &nbsp;?
-            </h2>
+            </SectionTitle>
             <p className="text-gray-500 text-lg leading-relaxed max-w-md">
               Laundry.ma — votre partenaire de confiance pour un linge impeccable,
               collecté et livré avec soin, directement chez vous.

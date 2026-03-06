@@ -10,6 +10,7 @@ import {
   Clock,
 } from 'lucide-react';
 import SectionWrapper from '@/app/components/common/SectionWrapper';
+import SectionTitle from '@/app/components/common/SectionTitle';
 import SectionMargin from '@/app/components/common/SectionMargin';
 import SectionBadge from '@/app/components/common/SectionBadge';
 
@@ -80,10 +81,10 @@ const ValuesSection = () => {
             <div className="mb-5 flex justify-center">
               <SectionBadge text="Nos" highlightText="Valeurs" />
             </div>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-tertiary mb-4">
+            <SectionTitle>
               Ce qui nous{' '}
               <span className="text-primary">anime</span>
-            </h2>
+            </SectionTitle>
             <p className="text-gray-500 text-lg max-w-2xl mx-auto">
               Six piliers fondamentaux qui guident chaque action et chaque décision chez Laundry.ma.
             </p>

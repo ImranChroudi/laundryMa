@@ -7,6 +7,7 @@ import SectionWrapper from '@/app/components/common/SectionWrapper';
 import SectionMargin from '@/app/components/common/SectionMargin';
 import SectionBadge from '@/app/components/common/SectionBadge';
 import SpanText from '@/app/components/common/SpanText';
+import SectionTitle from '@/app/components/common/SectionTitle';
 
 interface Feature {
   icon: React.ReactNode;
@@ -63,7 +64,7 @@ const WhyChooseUs = () => {
                 highlightText={isArabic ? "تختارنا" : "nous choisir"} 
               />
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-tertiary mb-4">
+            <SectionTitle center>
               {isArabic ? (
                 <>
                   حلول احترافية <span className="text-primary">مخصصة</span>
@@ -73,7 +74,7 @@ const WhyChooseUs = () => {
                   Des Solutions Professionnelles <SpanText text="Adaptées" className="" />
                 </>
               )}
-            </h2>
+            </SectionTitle>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               {isArabic
                 ? 'نقدم خدمات تنظيف عالية الجودة مصممة خصيصاً لاحتياجاتك'

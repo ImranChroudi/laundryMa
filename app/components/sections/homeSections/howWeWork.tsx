@@ -11,6 +11,7 @@ import Image from "next/image";
 import SectionBadge from "@/app/components/common/SectionBadge";
 import WhatsAppButton from "@/app/components/common/WhatsAppButton";
 import SpanText from "@/app/components/common/SpanText";
+import SectionTitle from "@/app/components/common/SectionTitle";
 import SectionWrapper from "@/app/components/common/SectionWrapper";
 import SectionMargin from "@/app/components/common/SectionMargin";
 import { usePathname } from "next/navigation";
@@ -77,7 +78,7 @@ const HowWeWork: React.FC = () => {
             <SectionBadge text={isArabic ? "العملية" : "Processus"} />
         </div>
         <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-tertiary leading-tight">
+          <SectionTitle as="h1">
             {isArabic ? (
               <>
                 كيف <br/><span className="text-primary font-extrabold">يعمل؟</span>
@@ -87,7 +88,7 @@ const HowWeWork: React.FC = () => {
                 Comment <br/><SpanText text="ça marche ?" className="font-extrabold" />
               </>
             )}
-          </h1>
+          </SectionTitle>
         </div>
 
         <p className="text-gray-600 text-base sm:text-lg md:max-w-md">

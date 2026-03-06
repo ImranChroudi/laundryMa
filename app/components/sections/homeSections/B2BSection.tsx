@@ -4,6 +4,7 @@ import SectionWrapper from '@/app/components/common/SectionWrapper';
 import SectionMargin from '@/app/components/common/SectionMargin';
 import SectionBadge from '@/app/components/common/SectionBadge';
 import SpanText from '@/app/components/common/SpanText';
+import SectionTitle from '@/app/components/common/SectionTitle';
 import { Phone } from 'lucide-react';
 
 interface FormData {
@@ -105,10 +106,10 @@ export default function B2BSection() {
             <div className="mb-6 flex justify-center">
               <SectionBadge text="Espace" highlightText="Professionnels" />
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-tertiary mb-4">
+            <SectionTitle>
               Solutions sur mesure pour{' '}
               <SpanText text="votre entreprise" className="" />
-            </h2>
+            </SectionTitle>
             <p className="text-lg text-gray-700 max-w-3xl mx-auto mb-6">
               Vous êtes un hôtel, restaurant, bureau, salon de beauté ou autre entreprise ? 
               Laundry.ma vous propose des solutions sur mesure pour l'entretien de votre linge professionnel.

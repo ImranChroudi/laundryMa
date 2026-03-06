@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Building2, ArrowRight, Briefcase, Sparkles, ShieldCheck } from "lucide-react";
 import SpanText from "@/app/components/common/SpanText";
+import SectionTitle from "@/app/components/common/SectionTitle";
 
 const perks = [
   { icon: <Briefcase className="w-5 h-5" />, text: "Tarifs préférentiels" },
@@ -24,10 +25,10 @@ export default function B2BCTA() {
                   <span className="text-sm font-medium text-blue-100">Espace Professionnels</span>
                 </div>
 
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight mb-4">
+                <SectionTitle className="text-white">
                   Solutions sur mesure pour{" "}
                   <SpanText text="votre entreprise" className="" />
-                </h2>
+                </SectionTitle>
 
                 <p className="text-blue-100/80 text-base sm:text-lg leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0">
                   Hôtels, restaurants, bureaux, salons de beauté — Laundry.ma vous accompagne avec des solutions professionnelles adaptées à vos besoins.

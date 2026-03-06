@@ -5,6 +5,7 @@ import SectionWrapper from '@/app/components/common/SectionWrapper';
 import SectionMargin from '@/app/components/common/SectionMargin';
 import SectionBadge from '@/app/components/common/SectionBadge';
 import SpanText from '@/app/components/common/SpanText';
+import SectionTitle from '@/app/components/common/SectionTitle';
 
 interface Testimonial {
   id: number;
@@ -184,9 +185,9 @@ const TestimonialsSection = ({ theme = 'fr' }: TestimonialsSectionProps) => {
             <div className="mb-6 flex justify-center">
               <SectionBadge text={texts.badgeText} highlightText={texts.badgeHighlight} />
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-tertiary mb-4">
+            <SectionTitle>
               {texts.title} <SpanText text={texts.titleHighlight} className="" /> {texts.titleEnd}
-            </h2>
+            </SectionTitle>
             <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto mb-8">
               {texts.subtitle}
             </p>

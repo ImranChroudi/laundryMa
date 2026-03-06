@@ -1,6 +1,7 @@
 import Image from "next/image";
 import SectionBadge from "../../common/SectionBadge";
 import SpanText from "../../common/SpanText";
+import SectionTitle from "../../common/SectionTitle";
 
 
 const AboutMission =() => {
@@ -23,9 +24,9 @@ const AboutMission =() => {
             <div className="mb-6 flex ">
               <SectionBadge text="À propos" />
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-tertiary mb-4">
+            <SectionTitle>
               Notre <SpanText text="objectif" className="" />
-            </h2>
+            </SectionTitle>
             <p className="text-base leading-relaxed">
                 Notre objectif principal est de satisfaire les clients locaux  en travaillant dans tout le Maroc. Nous visons à garantir la satisfaction de nos clients à chaque étape, de la collecte à la livraison, en maintenant la qualité, la fiabilité et la confiance dans tous nos services, tout en étendant notre présence à travers toutes les régions du Maroc.
             </p>

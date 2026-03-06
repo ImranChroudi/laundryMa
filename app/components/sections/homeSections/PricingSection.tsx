@@ -10,6 +10,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { categories, tarifsData, type CategoryKey } from "@/app/data/tarifs";
+import SectionTitle from "@/app/components/common/SectionTitle";
 
 const PricingSection = () => {
   const pathname = usePathname();
@@ -110,7 +111,7 @@ const PricingSection = () => {
                   highlightText={isArabic ? "الشفافة" : "transparents"}
                 />
               </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-tertiary mb-4">
+              <SectionTitle>
                 {isArabic ? (
                   <>
                     أسعار{" "}
@@ -128,7 +129,7 @@ const PricingSection = () => {
                     et Justes
                   </>
                 )}
-              </h2>
+              </SectionTitle>
             </div>
 
             {/* Category Tabs */}

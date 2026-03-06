@@ -4,6 +4,7 @@ import HeroSection from '@/app/components/common/HeroSection';
 import SectionWrapper from '@/app/components/common/SectionWrapper';
 import SectionMargin from '@/app/components/common/SectionMargin';
 import SectionBadge from '@/app/components/common/SectionBadge';
+import SectionTitle from '@/app/components/common/SectionTitle';
 import {
   Building2,
   User,
@@ -214,10 +215,10 @@ const ProfessionalContact = () => {
               <div className="mb-6 flex justify-center">
                 <SectionBadge text="Espace" highlightText="Professionnels" />
               </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-tertiary mb-4">
+              <SectionTitle>
                 Solutions sur mesure pour{' '}
                 <span className="text-primary">votre entreprise</span>
-              </h2>
+              </SectionTitle>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
                 H&ocirc;tel, restaurant, bureau ou salon de beaut&eacute; &mdash; obtenez un devis personnalis&eacute; en quelques &eacute;tapes.
               </p>

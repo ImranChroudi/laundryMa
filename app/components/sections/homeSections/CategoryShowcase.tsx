@@ -10,6 +10,7 @@ import ServiceCategorySlider from "@/app/components/common/ServiceCategorySlider
 import { categories, tarifsData } from "@/app/data/tarifs";
 import { ArrowRight, Sparkles } from "lucide-react";
 import SpanText from "@/app/components/common/SpanText";
+import SectionTitle from "@/app/components/common/SectionTitle";
 
 const CategoryShowcase = () => {
   const pathname = usePathname();
@@ -37,7 +38,7 @@ const CategoryShowcase = () => {
                 highlightText={isArabic ? "المتميزة" : "Premium"}
               />
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-tertiary mb-5 leading-tight">
+            <SectionTitle className="mb-5">
               {isArabic ? (
                 <>
                   اكتشف{" "}
@@ -51,7 +52,7 @@ const CategoryShowcase = () => {
                   <SpanText text="Univers" className="" />
                 </>
               )}
-            </h2>
+            </SectionTitle>
             <p className="text-gray-500 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
               {isArabic
                 ? "جميع فئاتنا المتخصصة لتلبية احتياجاتكم في التنظيف والعناية"

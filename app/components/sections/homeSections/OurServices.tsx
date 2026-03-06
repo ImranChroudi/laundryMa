@@ -4,6 +4,7 @@ import React from 'react';
 import { Sparkles, Shirt, Zap, ShirtIcon, ShirtIcon as Iron, Home } from 'lucide-react';
 import SectionBadge from '@/app/components/common/SectionBadge';
 import SpanText from '@/app/components/common/SpanText';
+import SectionTitle from '@/app/components/common/SectionTitle';
 import { usePathname } from 'next/navigation';
 
 interface Service {
@@ -125,7 +126,7 @@ export default function ServicesCards() {
           <div className="mb-6 flex justify-center">
             <SectionBadge text={isArabic ? "الغسيل" : "Blanchisserie"} highlightText={isArabic ? "طنجة" : "Tanger"} />
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-tertiary mb-4">
+          <SectionTitle>
             {isArabic ? (
               <>
                 <span className="text-primary">خدماتنا</span>
@@ -135,7 +136,7 @@ export default function ServicesCards() {
                 Nos <SpanText text="services" className="" />
               </>
             )}
-          </h2>
+          </SectionTitle>
           <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
             {isArabic 
               ? "حلول شاملة للتنظيف والصيانة المهنية"

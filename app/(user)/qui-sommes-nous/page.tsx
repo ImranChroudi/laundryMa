@@ -24,6 +24,7 @@ import SectionMargin from "@/app/components/common/SectionMargin";
 import SectionBadge from "@/app/components/common/SectionBadge";
 import CTAButton from "@/app/components/common/CTAButton";
 import WhatsAppButton from "@/app/components/common/WhatsAppButton";
+import SectionTitle from "@/app/components/common/SectionTitle";
 
 /* ───────── Animated counter hook ───────── */
 function useCountUp(target: number, duration = 2000) {
@@ -159,13 +160,13 @@ export default function QuiSommesNousPage() {
               <div className="flex justify-center lg:justify-start">
                 <SectionBadge text="À propos" />
               </div>
-              <h2 className="text-4xl sm:text-5xl font-extrabold text-tertiary leading-tight">
+              <SectionTitle>
                 Votre partenaire{" "}
                 <span className="relative inline-block text-primary">
                   de confiance
                   <span className="absolute -bottom-1 left-0 right-0 h-1 rounded-full bg-primary/30" />
                 </span>
-              </h2>
+              </SectionTitle>
               <p className="text-gray-600 text-lg leading-relaxed">
                 <strong>Laundry.ma</strong> est né d&apos;une conviction simple : prendre
                 soin de votre linge ne devrait jamais être une corvée. Depuis notre
@@ -220,10 +221,10 @@ export default function QuiSommesNousPage() {
         <SectionMargin>
           <div className="text-center max-w-2xl mx-auto mb-16">
             <SectionBadge text="Nos Valeurs" />
-            <h2 className="text-4xl sm:text-5xl font-extrabold text-tertiary mt-5 leading-tight">
+            <SectionTitle className="mt-5">
               Ce qui nous{" "}
               <span className="text-primary">anime</span>
-            </h2>
+            </SectionTitle>
             <p className="text-gray-500 text-lg mt-4">
               Six piliers fondamentaux qui guident chaque action et chaque décision chez Laundry.ma.
             </p>
@@ -258,10 +259,10 @@ export default function QuiSommesNousPage() {
         <SectionWrapper>
           <SectionMargin>
             <div className="relative z-10 text-center max-w-3xl mx-auto space-y-8">
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-tertiary leading-tight">
+              <SectionTitle>
                 Prêt à nous faire{" "}
                 <span className="text-primary">confiance</span> ?
-              </h2>
+              </SectionTitle>
               <p className="text-gray-500 text-lg md:text-xl leading-relaxed max-w-xl mx-auto">
                 Commandez votre première collecte et découvrez le service pressing le plus pratique du Maroc.
                 Livraison gratuite, qualité garantie.

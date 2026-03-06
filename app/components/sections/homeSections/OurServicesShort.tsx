@@ -8,6 +8,7 @@ import SectionWrapper from '@/app/components/common/SectionWrapper';
 import SectionMargin from '@/app/components/common/SectionMargin';
 import SectionBadge from '@/app/components/common/SectionBadge';
 import SpanText from '@/app/components/common/SpanText';
+import SectionTitle from '@/app/components/common/SectionTitle';
 
 interface Service {
   id: number;
@@ -105,13 +106,13 @@ const OurServicesShort = () => {
                 highlightText={isArabic ? "الرئيسية" : "principaux"}
               />
             </div>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-tertiary mb-3">
+            <SectionTitle>
               {isArabic ? (
                 <>خدماتنا <span className="text-primary">المهنية</span></>
               ) : (
                 <>Nos Services <SpanText text="Professionnels" className="" /></>
               )}
-            </h2>
+            </SectionTitle>
             <p className="text-gray-500 text-lg max-w-xl mx-auto">
               {isArabic
                 ? 'اختر الخدمة المناسبة لك واستمتع بتجربة لا تشوبها شائبة'

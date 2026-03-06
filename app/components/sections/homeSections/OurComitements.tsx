@@ -10,6 +10,7 @@ import SectionBadge from "@/app/components/common/SectionBadge";
 import SectionWrapper from "@/app/components/common/SectionWrapper";
 import SectionMargin from "@/app/components/common/SectionMargin";
 import SpanText from "@/app/components/common/SpanText";
+import SectionTitle from "@/app/components/common/SectionTitle";
 
 interface InfoItem {
   icon: React.ReactNode;
@@ -47,11 +48,11 @@ const OurComitements = () => {
               <div className="mb-5">
                 <SectionBadge text="Nos" highlightText="Engagements" />
               </div>
-              <h2 className="text-4xl md:text-5xl font-extrabold text-tertiary leading-tight mb-4">
+              <SectionTitle>
                 Votre linge,{" "}
                 <SpanText text="notre" className="" />
                 <br />priorité.
-              </h2>
+              </SectionTitle>
               <p className="text-gray-500 text-base leading-relaxed">
                 Des engagements concrets pour un service à la hauteur de vos attentes — chaque commande, chaque jour.
               </p>
