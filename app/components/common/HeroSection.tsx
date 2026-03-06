@@ -28,7 +28,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       <div className="absolute inset-0 z-10 bg-black/20" />
       {/* Desktop Background */}
       <div
-        className="hidden md:block absolute inset-0 w-full h-full"
+        className="hidden md:block  absolute inset-0 w-full h-full"
         style={{
           backgroundImage: backgroundImage && `url(${backgroundImage})`,
           backgroundSize: 'cover',
@@ -42,7 +42,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         style={{
           backgroundImage: `url(${mobileBackgroundImage})`,
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundPosition: ' -364px top',
           backgroundRepeat: 'no-repeat',
         }}
       />

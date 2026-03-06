@@ -11,11 +11,22 @@ const Hero = () => {
       <SectionMargin>
       {/* Background image */}
       <div
-        className="absolute inset-0 w-full h-full"
+        className="sm:block hidden absolute inset-0 w-full h-full"
         style={{
           backgroundImage: "url(/images/laundry-tanger.avif)",
           backgroundSize: "cover",
           backgroundPosition: "center top",
+          backgroundRepeat: "no-repeat",
+          zIndex: 0,
+        }}
+      />
+
+      <div
+        className="absolute sm:hidden inset-0 w-full h-full"
+        style={{
+          backgroundImage: "url(/images/laundry-tanger.avif)",
+          backgroundSize: "cover",
+          backgroundPosition: "-365px top",
           backgroundRepeat: "no-repeat",
           zIndex: 0,
         }}
