@@ -155,8 +155,10 @@ export default function QuiSommesNousPage() {
         <SectionMargin>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             {/* Text */}
-            <div className="space-y-6">
-              <SectionBadge text="À propos" />
+            <div className="space-y-6 text-center lg:text-left">
+              <div className="flex justify-center lg:justify-start">
+                <SectionBadge text="À propos" />
+              </div>
               <h2 className="text-4xl sm:text-5xl font-extrabold text-tertiary leading-tight">
                 Votre partenaire{" "}
                 <span className="relative inline-block text-primary">
@@ -165,18 +167,18 @@ export default function QuiSommesNousPage() {
                 </span>
               </h2>
               <p className="text-gray-600 text-lg leading-relaxed">
-                <strong>Laundry.ma</strong> est né d'une conviction simple : prendre
+                <strong>Laundry.ma</strong> est né d&apos;une conviction simple : prendre
                 soin de votre linge ne devrait jamais être une corvée. Depuis notre
                 création à Tanger, nous avons bâti un service de pressing et de
                 blanchisserie moderne, fiable et respectueux de vos textiles.
               </p>
               <p className="text-gray-500 text-base leading-relaxed">
-                Notre équipe de professionnels passionnés s'engage chaque jour à
+                Notre équipe de professionnels passionnés s&apos;engage chaque jour à
                 vous offrir un service impeccable — du ramassage à votre porte
-                jusqu'à la livraison de vos vêtements parfaitement nettoyés,
+                jusqu&apos;à la livraison de vos vêtements parfaitement nettoyés,
                 repassés et emballés.
               </p>
-              <div className="flex flex-wrap gap-3 pt-3">
+              <div className="hidden lg:flex flex-wrap gap-3 pt-3">
                 <CTAButton />
                 <WhatsAppButton />
               </div>
@@ -203,6 +205,11 @@ export default function QuiSommesNousPage() {
                   <p className="text-xs text-gray-500">Avis clients</p>
                 </div>
               </div>
+            </div>
+            {/* CTA buttons — last on mobile */}
+            <div className="flex flex-wrap gap-3 pt-4 justify-center lg:hidden col-span-full">
+              <CTAButton />
+              <WhatsAppButton />
             </div>
           </div>
         </SectionMargin>

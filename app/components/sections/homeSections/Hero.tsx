@@ -86,14 +86,8 @@ const Hero = () => {
             <span className="text-tertiary font-bold">3 clics</span>.
           </p>
 
-          {/* CTA group */}
-          <div className="flex flex-col sm:items-start items-center sm:flex-row gap-3 mb-10">
-            <CTAButton />
-            <WhatsAppButton />
-          </div>
-
           {/* Mini trust stats */}
-          <div className="flex flex-wrap gap-4 text-sm text-tertiary/70">
+          <div className="flex flex-wrap sm:justify-start justify-center gap-4 text-sm text-tertiary/70">
             <span className="flex items-center gap-1.5">
               <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
               <strong className="text-tertiary">5/5</strong> sur Google
@@ -110,6 +104,12 @@ const Hero = () => {
               <Clock className="w-4 h-4 text-primary" />
               Express 24h
             </span>
+          </div>
+
+          {/* CTA group — last on mobile */}
+          <div className="flex flex-col sm:items-start items-center sm:flex-row gap-3 mt-8 sm:mt-0 sm:order-none order-last">
+            <CTAButton />
+            <WhatsAppButton />
           </div>
         </div>
 

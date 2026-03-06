@@ -97,7 +97,7 @@ const HowWeWork: React.FC = () => {
           }
         </p>
 
-        <div className="flex flex-wrap gap-3">
+        <div className="hidden lg:flex flex-wrap gap-3">
           <CTAButton />
           <WhatsAppButton />
         </div>
@@ -144,6 +144,12 @@ const HowWeWork: React.FC = () => {
         </div>
       </div>
     </div>
+
+      {/* CTA group — last on mobile */}
+      <div className="flex flex-wrap gap-3 pt-6 lg:hidden">
+        <CTAButton />
+        <WhatsAppButton />
+      </div>
       </SectionMargin>
     </SectionWrapper>
   );

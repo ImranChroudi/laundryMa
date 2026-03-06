@@ -53,9 +53,7 @@ const AboutUsSection: React.FC = () => {
               collecté et livré avec soin, directement chez vous.
             </p>
 
-        
-
-            <div className="flex flex-wrap gap-3 pt-2">
+            <div className="hidden lg:flex flex-wrap gap-3 pt-2">
               <CTAButton />
               <WhatsAppButton />
             </div>
@@ -91,6 +89,12 @@ const AboutUsSection: React.FC = () => {
                   </div>
                 </div>
               ))}
+            </div>
+
+            {/* CTA group — last on mobile */}
+            <div className="flex flex-wrap gap-3 pt-4 lg:hidden">
+              <CTAButton />
+              <WhatsAppButton />
             </div>
           </div>
         </div>
