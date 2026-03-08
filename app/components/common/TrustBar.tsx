@@ -26,7 +26,7 @@ const TrustBar = () => {
         <span className="text-xs font-medium opacity-90">
           {isArabic
             ? 'يمكنكم طلب استلام الملابس عبر الواتساب'
-            : 'Vous pouvez demander un ramassage via WhatsApp'}
+            : 'Vous pouvez demander un ramassage'}
         </span>
       </div>
     </div>
