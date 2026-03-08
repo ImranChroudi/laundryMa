@@ -40,7 +40,7 @@ const AboutUsSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start max-w-7xl mx-auto">
 
           {/* LEFT — sticky pitch */}
-          <div className="w-full lg:sticky text-center lg:top-28 self-start space-y-6">
+          <div className="w-full lg:sticky sm:text-left text-center lg:top-28 self-start space-y-6">
             <div className="flex">
               <SectionBadgqe text="À propos" />
             </div>
@@ -63,7 +63,7 @@ const AboutUsSection: React.FC = () => {
           {/* RIGHT — scrollable content */}
           <div className="w-full space-y-8">
             {/* Hero image */}
-            <div className="rounded-sm overflow-hidden shadow-xl" style={{ boxShadow: '0 20px 50px rgba(77,175,239,0.15)' }}>
+            <div className="rounded-2xl overflow-hidden shadow-xl" style={{ boxShadow: '0 20px 50px rgba(77,175,239,0.15)' }}>
               <Image
                 src="/images/laundry.avif"
                 alt="Équipe Laundry.ma en action"

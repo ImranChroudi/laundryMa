@@ -11,6 +11,7 @@ import { categories, tarifsData } from "@/app/data/tarifs";
 import { ArrowRight, Sparkles } from "lucide-react";
 import SpanText from "@/app/components/common/SpanText";
 import SectionTitle from "@/app/components/common/SectionTitle";
+import GradientButton from "@/app/components/common/GradientButton";
 
 const CategoryShowcase = () => {
   const pathname = usePathname();
@@ -165,18 +166,13 @@ const CategoryShowcase = () => {
 
           {/* Bottom CTA */}
           <div className="text-center mt-12 md:mt-16">
-            <Link
+            <GradientButton
+              text={isArabic
+                ? "استكشف جميع الأسعار والخدمات"
+                : "Explorer tous nos tarifs & services"}
               href={isArabic ? "/ar/tarifs" : "/tarifs"}
-              className="inline-flex items-center gap-3 bg-tertiary text-white px-8 py-4 rounded-xl font-semibold text-base hover:bg-tertiary/90 transition-all duration-300 group hover:shadow-[0_8px_30px_rgba(30,58,95,0.35)]"
-            >
-              <Sparkles className="w-5 h-5 text-primary" />
-              <span>
-                {isArabic
-                  ? "استكشف جميع الأسعار والخدمات"
-                  : "Explorer tous nos tarifs & services"}
-              </span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
+              iconLeft={<Sparkles className="w-5 h-5" />}
+            />
           </div>
         </SectionMargin>
       </SectionWrapper>

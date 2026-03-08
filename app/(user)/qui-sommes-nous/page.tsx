@@ -86,40 +86,34 @@ function StatItem({ stat }: { stat: (typeof stats)[0] }) {
 /* ───────── Values data ───────── */
 const values = [
   {
-    icon: <Heart className="w-7 h-7" />,
-    title: "Satisfaction client",
-    text: "Votre bonheur est notre priorité nᵒ1. Chaque vêtement est traité avec le même soin que s'il était le nôtre.",
-    color: "from-red-500 to-rose-500",
-  },
-  {
-    icon: <Leaf className="w-7 h-7" />,
-    title: "Éco-responsabilité",
-    text: "Nous utilisons des produits écologiques et des procédés respectueux de l'environnement pour protéger la planète.",
-    color: "from-emerald-500 to-green-500",
-  },
-  {
     icon: <ShieldCheck className="w-7 h-7" />,
-    title: "Qualité garantie",
-    text: "Chaque pièce passe par un contrôle rigoureux : nettoyage, repassage et vérification avant livraison.",
+    title: "Qualité",
+    text: "Nous garantissons un nettoyage irréprochable pour tous vos vêtements et textiles, du plus délicat au plus volumineux.",
     color: "from-primary to-blue-600",
   },
   {
+    icon: <Leaf className="w-7 h-7" />,
+    title: "Respect de l'environnement",
+    text: "Nos produits et méthodes sont écologiques, sans danger pour votre peau ni pour la planète.",
+    color: "from-emerald-500 to-green-500",
+  },
+  {
     icon: <Zap className="w-7 h-7" />,
-    title: "Rapidité",
-    text: "Service express en moins de 24h. Créneau de 30 minutes pour la collecte. Votre temps est précieux.",
+    title: "Rapidité & Fiabilité",
+    text: "Nous savons que votre temps est précieux : collecte et livraison rapides, service express disponible.",
     color: "from-amber-500 to-orange-500",
   },
   {
-    icon: <Sparkles className="w-7 h-7" />,
-    title: "Transparence",
-    text: "Tarifs clairs, suivi en temps réel et communication directe. Pas de surprises, juste de la confiance.",
-    color: "from-violet-500 to-purple-500",
+    icon: <Heart className="w-7 h-7" />,
+    title: "Confiance & Transparence",
+    text: "Nous mettons un point d'honneur à respecter vos objets et à vous proposer des prix clairs et transparents.",
+    color: "from-red-500 to-rose-500",
   },
   {
-    icon: <Clock className="w-7 h-7" />,
-    title: "Disponibilité",
-    text: "De 9h à 21h, 7 jours sur 7. Nous nous adaptons à votre emploi du temps, pas l'inverse.",
-    color: "from-cyan-500 to-teal-500",
+    icon: <Sparkles className="w-7 h-7" />,
+    title: "Innovation & Service",
+    text: "Nous améliorons constamment nos services pour vous offrir une expérience simple, pratique et adaptée à vos besoins.",
+    color: "from-violet-500 to-purple-500",
   },
 ];
 

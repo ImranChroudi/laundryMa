@@ -2,7 +2,7 @@ import SectionWrapper from "@/app/components/common/SectionWrapper";
 import CTAButton from "@/app/components/common/CTAButton";
 import SectionBadge from "@/app/components/common/SectionBadge";
 import WhatsAppButton from "@/app/components/common/WhatsAppButton";
-import { Star, Clock, CheckCircle, Truck, Section } from "lucide-react";
+import { Section } from "lucide-react";
 import SectionMargin from "@/app/components/common/SectionMargin";
 
 const Hero = () => {
@@ -57,9 +57,9 @@ const Hero = () => {
         <div className="max-w-full animate-fade-in-up sm:text-left text-center">
 
           {/* Badge */}
-          <div className="mb-6">
+          {/* <div className="mb-6">
             <SectionBadge text="Blanchisserie N°1" highlightText="Tanger" />
-          </div>
+          </div> */}
 
           {/* Urgency strip */}
           {/* <div className="inline-flex items-center gap-2 bg-secondary/10 border border-secondary/30 rounded-full px-4 py-2 mb-6 animate-glow-pulse">
@@ -81,33 +81,13 @@ const Hero = () => {
             </h1>
           </div>
 
-          <p className="text-lg sm:block hidden md:text-xl text-tertiary/70 mb-8 font-medium max-w-lg">
+          <p className="text-lg  md:text-xl text-tertiary/70 mb-8 font-medium max-w-lg">
             Le pressing à domicile ou au bureau — collecte, nettoyage et livraison en{" "}
             <span className="text-tertiary font-bold">3 clics</span>.
           </p>
 
-          {/* Mini trust stats */}
-          <div className="flex flex-wrap sm:justify-start justify-center gap-4 text-sm text-tertiary/70">
-            <span className="flex items-center gap-1.5">
-              <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-              <strong className="text-tertiary">5/5</strong> sur Google
-            </span>
-            <span className="flex items-center gap-1.5">
-              <CheckCircle className="w-4 h-4 text-primary" />
-              100% Nettoyage à sec
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Truck className="w-4 h-4 text-primary" />
-              Livraison gratuite 7j/7
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Clock className="w-4 h-4 text-primary" />
-              Express 24h
-            </span>
-          </div>
-
           {/* CTA group — last on mobile */}
-          <div className="flex flex-col sm:items-start items-center sm:flex-row gap-3 mt-8 sm:mt-0 sm:order-none order-last">
+          <div className="flex flex-col sm:items-start items-center sm:flex-row gap-3 mt-8  sm:order-none order-last">
             <CTAButton />
             <WhatsAppButton />
           </div>

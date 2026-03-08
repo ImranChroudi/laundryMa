@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { Building2, ArrowRight, Briefcase, Sparkles, ShieldCheck } from "lucide-react";
+import { Building2, Briefcase, Sparkles, ShieldCheck } from "lucide-react";
+import GradientButton from '@/app/components/common/GradientButton';
 import SpanText from "@/app/components/common/SpanText";
 import SectionTitle from "@/app/components/common/SectionTitle";
 
@@ -45,13 +45,10 @@ export default function B2BCTA() {
                 </div>
 
                 {/* CTA Button */}
-                <Link
+                <GradientButton
+                  text="Contactez-nous"
                   href="/professionnels"
-                  className="inline-flex items-center gap-3 bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-xl font-semibold text-base transition-all duration-300 group hover:shadow-[0_8px_30px_rgba(59,130,246,0.4)]"
-                >
-                  <span>Contactez-nous</span>
-                  <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-                </Link>
+                />
               </div>
 
               {/* Right visual */}

@@ -7,6 +7,10 @@ export interface TarifItem {
   price: number;
   priceFrom?: boolean; // prix à partir de
   category: string;
+  description?: string;
+  descriptionAr?: string;
+  features?: string[];
+  featuresAr?: string[];
 }
 
 export type CategoryKey = "Pressing" | "Cloth Spa Femme" | "Sneakers Spa" | "Blanchisserie" | "Linge" | "Accessoires";
@@ -542,7 +546,25 @@ export const tarifsData: TarifItem[] = [
     image: "/images/sneakersspa/sneakers-8.jpeg",
     price: 150,
     priceFrom: true,
-    category: "Sneakers Spa"
+    category: "Sneakers Spa",
+    description: "Le soin complet pour vos sneakers — nettoyage, désinfection et protection en une seule formule.",
+    descriptionAr: "العناية الكاملة لأحذيتك الرياضية — تنظيف وتعقيم وحماية في باقة واحدة.",
+    features: [
+      "Nettoyage profond intérieur & extérieur",
+      "Désinfection anti-bactérienne",
+      "Élimination des odeurs",
+      "Protection imperméabilisante",
+      "Blanchiment des semelles",
+      "Finition détaillée"
+    ],
+    featuresAr: [
+      "تنظيف عميق داخلي وخارجي",
+      "تعقيم مضاد للبكتيريا",
+      "إزالة الروائح",
+      "حماية ضد الماء",
+      "تبييض النعل",
+      "تشطيب دقيق"
+    ]
   },
 
   // ========================

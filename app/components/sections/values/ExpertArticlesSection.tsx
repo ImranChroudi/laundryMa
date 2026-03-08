@@ -1,10 +1,9 @@
 'use client'
 import Image from 'next/image';
-import Link from 'next/link';
 import SectionWrapper from '@/app/components/common/SectionWrapper';
 import SectionMargin from '@/app/components/common/SectionMargin';
 import SectionBadge from '@/app/components/common/SectionBadge';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import GradientButton from '@/app/components/common/GradientButton';
 import { usePathname } from 'next/navigation';
 
 const ExpertArticlesSection = () => {
@@ -58,21 +57,10 @@ const ExpertArticlesSection = () => {
               </p>
 
               {/* Button */}
-              <Link href={isArabic ? "/ar/blog" : "/blog"}>
-                <div
-                  className={`inline-flex cursor-pointer items-center gap-3 bg-primary text-white px-8 py-4 rounded-md font-semibold hover:bg-primary/90 transition-all duration-300 group ${isArabic ? 'flex-row-reverse' : ''}`}
-                  style={{
-                    boxShadow: '0 4px 6px -1px rgba(77, 175, 239, 0.3), 0 2px 4px -1px rgba(77, 175, 239, 0.2)'
-                  }}
-                >
-                  <span>{isArabic ? "عرض المقالات" : "Voir les articles"}</span>
-                  {isArabic ? (
-                    <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-                  ) : (
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  )}
-                </div>
-              </Link>
+              <GradientButton
+                text={isArabic ? "عرض المقالات" : "Voir les articles"}
+                href={isArabic ? "/ar/blog" : "/blog"}
+              />
             </div>
           </div>
         </div>

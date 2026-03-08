@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import HeroSection from '@/app/components/common/HeroSection';
-import ServicesCards from '@/app/components/sections/homeSectionsAr/OurServices';
+import ServicesDetailed from '@/app/components/sections/homeSections/ServicesDetailed';
 import WhyChooseUs from '@/app/components/sections/homeSections/WhyChooseUs';
 import HowWeWork from '@/app/components/sections/homeSectionsAr/howWeWork';
 
@@ -17,7 +17,7 @@ export default function ServicesPage() {
       />
 
       {/* Main Services Section */}
-      <ServicesCards />
+      <ServicesDetailed />
 
       {/* Why Choose Our Services Section */}
       <WhyChooseUs />

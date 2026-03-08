@@ -9,68 +9,52 @@ import { Zap, Sparkles, Lightbulb, Leaf, ShieldCheck } from 'lucide-react';
 
 const valuesData = [
   {
-    icon: <Zap className="w-7 h-7" />,
-    color: '#4dafef',
-    bg: 'from-blue-50 to-white',
-    fr: {
-      title: 'Rapidité & Fiabilité',
-      description: "Votre temps est précieux. Collecte et livraison rapides, service express disponible — nous nous adaptons à votre emploi du temps, pas l'inverse.",
-      tag: 'Express 24h',
-    },
-    ar: {
-      title: 'السرعة والموثوقية',
-      description: 'وقتك ثمين. استلام وتوصيل سريع، خدمة سريعة متاحة — نحن نتكيف مع جدولك الزمني، وليس العكس.',
-      tag: 'سريع 24 ساعة',
-    },
-    image: '/images/rapidite.png',
-  },
-  {
     icon: <Sparkles className="w-7 h-7" />,
     color: '#9333ea',
     bg: 'from-purple-50 to-white',
     fr: {
-      title: 'La Qualité',
-      description: "Nettoyage impressionnant et finition minutieuse de tous les textiles, même les plus délicats — soie, cachemire, alpaga. Chaque pièce traitée avec soin.",
-      tag: 'Résultat impeccable',
+      title: 'Qualité',
+      description: "Nous garantissons un nettoyage irréprochable pour tous vos vêtements et textiles, du plus délicat au plus volumineux.",
+      tag: '✅ Qualité',
     },
     ar: {
       title: 'الجودة',
-      description: 'تنظيف رائع وتشطيب دقيق لجميع المنسوجات، حتى الأكثر حساسية — حرير، كشمير، ألباكا. كل قطعة تُعامَل بعناية.',
-      tag: 'نتيجة لا تشوبها شائبة',
+      description: 'نضمن لك تنظيفًا مثاليًا لجميع ملابسك ومفروشاتك، من الأدق إلى الأكبر حجمًا.',
+      tag: '✅ الجودة',
     },
     image: '/images/quality.png',
-  },
-  {
-    icon: <Lightbulb className="w-7 h-7" />,
-    color: '#e54a33',
-    bg: 'from-orange-50 to-white',
-    fr: {
-      title: 'Innovation',
-      description: "Expert en Aquanettoyage, Laundry.ma propose des services innovants et personnalisés — technologie de pointe pour répondre aux besoins les plus particuliers.",
-      tag: 'Technologie avancée',
-    },
-    ar: {
-      title: 'الابتكار',
-      description: 'خبير في تقنية الأكوانيتيكليننج، تقدم Laundry.ma خدمات مبتكرة ومخصصة — تقنية متطورة لتلبية أكثر الاحتياجات خصوصية.',
-      tag: 'تقنية متقدمة',
-    },
-    image: '/images/innovation.png',
   },
   {
     icon: <Leaf className="w-7 h-7" />,
     color: '#16a34a',
     bg: 'from-green-50 to-white',
     fr: {
-      title: 'Responsabilité',
-      description: "Produits 100% écologiques certifiés, respectueux de l'environnement et de la santé de nos clients et employés. Propre pour vous, propre pour la planète.",
-      tag: '100% Éco-responsable',
+      title: "Respect de l'environnement",
+      description: "Nos produits et méthodes sont écologiques, sans danger pour votre peau ni pour la planète.",
+      tag: '🌱 Éco-responsable',
     },
     ar: {
-      title: 'المسؤولية',
-      description: 'منتجات بيئية 100% معتمدة، تحترم البيئة وصحة عملائنا وموظفينا. نظيف لك، نظيف للكوكب.',
-      tag: '100% صديق للبيئة',
+      title: 'احترام البيئة',
+      description: 'منتجاتنا وطرقنا صديقة للبيئة وآمنة لبشرتك والكوكب.',
+      tag: '🌱 صديق للبيئة',
     },
     image: '/images/responsabilite.png',
+  },
+  {
+    icon: <Zap className="w-7 h-7" />,
+    color: '#4dafef',
+    bg: 'from-blue-50 to-white',
+    fr: {
+      title: 'Rapidité & Fiabilité',
+      description: "Nous savons que votre temps est précieux : collecte et livraison rapides, service express disponible.",
+      tag: '⏱ Express',
+    },
+    ar: {
+      title: 'السرعة والموثوقية',
+      description: 'نعرف أن وقتك ثمين: استلام وتسليم سريع، وخدمة سريعة متاحة عند الطلب.',
+      tag: '⏱ سريع',
+    },
+    image: '/images/rapidite.png',
   },
   {
     icon: <ShieldCheck className="w-7 h-7" />,
@@ -78,15 +62,31 @@ const valuesData = [
     bg: 'from-slate-50 to-white',
     fr: {
       title: 'Confiance & Transparence',
-      description: "Respect absolu de vos objets et tarifs clairs, sans surprise. Nous tenons nos engagements — chaque commande, sans exception.",
-      tag: 'Garantie satisfaction',
+      description: "Nous mettons un point d'honneur à respecter vos objets et à vous proposer des prix clairs et transparents.",
+      tag: '🤝 Confiance',
     },
     ar: {
       title: 'الثقة والشفافية',
-      description: 'احترام مطلق لممتلكاتك وأسعار واضحة بدون مفاجآت. نلتزم بتعهداتنا — مع كل طلب، بدون استثناء.',
-      tag: 'ضمان الرضا',
+      description: 'نحرص على احترام أغراضك وتقديم أسعار واضحة وشفافة دائمًا.',
+      tag: '🤝 الثقة',
     },
     image: '/images/rapidite.png',
+  },
+  {
+    icon: <Lightbulb className="w-7 h-7" />,
+    color: '#e54a33',
+    bg: 'from-orange-50 to-white',
+    fr: {
+      title: 'Innovation & Service',
+      description: "Nous améliorons constamment nos services pour vous offrir une expérience simple, pratique et adaptée à vos besoins.",
+      tag: '💡 Innovation',
+    },
+    ar: {
+      title: 'الابتكار والخدمة',
+      description: 'نطور خدماتنا باستمرار لتوفير تجربة سهلة، عملية، ومناسبة لاحتياجاتك.',
+      tag: '💡 الابتكار',
+    },
+    image: '/images/innovation.png',
   },
 ];
 

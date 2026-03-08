@@ -531,7 +531,11 @@ function TarifsContent() {
           )}
 
           {/* Sneakers Premium Banner */}
-          {(activeCategory === "all" || activeCategory === "Sneakers Spa") && (
+          {(activeCategory === "all" || activeCategory === "Sneakers Spa") && (() => {
+            const premiumItem = tarifsData.find(t => t.id === "sneakers-formule-premium");
+            if (!premiumItem) return null;
+            const features = isArabic ? premiumItem.featuresAr : premiumItem.features;
+            return (
             <div
               className="mt-12 rounded-3xl overflow-hidden relative"
               style={{
@@ -551,7 +555,7 @@ function TarifsContent() {
                   <span className="inline-flex items-center gap-2 bg-orange-500/20 px-3 py-1.5 rounded-full mb-4">
                     <Star className="w-4 h-4 text-orange-400 fill-orange-400" />
                     <span className="text-sm font-medium text-orange-300">
-                      {isArabic ? "الباقة المميزة" : "Formule Premium"}
+                      {isArabic ? premiumItem.nameAr : premiumItem.name}
                     </span>
                   </span>
                   <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">
@@ -560,16 +564,24 @@ function TarifsContent() {
                       : "Sneakers Spa Premium"}
                   </h3>
                   <p className="text-white/60 mb-4 text-sm md:text-base leading-relaxed">
-                    {isArabic
-                      ? "تنظيف عميق داخلي وخارجي • تعقيم مضاد للبكتيريا • إزالة الروائح • حماية ضد الماء • تبييض النعل • تشطيب دقيق"
-                      : "Nettoyage profond intérieur & extérieur • Désinfection anti-bactérienne • Élimination des odeurs • Protection imperméabilisante • Blanchiment des semelles • Finition détaillée"}
+                    {isArabic ? premiumItem.descriptionAr : premiumItem.description}
                   </p>
+                  {features && features.length > 0 && (
+                    <ul className="space-y-1.5 mb-5">
+                      {features.map((feat, i) => (
+                        <li key={i} className="flex items-center gap-2 text-sm text-white/70">
+                          <span className="w-1.5 h-1.5 rounded-full bg-orange-400 shrink-0" />
+                          {feat}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                   <div className="flex items-baseline gap-2">
                     <span className="text-xs text-white/50">
                       {isArabic ? "ابتداءً من" : "À partir de"}
                     </span>
                     <span className="text-4xl font-bold text-orange-400">
-                      150
+                      {premiumItem.price}
                     </span>
                     <span className="text-lg font-medium text-orange-400/70">
                       DH
@@ -578,7 +590,7 @@ function TarifsContent() {
                 </div>
                 <div className="shrink-0 w-48 h-48 md:w-56 md:h-56 relative">
                   <Image
-                    src="/images/sneakersspa/sneakers-8.jpeg"
+                    src={premiumItem.image}
                     alt="Sneakers Spa Premium"
                     fill
                     className="object-cover rounded-2xl"
@@ -588,7 +600,8 @@ function TarifsContent() {
                 </div>
               </div>
             </div>
-          )}
+            );
+          })()}
             </div>
             {/* end RIGHT main content */}
 

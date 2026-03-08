@@ -377,10 +377,10 @@ Merci !`;
               {/* Step 1: Personal Information */}
               {currentStep === 1 && (
                 <div>
-                  <h2 className="text-2xl font-bold text-tertiary mb-2">
+                  <h2 className="sm:text-2xl text-base font-bold text-tertiary mb-2">
                     Informations personnelles
                   </h2>
-                  <p className="text-gray-500 text-sm mb-6">Renseignez vos coordonnées pour que nous puissions vous contacter.</p>
+                  <p className="text-gray-500 text-sm sm:block hidden mb-6">Renseignez vos coordonnées pour que nous puissions vous contacter.</p>
 
                   <div className="space-y-4">
                     <div>
