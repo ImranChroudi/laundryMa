@@ -37,7 +37,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-tertiary text-white">
+    <footer className="bg-gray-100 text-gray-800">
       {/* Main Footer Content */}
       <div className="mx-auto max-w-7xl px-6 py-14 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -47,14 +47,14 @@ const Footer = () => {
               <span className="sr-only">Laundry.ma</span>
               <Image src="/images/logo.jpg" alt="Logo" width={120} height={40} className="h-8 w-auto" />
             </Link>
-            <p className="mt-4 text-sm text-white/60 leading-relaxed">
+            <p className="mt-4 text-sm text-gray-500 leading-relaxed">
               Laundry.ma transforme la corvée du linge en une expérience simple et agréable. Service professionnel à domicile.
             </p>
           </div>
 
           {/* Quick Links Section */}
           <div>
-            <h3 className="text-sm font-semibold text-white mb-4">
+            <h3 className="text-sm font-semibold text-gray-800 mb-4">
               Liens Rapides
             </h3>
             <ul className="space-y-2">
@@ -62,7 +62,7 @@ const Footer = () => {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-white/60 hover:text-primary transition"
+                    className="text-sm text-gray-500 hover:text-primary transition"
                   >
                     {link.label}
                   </Link>
@@ -72,7 +72,7 @@ const Footer = () => {
                 <li key={navLink.href}>
                   <Link
                     href={navLink.href}
-                    className="text-sm text-white/60 hover:text-primary transition"
+                    className="text-sm text-gray-500 hover:text-primary transition"
                   >
                     {navLink.label}
                   </Link>
@@ -83,7 +83,7 @@ const Footer = () => {
 
           {/* Services Section */}
           <div>
-            <h3 className="text-sm font-semibold text-white mb-4">
+            <h3 className="text-sm font-semibold text-gray-800 mb-4">
               Services
             </h3>
             <ul className="space-y-2">
@@ -94,7 +94,7 @@ const Footer = () => {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                    className="text-sm text-white/60 hover:text-primary transition"
+                    className="text-sm text-gray-500 hover:text-primary transition"
                     >
                       {link.label}
                     </Link>
@@ -106,10 +106,10 @@ const Footer = () => {
           {/* Contact & Social Section */}
           <div className="space-y-6">
             <div>
-              <h3 className="text-sm font-semibold text-white mb-4">
+              <h3 className="text-sm font-semibold text-gray-800 mb-4">
                 Contactez-nous
               </h3>
-              <div className="space-y-3 text-sm text-white/60">
+              <div className="space-y-3 text-sm text-gray-500">
                 <div className="flex items-center gap-2">
                   <Phone className="h-4 w-4 text-secondary" />
                   <a href={`tel:${contactInfo.phone}`} className="hover:text-primary transition">
@@ -135,7 +135,7 @@ const Footer = () => {
 
             {/* Social Media */}
             <div>
-              <h3 className="text-sm font-semibold text-white mb-4">
+              <h3 className="text-sm font-semibold text-gray-800 mb-4">
                 Suivez-nous
               </h3>
               <div className="flex space-x-3">
@@ -143,25 +143,25 @@ const Footer = () => {
                   href="https://facebook.com"
                   target="_blank"
                   rel="noreferrer"
-                  className="w-9 h-9 rounded-xl bg-white/10 hover:bg-blue-600 flex items-center justify-center transition-colors duration-200"
+                  className="w-9 h-9 rounded-xl bg-gray-200 hover:bg-blue-600 flex items-center justify-center transition-colors duration-200 group"
                 >
-                  <Facebook className="h-4 w-4 text-white" />
+                  <Facebook className="h-4 w-4 text-gray-600 group-hover:text-white" />
                 </a>
                 <a
                   href="https://instagram.com"
                   target="_blank"
                   rel="noreferrer"
-                  className="w-9 h-9 rounded-xl bg-white/10 hover:bg-pink-500 flex items-center justify-center transition-colors duration-200"
+                  className="w-9 h-9 rounded-xl bg-gray-200 hover:bg-pink-500 flex items-center justify-center transition-colors duration-200 group"
                 >
-                  <Instagram className="h-4 w-4 text-white" />
+                  <Instagram className="h-4 w-4 text-gray-600 group-hover:text-white" />
                 </a>
                 <a
                   href="https://twitter.com"
                   target="_blank"
                   rel="noreferrer"
-                  className="w-9 h-9 rounded-xl bg-white/10 hover:bg-sky-500 flex items-center justify-center transition-colors duration-200"
+                  className="w-9 h-9 rounded-xl bg-gray-200 hover:bg-sky-500 flex items-center justify-center transition-colors duration-200 group"
                 >
-                  <Twitter className="h-4 w-4 text-white" />
+                  <Twitter className="h-4 w-4 text-gray-600 group-hover:text-white" />
                 </a>
               </div>
             </div>
@@ -170,9 +170,9 @@ const Footer = () => {
       </div>
 
       {/* Copyright Bottom Bar */}
-      <div className="border-t border-white/10">
+      <div className="border-t border-gray-200">
         <div className="mx-auto max-w-7xl px-6 py-4 lg:px-8">
-          <p className="text-center text-sm text-white/40">
+          <p className="text-center text-sm text-gray-400">
             &copy; {new Date().getFullYear()} Laundry.ma. Tous droits réservés.
             <span className="ml-2">
               <Link href="/privacy" className="hover:text-primary transition">

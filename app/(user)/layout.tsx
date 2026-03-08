@@ -54,6 +54,9 @@ export const metadata: Metadata = {
       "Laundry.ma - Pressing à domicile de haute qualité. Collecte, Lavage, Livraison de votre linge et tapis à domicile sur Tanger et Régions. 100% à sec.",
     images: ["/images/laundry-tanger.avif"],
   },
+  icons: {
+    icon: "/favicon.ico",
+  },
   formatDetection: {
     telephone: false,
   },

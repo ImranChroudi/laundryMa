@@ -16,10 +16,13 @@ const poppins = Poppins({
   variable: "--font-poppins",
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Laundry.ma - خدمة التنظيف الجاف عالية الجودة في طنجة",
   description:
     "Laundry.ma - خدمة التنظيف الجاف عالية الجودة. جمع، غسيل، توصيل ملابسك وسجادك إلى المنزل في طنجة والمناطق. 100% تنظيف جاف.",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function ArabicLayout({
@@ -30,6 +33,7 @@ export default function ArabicLayout({
   return (
     <html lang="ar" dir="rtl" className={poppins.variable}>
       <head>
+        <link rel="icon" href="/favicon.ico" />
         <link rel="preload" href="/images/laundry-tanger.avif" as="image" />
       </head>
       <body>
