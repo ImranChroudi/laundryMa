@@ -70,7 +70,7 @@ export default function RootLayout({
   return (
     <html lang="fr" dir="ltr" className={poppins.variable}>
       <head>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.ico" izes="any" />
         <link rel="preload" href="/images/laundry-tanger.avif" as="image" />
         <script
           type="application/ld+json"
